@@ -104,9 +104,14 @@ public class SkyGridGenerator extends ChunkGenerator {
 							if (random.nextInt(100) <= 2) {
 								this.setBlock(result, x, y+1, z, Material.SAPLING);
 								ComplexBlock cb = new ComplexBlock(material,new Tree(RandomMetaDataGenerator.getTreeSpecies(Material.SAPLING, random)), x+chunkX*16, y+1, z+chunkZ*16);
-								list.add(cb);
-								break;
-							}								
+								list.add(cb);								
+							}
+							break;
+						}
+						case MOB_SPAWNER: {
+							ComplexBlock cb = new ComplexBlock(material,null, x+chunkX*16, y, z+chunkZ*16);
+							list.add(cb);
+							break;
 						}
 						
 						default:

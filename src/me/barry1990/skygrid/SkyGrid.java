@@ -20,6 +20,7 @@ public class SkyGrid extends JavaPlugin {
 
 		SkyGrid.blockQueue = new HashMap<String,List<ComplexBlock>>();
 		SkyGrid.blockQueue_nether = new HashMap<String,List<ComplexBlock>>();
+		this.getServer().getPluginManager().registerEvents(new SkyGridPlayerJoin(), this);
 		this.getLogger().info("v" + this.getDescription().getVersion() + " enabled.");
 	}
 	
@@ -40,5 +41,7 @@ public class SkyGrid extends JavaPlugin {
 	public static SkyGrid getSkyGridPlugin() {
 		return plugin;
 	}
+	
+	
 
 }

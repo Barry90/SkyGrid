@@ -29,7 +29,22 @@ public class SkyGridGenerator extends ChunkGenerator {
 	public short[][] generateExtBlockSections(World world, Random random,
 			int chunkX, int chunkZ, BiomeGrid biomes) {		
 		
-		short[][] result = new short[world.getMaxHeight() / 16][]; //world height / chunk part height (=16)
+		
+		switch (world.getEnvironment()) {
+		case NORMAL:	return this.generateOverworldChunk(world.getMaxHeight(), random, chunkX, chunkZ);	
+		case NETHER :	return this.generateNetherChunk(world.getMaxHeight(), random, chunkX, chunkZ);
+		case THE_END :
+			break;
+		}
+		
+		
+		return new short[world.getMaxHeight() / 16][]; //world height / chunk part height (=16)
+		
+	}
+	
+	private short[][] generateOverworldChunk(int worldMaxHeight, Random random, int chunkX, int chunkZ) {
+		
+		short[][] result = new short[worldMaxHeight / 16][]; //world height / chunk part height (=16)
 		
 		/* generate empty queue for chunk*/
 		List<ComplexBlock> list = new LinkedList<ComplexBlock>();
@@ -38,7 +53,7 @@ public class SkyGridGenerator extends ChunkGenerator {
 		
 		/* generate the grid */
 		
-		for (int y = 1; y < 256; y=y+4) {
+		for (int y = 1; y < worldMaxHeight; y=y+4) {
 		
 			for (int z = 1; z < 16; z=z+4) {
 							
@@ -128,6 +143,62 @@ public class SkyGridGenerator extends ChunkGenerator {
 		}
 		
 		return result;
+		
+	}
+	
+	private short[][] generateNetherChunk(int worldMaxHeight, Random random, int chunkX, int chunkZ) {
+		
+		
+		short[][] result = new short[worldMaxHeight / 16][]; //world height / chunk part height (=16)
+		
+		/* generate empty queue for chunk*/
+		List<ComplexBlock> list = new LinkedList<ComplexBlock>();
+		String key = chunkX+";"+chunkZ;
+		SkyGrid.blockQueue_nether.put(key,list);
+		
+		/* generate the grid */
+		
+		for (int y = 1; y < 128; y=y+4) {
+		
+			for (int z = 1; z < 16; z=z+4) {
+							
+				for (int x = 1; x < 16; x=x+4) {
+					
+					Material material = y == 125 || y == 1 ? Material.BEDROCK : BlockList.getRandomMaterialForNether(random);
+					
+					this.setBlock(result, x, y, z, material);
+					MaterialData materialdata = null;
+					switch (material) {
+						case JACK_O_LANTERN:
+						case PUMPKIN : {
+							materialdata = RandomMetaDataGenerator.getPumpkin(random);
+							break;
+						}						
+						case CHEST: {
+							ComplexBlock cb = new ComplexBlock(material,null, x+chunkX*16, y, z+chunkZ*16);
+							list.add(cb);
+							break;
+						}				
+						case MOB_SPAWNER: {
+							ComplexBlock cb = new ComplexBlock(material,null, x+chunkX*16, y, z+chunkZ*16);
+							list.add(cb);
+							break;
+						}						
+						default:
+							break;
+					}
+					if (materialdata != null) {
+						ComplexBlock cb = new ComplexBlock(material,materialdata, x+chunkX*16, y, z+chunkZ*16);
+						list.add(cb);
+					}
+				}
+				
+			}
+			
+		}
+		
+		return result;
+		
 	}
 	
 	@Override

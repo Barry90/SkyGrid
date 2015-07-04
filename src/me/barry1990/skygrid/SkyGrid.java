@@ -11,6 +11,7 @@ public class SkyGrid extends JavaPlugin {
 	private static SkyGrid plugin = null;
 
 	public static HashMap<String,List<ComplexBlock>> blockQueue;
+	public static HashMap<String,List<ComplexBlock>> blockQueue_nether;
 	
 	@Override
 	public void onEnable() {
@@ -18,6 +19,7 @@ public class SkyGrid extends JavaPlugin {
 		plugin = this;
 
 		SkyGrid.blockQueue = new HashMap<String,List<ComplexBlock>>();
+		SkyGrid.blockQueue_nether = new HashMap<String,List<ComplexBlock>>();
 		this.getLogger().info("v" + this.getDescription().getVersion() + " enabled.");
 	}
 	

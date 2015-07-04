@@ -8,124 +8,99 @@ import org.bukkit.Material;
 public class BlockList {
 	
 	//list of blocks used for the grid
-	static private Material[] materiallist0 = null;
-	static private Material[] materiallist1 = null;
-	static private Material[] materiallist2 = null;
-	static private Material[] materiallist3 = null;
-	static private Material[] materiallist4 = null;
+	static private Material[] materiallist0 = null;		//HÄUFIG		59.0%
+	static private Material[] materiallist1 = null;		//SELTEN		30.0%
+	static private Material[] materiallist2 = null;		//RAR			9.0%
+	static private Material[] materiallist3 = null;		//EPISCH		1.8%
+	static private Material[] materiallist4 = null;		//LEGENDÄR		0.2%
+	static private Material[] materiallist5 = null;
 
 	
 	public static Material getRandomMaterial(Random random) {
 	
-		
+	
 		// init the list
 		if (BlockList.materiallist0 == null) {
 			BlockList.materiallist0 = new Material[] { 
-					
-					Material.GRASS,  // Grass, Flowers
-					Material.DIRT, // Saplings
-					Material.SOIL, //Wheat, Cartots, Potatos
-					Material.SAND, // Cactus, Dead bush
-					Material.NETHERRACK, // Fire
-					Material.HAY_BLOCK,
-					Material.COBBLESTONE,
 					Material.STONE,
-					Material.LOG, // Cacao on Junglewood
-					Material.LOG_2,
+					Material.DIRT,
+					Material.COBBLESTONE,
+					Material.LOG,
+					Material.LOG_2
+					
 			};
 		}
 		if (BlockList.materiallist1 == null) {
 			BlockList.materiallist1 = new Material[] { 
-					// seldom 1
-					Material.COAL_BLOCK,
-					Material.COAL_ORE,
-					Material.MONSTER_EGGS,
-					Material.GLASS,
+					Material.GRASS,
+					Material.SAND,
+					Material.GRAVEL,
 					Material.SANDSTONE,
 					Material.WOOL,
-					Material.BOOKSHELF,
-					Material.WORKBENCH,
-					Material.PUMPKIN,
-					Material.JACK_O_LANTERN,
-					Material.CAKE_BLOCK,
-					Material.MELON_BLOCK,
-					Material.RED_SANDSTONE,					
-					Material.SNOW_BLOCK,	
-					Material.NETHER_BRICK,
-					Material.BRICK,
+					Material.MONSTER_EGGS					
 			};
 		}
 		if (BlockList.materiallist2 == null) {
 			BlockList.materiallist2 = new Material[] { 
-					// seldom 2
-					Material.CLAY,
-					Material.WEB,
-					Material.NOTE_BLOCK,
+					
+					Material.GOLD_ORE,
 					Material.IRON_ORE,
-					Material.QUARTZ_ORE,
-					Material.MOSSY_COBBLESTONE,
-					Material.IRON_BARDING,
-					Material.THIN_GLASS,
-					Material.STAINED_CLAY,
-					Material.STAINED_GLASS,
-					Material.ICE,
-					Material.ENDER_STONE,
-
+					Material.COAL_ORE,
+					Material.GLASS,
+					Material.SNOW_BLOCK,
+					Material.PRISMARINE,
+					Material.SEA_LANTERN,
+					Material.HAY_BLOCK,
+					Material.CAKE_BLOCK,
+					Material.MELON_BLOCK,
 			};
 		}
 		if (BlockList.materiallist3 == null) {
 			BlockList.materiallist3 = new Material[] { 
-					// seldom 3
-					Material.GOLD_ORE,
-					Material.LAPIS_ORE,
-					Material.OBSIDIAN,
-					Material.SLIME_BLOCK,
-					Material.GLOWSTONE,
-					Material.REDSTONE_ORE,
-					Material.PRISMARINE,
-					Material.SEA_LANTERN,
-					Material.DISPENSER,
-					Material.CHEST,
-					Material.DROPPER,
-					Material.HOPPER,
-					Material.FURNACE,
 					Material.STATIONARY_LAVA,
 					Material.STATIONARY_WATER,
+					Material.LAPIS_ORE,
+					Material.NOTE_BLOCK,
+					Material.BOOKSHELF,
+					Material.OBSIDIAN,
+					Material.CHEST,
+					Material.DIAMOND_ORE,
+					Material.FURNACE,
+					Material.MYCEL,
+					Material.SLIME_BLOCK,
+					Material.COAL_BLOCK,
+					Material.PUMPKIN
 			};
 		}
 		if (BlockList.materiallist4 == null) {
 			BlockList.materiallist4 = new Material[] { 
-					// seldom 4
-					Material.MYCEL, // Mushrooms
-					Material.DIAMOND_ORE,
-					Material.ENDER_CHEST,
 					Material.SPONGE,
-					Material.JUKEBOX,
-					Material.EMERALD_ORE,
-					Material.MOB_SPAWNER,
+					Material.LAPIS_BLOCK,
+					Material.GOLD_BLOCK,
+					Material.IRON_BLOCK,
 					Material.TNT,
-					Material.SOUL_SAND, // Netherwards
-					
-					};
+					Material.MOB_SPAWNER,
+					Material.ENDER_CHEST
+			};
 		}
 		
 		// select a random materiallist
 		
 		int randomList = random.nextInt(1000);
-		Material[] chosenList = null;
+		Material[] chosenList = BlockList.materiallist0;
 		
-		if (randomList < 50){
-			chosenList = BlockList.materiallist4;
-		} else if (randomList < 200){
-			chosenList = BlockList.materiallist3;
-		} else if (randomList < 400){
-			chosenList = BlockList.materiallist2;
-		} else if (randomList < 600){
+		if (randomList >= 590) {
 			chosenList = BlockList.materiallist1;
-		} else {
-			chosenList = BlockList.materiallist0;
 		}
-		
+		if (randomList >= 880){
+			chosenList = BlockList.materiallist2;
+		}		
+		if (randomList >= 975){
+			chosenList = BlockList.materiallist3;
+		}
+		if (randomList >= 996){
+			chosenList = BlockList.materiallist4;
+		} 
 		
 		return chosenList[random.nextInt(chosenList.length)];
 		

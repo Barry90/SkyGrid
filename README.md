@@ -7,5 +7,6 @@ SkyGrid-Plugin for Minecraft 1.8
 
 TO DO:
  - overworld-area and nether-area in one world
+ - threaded chestinventory creation
  - adding home-feature
  - adding more points to this todo-list

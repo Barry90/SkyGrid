@@ -17,10 +17,15 @@ public class SkyGrid extends JavaPlugin {
 	public void onEnable() {
 		
 		plugin = this;
-
+		
+		//initilize members
 		SkyGrid.blockQueue = new HashMap<String,List<ComplexBlock>>();
 		SkyGrid.blockQueue_nether = new HashMap<String,List<ComplexBlock>>();
+		
+		//register eventlisteners
 		this.getServer().getPluginManager().registerEvents(new SkyGridPlayerJoin(), this);
+		this.getServer().getPluginManager().registerEvents(new SkyGridOnBlockFromTo(), this);
+		
 		this.getLogger().info("v" + this.getDescription().getVersion() + " enabled.");
 	}
 	
@@ -34,12 +39,48 @@ public class SkyGrid extends JavaPlugin {
 	
 	@Override
 	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
-		this.getLogger().info("getDefaultWorldGenerator called");
 		return new SkyGridGenerator();
 	}
 	
 	public static SkyGrid getSkyGridPlugin() {
 		return plugin;
+	}
+	
+	//synchronized method for accessing the HashMaps
+	public static synchronized List<ComplexBlock> blockQueue_normal_get(String key) {
+		synchronized (blockQueue) {
+			return blockQueue.get(key);
+		}
+	}
+	
+	public static synchronized void blockQueue_normal_put(String key, List<ComplexBlock> list) {
+		synchronized (blockQueue) {
+			SkyGrid.blockQueue.put(key,list);
+		}
+	}
+	
+	public static synchronized void blockQueue_normal_remove(String key) {
+		synchronized (blockQueue) {
+			SkyGrid.blockQueue.remove(key);
+		}
+	}
+	
+	public static synchronized List<ComplexBlock> blockQueue_nether_get(String key) {
+		synchronized (blockQueue_nether) {
+			return blockQueue_nether.get(key);
+		}
+	}
+	
+	public static synchronized void blockQueue_nether_put(String key, List<ComplexBlock> list) {
+		synchronized (blockQueue_nether) {
+			SkyGrid.blockQueue_nether.put(key,list);
+		}
+	}
+	
+	public static synchronized void blockQueue_nether_remove(String key) {
+		synchronized (blockQueue_nether) {
+			SkyGrid.blockQueue_nether.remove(key);
+		}
 	}
 	
 	

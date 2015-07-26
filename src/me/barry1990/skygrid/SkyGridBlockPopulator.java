@@ -20,16 +20,19 @@ public class SkyGridBlockPopulator extends BlockPopulator {
 	@Override
 	public void populate(World world, Random random, Chunk chunk) {
 		
+		int ChunkX = chunk.getX();
+		int ChunkZ = chunk.getZ();
+		
 		switch (world.getEnvironment()) {
 		
 			case NORMAL : {		
 	
 				// get queue
 				String key = chunk.getX()+";"+chunk.getZ();
-				List<ComplexBlock> list = SkyGrid.blockQueue.get(key);		
+				List<ComplexBlock> list = SkyGrid.blockQueue_normal_get(key);
 				if (list != null){
 					for (ComplexBlock cb : list) {
-						Block block = world.getBlockAt(cb.x, cb.y, cb.z);
+						Block block = world.getBlockAt(cb.x+ChunkX*16, cb.y, cb.z+ChunkZ*16);
 						
 						switch (cb.material) {
 							case CHEST: {
@@ -52,7 +55,7 @@ public class SkyGridBlockPopulator extends BlockPopulator {
 					}
 					// delete list
 					list.clear();			
-					SkyGrid.blockQueue.remove(key);
+					SkyGrid.blockQueue_normal_remove(key);
 				}
 				break;
 			}
@@ -60,10 +63,10 @@ public class SkyGridBlockPopulator extends BlockPopulator {
 			case NETHER : {
 				
 				String key = chunk.getX()+";"+chunk.getZ();
-				List<ComplexBlock> list = SkyGrid.blockQueue_nether.get(key);		
+				List<ComplexBlock> list = SkyGrid.blockQueue_nether_get(key);		
 				if (list != null){
 					for (ComplexBlock cb : list) {
-						Block block = world.getBlockAt(cb.x, cb.y, cb.z);
+						Block block = world.getBlockAt(cb.x+ChunkX*16, cb.y, cb.z+ChunkZ*16);
 						
 						switch (cb.material) {
 							/*case CHEST: {
@@ -86,7 +89,7 @@ public class SkyGridBlockPopulator extends BlockPopulator {
 					}
 					// delete list
 					list.clear();			
-					SkyGrid.blockQueue_nether.remove(key);
+					SkyGrid.blockQueue_nether_remove(key);
 				}
 				
 				

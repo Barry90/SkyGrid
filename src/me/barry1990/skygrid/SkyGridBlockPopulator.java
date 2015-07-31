@@ -10,19 +10,22 @@ import org.bukkit.block.Chest;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.entity.EntityType;
 import org.bukkit.generator.BlockPopulator;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class SkyGridBlockPopulator extends BlockPopulator {
 
 	static final int chestsize = 27;
+	private SkyGridInventoryGeneratorThread inventoryGenerator;
 	
 	@Override
 	public void populate(World world, Random random, Chunk chunk) {
 		
-		int ChunkX = chunk.getX();
-		int ChunkZ = chunk.getZ();
-		
+		//start the thread for generating Inventorys for the chests
+		if (inventoryGenerator == null) {
+			inventoryGenerator = new SkyGridInventoryGeneratorThread();
+			inventoryGenerator.start();
+		}
+				
 		switch (world.getEnvironment()) {
 		
 			case NORMAL : {		
@@ -32,13 +35,17 @@ public class SkyGridBlockPopulator extends BlockPopulator {
 				List<ComplexBlock> list = SkyGrid.blockQueue_normal_get(key);
 				if (list != null){
 					for (ComplexBlock cb : list) {
-						Block block = world.getBlockAt(cb.x+ChunkX*16, cb.y, cb.z+ChunkZ*16);
+						Block block = chunk.getBlock(cb.x, cb.y, cb.z);
 						
 						switch (cb.material) {
-							case CHEST: {
+							case CHEST: {								
 								Chest chest = (Chest)block.getState();
-								Inventory inv = chest.getInventory();
-								setRandomInventoryContent(inv,random);
+								try {
+									chest.getInventory().setContents(inventoryGenerator.getItemStacks());
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+									chest.getInventory().setContents(new ItemStack[chestsize]);
+								}
 								break;
 							}
 							case MOB_SPAWNER: {
@@ -66,7 +73,7 @@ public class SkyGridBlockPopulator extends BlockPopulator {
 				List<ComplexBlock> list = SkyGrid.blockQueue_nether_get(key);		
 				if (list != null){
 					for (ComplexBlock cb : list) {
-						Block block = world.getBlockAt(cb.x+ChunkX*16, cb.y, cb.z+ChunkZ*16);
+						Block block = chunk.getBlock(cb.x, cb.y, cb.z);
 						
 						switch (cb.material) {
 							/*case CHEST: {
@@ -143,7 +150,7 @@ public class SkyGridBlockPopulator extends BlockPopulator {
         /* we should never get here */
         return EntityType.ZOMBIE;
     }
-	
+	/*
 	public static void setRandomInventoryContent(Inventory inv, Random random){
 		
 		ItemStack[] items = new ItemStack[inv.getSize()];
@@ -157,4 +164,5 @@ public class SkyGridBlockPopulator extends BlockPopulator {
 		
 		inv.setContents(items);		
 	}
+	*/
 }

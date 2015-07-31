@@ -3,6 +3,8 @@ package me.barry1990.skygrid;
 import java.util.HashMap;
 import java.util.List;
 
+import me.barry1990.utils.BarrysLogger;
+
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -15,9 +17,9 @@ public class SkyGrid extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
+		BarrysLogger.PRINT_LOGS = true;
 		
 		plugin = this;
-		
 		//initilize members
 		SkyGrid.blockQueue = new HashMap<String,List<ComplexBlock>>();
 		SkyGrid.blockQueue_nether = new HashMap<String,List<ComplexBlock>>();

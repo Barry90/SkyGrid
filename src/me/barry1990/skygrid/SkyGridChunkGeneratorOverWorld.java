@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 
+import me.barry1990.utils.BarrysLogger;
+
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Tree;
@@ -29,7 +31,6 @@ public class SkyGridChunkGeneratorOverWorld extends Thread {
         try {
             while (true) {
             	putChunk();
-                //sleep(5000);
             }
         } catch (InterruptedException e) {
         }
@@ -48,9 +49,9 @@ public class SkyGridChunkGeneratorOverWorld extends Thread {
     public synchronized ChunkWithBlockList getChunk() throws InterruptedException {
         notify();
         while (chunkqueue.size() == 0) {
+        	BarrysLogger.info(this, "queue is empty. waiting...");
             wait();//By executing wait() from a synchronized block, a thread gives up its hold on the lock and goes to sleep.
         }
-        
         return chunkqueue.remove();
     }
     

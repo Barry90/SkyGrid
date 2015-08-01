@@ -1,4 +1,4 @@
-package me.barry1990.skygrid;
+package me.barry1990.skygrid.generators;
 
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;

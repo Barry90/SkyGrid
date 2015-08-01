@@ -1,8 +1,6 @@
-package me.barry1990.skygrid;
+package me.barry1990.skygrid.generators;
 
 import java.util.Random;
-
-import me.barry1990.utils.BarrysLogger;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

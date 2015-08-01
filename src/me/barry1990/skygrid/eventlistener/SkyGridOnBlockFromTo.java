@@ -1,4 +1,4 @@
-package me.barry1990.skygrid;
+package me.barry1990.skygrid.eventlistener;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

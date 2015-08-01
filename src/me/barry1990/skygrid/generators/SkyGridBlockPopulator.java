@@ -1,4 +1,4 @@
-package me.barry1990.skygrid;
+package me.barry1990.skygrid.generators;
 
 import java.util.List;
 import java.util.Random;
@@ -32,7 +32,7 @@ public class SkyGridBlockPopulator extends BlockPopulator {
 	
 				// get queue
 				String key = chunk.getX()+";"+chunk.getZ();
-				List<ComplexBlock> list = SkyGrid.blockQueue_normal_get(key);
+				List<ComplexBlock> list = SkyGridGenerator.blockQueue_normal_get(key);
 				if (list != null){
 					for (ComplexBlock cb : list) {
 						Block block = chunk.getBlock(cb.x, cb.y, cb.z);
@@ -62,7 +62,7 @@ public class SkyGridBlockPopulator extends BlockPopulator {
 					}
 					// delete list
 					list.clear();			
-					SkyGrid.blockQueue_normal_remove(key);
+					SkyGridGenerator.blockQueue_normal_remove(key);
 				}
 				break;
 			}
@@ -70,7 +70,7 @@ public class SkyGridBlockPopulator extends BlockPopulator {
 			case NETHER : {
 				
 				String key = chunk.getX()+";"+chunk.getZ();
-				List<ComplexBlock> list = SkyGrid.blockQueue_nether_get(key);		
+				List<ComplexBlock> list = SkyGridGenerator.blockQueue_nether_get(key);		
 				if (list != null){
 					for (ComplexBlock cb : list) {
 						Block block = chunk.getBlock(cb.x, cb.y, cb.z);
@@ -96,7 +96,7 @@ public class SkyGridBlockPopulator extends BlockPopulator {
 					}
 					// delete list
 					list.clear();			
-					SkyGrid.blockQueue_nether_remove(key);
+					SkyGridGenerator.blockQueue_nether_remove(key);
 				}
 				
 				

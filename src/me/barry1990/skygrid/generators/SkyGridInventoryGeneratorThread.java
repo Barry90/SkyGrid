@@ -1,4 +1,4 @@
-package me.barry1990.skygrid;
+package me.barry1990.skygrid.generators;
 
 import java.util.LinkedList;
 import java.util.Queue;

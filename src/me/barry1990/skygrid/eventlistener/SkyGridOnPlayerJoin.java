@@ -1,4 +1,4 @@
-package me.barry1990.skygrid;
+package me.barry1990.skygrid.eventlistener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +13,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 
-public class SkyGridPlayerJoin implements Listener {
+public class SkyGridOnPlayerJoin implements Listener {
 	
 	private List<UUID> list;
 	 
-	public SkyGridPlayerJoin() {
+	public SkyGridOnPlayerJoin() {
 
 		this.list =  new ArrayList<UUID>();
 	}

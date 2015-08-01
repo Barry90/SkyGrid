@@ -1,4 +1,4 @@
-package me.barry1990.skygrid;
+package me.barry1990.skygrid.generators;
 
 import java.util.Random;
 
@@ -8,17 +8,17 @@ import org.bukkit.Material;
 public class BlockList {
 	
 	//list of blocks used for the grid
-	static private Material[] overworld_common = null;		//HÄUFIG		59.0%
+	static private Material[] overworld_common = null;		//Hï¿½UFIG		59.0%
 	static private Material[] overworld_seldom = null;		//SELTEN		30.0%
 	static private Material[] overworld_rare = null;		//RAR			9.0%
 	static private Material[] overworld_epic = null;		//EPISCH		1.8%
-	static private Material[] overworld_legend = null;		//LEGENDÄR		0.2%
+	static private Material[] overworld_legend = null;		//LEGENDï¿½R		0.2%
 	
-	static private Material[] nether_common = null;			//HÄUFIG		70%
+	static private Material[] nether_common = null;			//Hï¿½UFIG		70%
 	static private Material[] nether_seldom = null;			//SELTEN		20%
 	static private Material[] nether_rare = null;			//RAR			8%
 	static private Material[] nether_epic = null;			//EPIC			1.8%
-	static private Material[] nether_legend = null;		//LEGENDÄR		0.2%
+	static private Material[] nether_legend = null;		//LEGENDï¿½R		0.2%
 
 	
 	public static Material getRandomMaterial(Random random) {	

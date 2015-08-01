@@ -24,6 +24,7 @@ public class SkyGridChunkGeneratorOverWorld extends Thread {
 		super();
 		this.random = new Random();
 		this.worldMaxHeight = worldMaxHeight;
+		BarrysLogger.info(this, "worldMaxHeight", worldMaxHeight);
 	}
 
 	@Override

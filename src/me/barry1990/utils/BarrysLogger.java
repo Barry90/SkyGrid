@@ -3,7 +3,7 @@ package me.barry1990.utils;
 @SuppressWarnings("unused")
 public class BarrysLogger {
 	
-	public static boolean PRINT_LOGS;
+	public static boolean PRINT_LOGS = true;
 	
 	private static final String RESET = 		"\u001B[0m";	
 	private static final String BLACK = 		"\u001B[30m";
@@ -23,6 +23,20 @@ public class BarrysLogger {
 	private static final String GRAY = 			"\u001B[37m";
 	private static final String WHITE = 		"\u001B[37;1m";
 	
+	
+	/////////////////////////////////
+	// 		INFO BOOLEAN
+	/////////////////////////////////
+	
+	public static void info(Object this_, String varName, boolean var) {
+	if (!PRINT_LOGS) return;
+	System.out.print(String.format(CYAN + "#I %s : boolean %s = " + RESET, this_.getClass().getName(),varName) + (var ? "true" : "false"));
+	}
+	
+	public static void info(String varName, boolean var) {
+	if (!PRINT_LOGS) return;
+	System.out.print(String.format(CYAN + "#boolean %s = " + RESET, varName) + (var ? "true" : "false"));
+	}
 	
 	/////////////////////////////////
 	// 		INFO BYTE
@@ -114,11 +128,11 @@ public class BarrysLogger {
 	
 	public static void info(Object this_, String varName, String var) {
 		if (!PRINT_LOGS) return;
-		System.out.print(String.format(CYAN + "#I %s : String %s = %s" + RESET, this_.getClass().getName(),varName, var));
+		System.out.print(String.format(CYAN + "#I %s : String %s = \"%s\"" + RESET, this_.getClass().getName(),varName, var));
 	}
 	public static void info(String varName, String var) {
 		if (!PRINT_LOGS) return;
-		System.out.print(String.format(CYAN + "#String %s = %s" + RESET, varName, var));
+		System.out.print(String.format(CYAN + "#String %s = \"%s\"" + RESET, varName, var));
 	}
 	
 	/////////////////////////////////

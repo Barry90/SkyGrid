@@ -36,7 +36,10 @@ public class RandomMetaDataGenerator {
  	}
  	
  	public static MonsterEggs getMonsterEggs(Random random) {
- 		return random.nextBoolean() ? new MonsterEggs(Material.STONE) : new MonsterEggs(Material.COBBLESTONE);
+ 		MonsterEggs me = new MonsterEggs();
+ 		me.setMaterial(me.getTextures().get(random.nextInt(me.getTextures().size()))); 		
+ 		return me;
+ 		//return random.nextBoolean() ? new MonsterEggs(Material.STONE) : new MonsterEggs(Material.COBBLESTONE);
  	}	    
     
     /* Private */

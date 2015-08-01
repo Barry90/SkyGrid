@@ -20,35 +20,35 @@ public class SkyGridInventoryGeneratorThread extends Thread {
 	}
 	
 	@Override
-    public void run() {
-        try {
-            while (true) {
-            	putItemStacks();
-                //sleep(5000);
-            }
-        } catch (InterruptedException e) {
-        	e.printStackTrace();
-        }
-    }
+	public void run() {
+		try {
+			while (true) {
+				putItemStacks();
+				//sleep(5000);
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	private synchronized void putItemStacks() throws InterruptedException {
-        while (itemStacksQueue.size() == MAXQUEUE) {
-            wait();
-        }
-        itemStacksQueue.add(this.setRandomInventoryContent());
-        notify();
-        //Later, when the necessary event happens, the thread that is running it calls notify() from a block synchronized on the same object.
-    }
+		while (itemStacksQueue.size() == MAXQUEUE) {
+			wait();
+		}
+		itemStacksQueue.add(this.setRandomInventoryContent());
+		notify();
+		//Later, when the necessary event happens, the thread that is running it calls notify() from a block synchronized on the same object.
+	}
 	
 	// Called by Consumer
-    public synchronized ItemStack[] getItemStacks() throws InterruptedException {
-        notify();
-        while (itemStacksQueue.size() == 0) {
-            wait();//By executing wait() from a synchronized block, a thread gives up its hold on the lock and goes to sleep.
-        }
-        
-        return itemStacksQueue.remove();
-    }
+	public synchronized ItemStack[] getItemStacks() throws InterruptedException {
+		notify();
+		while (itemStacksQueue.size() == 0) {
+			wait();//By executing wait() from a synchronized block, a thread gives up its hold on the lock and goes to sleep.
+		}
+		
+		return itemStacksQueue.remove();
+	}
 	 
 	private ItemStack[] setRandomInventoryContent() {
 			

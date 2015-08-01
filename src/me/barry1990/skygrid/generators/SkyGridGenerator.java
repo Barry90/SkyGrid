@@ -73,12 +73,12 @@ public class SkyGridGenerator extends ChunkGenerator {
 	}
 	
 	@Override
-    public Location getFixedSpawnLocation(World world, Random random)
-    {
+	public Location getFixedSpawnLocation(World world, Random random)
+	{
 		int x = random.nextInt(100)-50;
 		int z = random.nextInt(100)-50;
-        return new Location(world, x*4+1, 122, z*4+1);
-    }
+		return new Location(world, x*4+1, 122, z*4+1);
+	}
 	
 	//synchronized method for accessing the HashMaps
 	public static synchronized List<ComplexBlock> blockQueue_normal_get(String key) {
@@ -117,23 +117,23 @@ public class SkyGridGenerator extends ChunkGenerator {
 		}
 	}
   
-    /*
-    private static class RandomBlockAppendix {
-    	
-    	private static Material croplist[] = null;
-    	
-    	public static Material getRandomCrop(Random random) {
-    		if (croplist == null) {
-    			croplist = new Material[] {
-    				Material.CROPS,
-    				Material.CARROT,
-    				Material.POTATO
-    			};
-    		}
-    		
-    		return croplist[random.nextInt(croplist.length)];
-    	}
-    }
-    */
-    
+	/*
+	private static class RandomBlockAppendix {
+		
+		private static Material croplist[] = null;
+		
+		public static Material getRandomCrop(Random random) {
+			if (croplist == null) {
+				croplist = new Material[] {
+					Material.CROPS,
+					Material.CARROT,
+					Material.POTATO
+				};
+			}
+			
+			return croplist[random.nextInt(croplist.length)];
+		}
+	}
+	*/
+	
 }

@@ -3,8 +3,11 @@ package me.barry1990.skygrid.generators;
 import java.util.List;
 import java.util.Random;
 
+import me.barry1990.utils.BarrysLogger;
+
 import org.bukkit.Chunk;
 import org.bukkit.World;
+import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.block.CreatureSpawner;
@@ -23,90 +26,48 @@ public class SkyGridBlockPopulator extends BlockPopulator {
 		//start the thread for generating Inventorys for the chests
 		if (this.inventoryGenerator == null) {
 			this.inventoryGenerator = new SkyGridInventoryGeneratorThread();
+			BarrysLogger.info(this,"Inventory generator start");
 			this.inventoryGenerator.start();
 		}
 				
-		switch (world.getEnvironment()) {
+		if (world.getEnvironment() == Environment.NORMAL) {
 		
-			case NORMAL : {		
-	
-				// get queue
-				String key = chunk.getX()+";"+chunk.getZ();
-				List<ComplexBlock> list = SkyGridGenerator.blockQueue_normal_get(key);
-				if (list != null){
-					for (ComplexBlock cb : list) {
-						Block block = chunk.getBlock(cb.x, cb.y, cb.z);
-						
-						switch (cb.material) {
-							case CHEST: {								
-								Chest chest = (Chest)block.getState();
-								try {
-									chest.getInventory().setContents(this.inventoryGenerator.getItemStacks());
-								} catch (InterruptedException e) {
-									e.printStackTrace();
-									chest.getInventory().setContents(new ItemStack[chestsize]);
-								}
-								break;
-							}
-							case MOB_SPAWNER: {
-								((CreatureSpawner) block.getState()).setSpawnedType(SkyGridBlockPopulator.getOverworldEntityType(random));
-								break;
-							}
-							default: {
-								block.setData(cb.materialData.getData());
-								break;
-							}
-						}
+			// get list
+			String key = chunk.getX()+";"+chunk.getZ();
+			List<ComplexBlock> list = SkyGridGenerator.blockQueue_normal_get(key);
+			
+			if (list != null){
+				for (ComplexBlock cb : list) {
+					Block block = chunk.getBlock(cb.x, cb.y, cb.z);
 					
-								
+					switch (cb.material) {
+						case CHEST: {								
+							Chest chest = (Chest)block.getState();
+							try {
+								chest.getInventory().setContents(this.inventoryGenerator.getItemStacks());
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+								chest.getInventory().setContents(new ItemStack[chestsize]);
+							}
+							break;
+						}
+						case MOB_SPAWNER: {
+							((CreatureSpawner) block.getState()).setSpawnedType(SkyGridBlockPopulator.getOverworldEntityType(random));
+							break;
+						}
+						default: {
+							block.setData(cb.materialData.getData());
+							break;
+						}
 					}
-					// delete list
-					list.clear();			
-					SkyGridGenerator.blockQueue_normal_remove(key);
+				
+							
 				}
-				break;
+				// delete list
+				list.clear();			
+				SkyGridGenerator.blockQueue_normal_remove(key);
 			}
 			
-			case NETHER : {
-				
-				String key = chunk.getX()+";"+chunk.getZ();
-				List<ComplexBlock> list = SkyGridGenerator.blockQueue_nether_get(key);		
-				if (list != null){
-					for (ComplexBlock cb : list) {
-						Block block = chunk.getBlock(cb.x, cb.y, cb.z);
-						
-						switch (cb.material) {
-							/*case CHEST: {
-								Chest chest = (Chest)block.getState();
-								Inventory inv = chest.getInventory();
-								setRandomInventoryContent(inv,random);
-								break;
-							}*/
-							case MOB_SPAWNER: {
-								((CreatureSpawner) block.getState()).setSpawnedType(SkyGridBlockPopulator.getNetherEntityType(random));
-								break;
-							}
-							default: {
-								block.setData(cb.materialData.getData());
-								break;
-							}
-						}
-					
-								
-					}
-					// delete list
-					list.clear();			
-					SkyGridGenerator.blockQueue_nether_remove(key);
-				}
-				
-				
-				break;
-			}
-			
-			case THE_END : {
-				break;
-			}
-		
 		}
 
 	}
@@ -130,9 +91,9 @@ public class SkyGridBlockPopulator extends BlockPopulator {
 			default: break;
 		}	
 		
-        /* we should never get here */
-        return EntityType.ZOMBIE;
-    }
+		/* we should never get here */
+		return EntityType.ZOMBIE;
+	}
 	
 	public static EntityType getNetherEntityType(Random random) {
 		switch (random.nextInt(8)) {
@@ -147,9 +108,9 @@ public class SkyGridBlockPopulator extends BlockPopulator {
 			default: break;
 		}	
 		
-        /* we should never get here */
-        return EntityType.ZOMBIE;
-    }
+		/* we should never get here */
+		return EntityType.ZOMBIE;
+	}
 	/*
 	public static void setRandomInventoryContent(Inventory inv, Random random){
 		

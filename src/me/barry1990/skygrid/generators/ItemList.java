@@ -141,7 +141,7 @@ public class ItemList {
 					Material.GHAST_TEAR
 			};
 		}
-		Material randomMaterial = ItemList.rare_items[random.nextInt(ItemList.rare_items.length)];
+		Material randomMaterial = ItemList.legendary_items[random.nextInt(ItemList.legendary_items.length)];
 		return new ItemStack(randomMaterial, isStackable(randomMaterial) ? random.nextInt(8)+1 : 1);
 	}
 	

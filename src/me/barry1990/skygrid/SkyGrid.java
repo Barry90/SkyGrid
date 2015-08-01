@@ -4,7 +4,6 @@ package me.barry1990.skygrid;
 import me.barry1990.skygrid.eventlistener.SkyGridOnBlockFromTo;
 import me.barry1990.skygrid.eventlistener.SkyGridOnCraftItem;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerJoin;
-
 //import the generator
 import me.barry1990.skygrid.generators.SkyGridGenerator;
 
@@ -14,7 +13,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class SkyGrid extends JavaPlugin {
 		
 	@Override
-	public void onEnable() {		
+	public void onEnable() {
+		
+		//prepare the generator
+		SkyGridGenerator.sharedInstance();
 			
 		//register eventlisteners
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerJoin(), this);
@@ -24,7 +26,7 @@ public class SkyGrid extends JavaPlugin {
 		//add skygrid recipes
 		SkyGridRecipes.addSkyGridRecipes(this);
 		
-		this.getLogger().info("v" + this.getDescription().getVersion() + " enabled.");
+		this.getLogger().info("v" + this.getDescription().getVersion() + " enabled.");		
 	}
 	
 	@Override
@@ -36,7 +38,7 @@ public class SkyGrid extends JavaPlugin {
 	
 	@Override
 	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
-		return new SkyGridGenerator();
+		return SkyGridGenerator.sharedInstance();
 	}
 
 

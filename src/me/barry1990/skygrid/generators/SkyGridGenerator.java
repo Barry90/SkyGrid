@@ -5,25 +5,42 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import me.barry1990.utils.BarrysLogger;
+
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.World.Environment;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 
 
 public class SkyGridGenerator extends ChunkGenerator {
 	
-	static SkyGridChunkGeneratorOverWorld overworldGenerator;
-	static SkyGridChunkGeneratorNether netherGenerator;
+	private static SkyGridGenerator sharedInstance;
+	
+	private static SkyGridChunkGeneratorOverWorld overworldGenerator;
 	
 	private static HashMap<String,List<ComplexBlock>> blockQueue;
 	private static HashMap<String,List<ComplexBlock>> blockQueue_nether;
 	
-	
-	public SkyGridGenerator() {
+	private SkyGridGenerator() {
 		//initilize members
 		SkyGridGenerator.blockQueue = new HashMap<String,List<ComplexBlock>>();
 		SkyGridGenerator.blockQueue_nether = new HashMap<String,List<ComplexBlock>>();
+		
+		// start the thread
+		if (SkyGridGenerator.overworldGenerator == null) {
+			SkyGridGenerator.overworldGenerator = new SkyGridChunkGeneratorOverWorld(256);
+			BarrysLogger.info(this, "Start the SkyGridChunkGenerator-Thread");
+			SkyGridGenerator.overworldGenerator.start();
+		}
+	}
+	
+	public static SkyGridGenerator sharedInstance() {
+		if (SkyGridGenerator.sharedInstance == null) {
+			SkyGridGenerator.sharedInstance = new SkyGridGenerator();
+		}
+		return SkyGridGenerator.sharedInstance;
 	}
 	
 	@Override
@@ -32,28 +49,9 @@ public class SkyGridGenerator extends ChunkGenerator {
 		
 		ChunkWithBlockList chunk = null;
 		try {
-		switch (world.getEnvironment()) {
-		case NORMAL: {
-			// start the threads
-			if (SkyGridGenerator.overworldGenerator == null) {
-				SkyGridGenerator.overworldGenerator = new SkyGridChunkGeneratorOverWorld(world.getMaxHeight());
-				SkyGridGenerator.overworldGenerator.start();
+			if (world.getEnvironment() == Environment.NORMAL) {
+				chunk = overworldGenerator.getChunk();	
 			}
-			chunk = overworldGenerator.getChunk();	
-			break;
-		}
-		case NETHER :	{
-			// start the threads
-			if (SkyGridGenerator.netherGenerator == null) {
-				SkyGridGenerator.netherGenerator = new SkyGridChunkGeneratorNether(128);
-				SkyGridGenerator.netherGenerator.start();
-			}
-			chunk = netherGenerator.getChunk();	
-			break;
-		}
-		case THE_END :
-			break;
-		}
 		}
 		catch (InterruptedException ex) {
 			ex.printStackTrace();

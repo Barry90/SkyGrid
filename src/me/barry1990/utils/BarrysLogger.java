@@ -35,7 +35,7 @@ public class BarrysLogger {
 	
 	public static void info(String varName, boolean var) {
 	if (!PRINT_LOGS) return;
-	System.out.print(String.format(CYAN + "#boolean %s = " + RESET, varName) + (var ? "true" : "false"));
+	System.out.print(String.format(CYAN + "#I boolean %s = " + RESET, varName) + (var ? "true" : "false"));
 	}
 	
 	/////////////////////////////////
@@ -49,7 +49,7 @@ public class BarrysLogger {
 	
 	public static void info(String varName, byte var) {
 		if (!PRINT_LOGS) return;
-		System.out.print(String.format(CYAN + "#byte %s = %d" + RESET, varName, var));
+		System.out.print(String.format(CYAN + "#I byte %s = %d" + RESET, varName, var));
 	}
 	
 	/////////////////////////////////
@@ -63,7 +63,7 @@ public class BarrysLogger {
 	
 	public static void info(String varName, short var) {
 		if (!PRINT_LOGS) return;
-		System.out.print(String.format(CYAN + "#short %s = %d" + RESET, varName, var));
+		System.out.print(String.format(CYAN + "#I short %s = %d" + RESET, varName, var));
 	}
 	
 	/////////////////////////////////
@@ -77,7 +77,7 @@ public class BarrysLogger {
 	
 	public static void info(String varName, int var) {
 		if (!PRINT_LOGS) return;
-		System.out.print(String.format(CYAN + "#int %s = %d" + RESET, varName, var));
+		System.out.print(String.format(CYAN + "#I int %s = %d" + RESET, varName, var));
 	}
 	
 	/////////////////////////////////
@@ -91,7 +91,7 @@ public class BarrysLogger {
 	
 	public static void info(String varName, long var) {
 		if (!PRINT_LOGS) return;
-		System.out.print(String.format(CYAN + "#long %s = %d" + RESET, varName, var));
+		System.out.print(String.format(CYAN + "#I long %s = %d" + RESET, varName, var));
 	}
 	
 	/////////////////////////////////
@@ -105,7 +105,7 @@ public class BarrysLogger {
 	
 	public static void info(String varName, float var) {
 		if (!PRINT_LOGS) return;
-		System.out.print(String.format(CYAN + "#float %s = %f" + RESET, varName, var));
+		System.out.print(String.format(CYAN + "#I float %s = %f" + RESET, varName, var));
 	}
 	
 	/////////////////////////////////
@@ -119,7 +119,7 @@ public class BarrysLogger {
 	
 	public static void info(String varName, double var) {
 		if (!PRINT_LOGS) return;
-		System.out.print(String.format(CYAN + "#double %s = %f" + RESET, varName, var));
+		System.out.print(String.format(CYAN + "#I double %s = %f" + RESET, varName, var));
 	}
 	
 	/////////////////////////////////
@@ -132,7 +132,7 @@ public class BarrysLogger {
 	}
 	public static void info(String varName, String var) {
 		if (!PRINT_LOGS) return;
-		System.out.print(String.format(CYAN + "#String %s = \"%s\"" + RESET, varName, var));
+		System.out.print(String.format(CYAN + "#I String %s = \"%s\"" + RESET, varName, var));
 	}
 	
 	/////////////////////////////////
@@ -160,7 +160,7 @@ public class BarrysLogger {
 	
 	public static void info(String var) {
 		if (!PRINT_LOGS) return;
-		System.out.print(String.format(CYAN + "#%s" + RESET,  var));
+		System.out.print(String.format(CYAN + "#I %s" + RESET,  var));
 	}
 
 		

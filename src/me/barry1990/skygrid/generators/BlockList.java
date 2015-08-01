@@ -8,17 +8,23 @@ import org.bukkit.Material;
 public class BlockList {
 	
 	//list of blocks used for the grid
-	static private Material[] overworld_common = null;		//H�UFIG		59.0%
-	static private Material[] overworld_seldom = null;		//SELTEN		30.0%
-	static private Material[] overworld_rare = null;		//RAR			9.0%
-	static private Material[] overworld_epic = null;		//EPISCH		1.8%
-	static private Material[] overworld_legend = null;		//LEGEND�R		0.2%
+	static private Material[] overworld_common = null;
+	static private Material[] overworld_seldom = null;
+	static private Material[] overworld_rare = null;
+	static private Material[] overworld_epic = null;
+	static private Material[] overworld_legend = null;
 	
-	static private Material[] nether_common = null;			//H�UFIG		70%
-	static private Material[] nether_seldom = null;			//SELTEN		20%
-	static private Material[] nether_rare = null;			//RAR			8%
-	static private Material[] nether_epic = null;			//EPIC			1.8%
-	static private Material[] nether_legend = null;		//LEGEND�R		0.2%
+	static private Material[] nether_common = null;	
+	static private Material[] nether_seldom = null;	
+	static private Material[] nether_rare = null;	
+	static private Material[] nether_epic = null;
+	static private Material[] nether_legend = null;
+	
+	static private Material[] end_common = null;	
+	static private Material[] end_seldom = null;	
+	static private Material[] end_rare = null;	
+	static private Material[] end_epic = null;
+	static private Material[] end_legend = null;
 
 	
 	public static Material getRandomMaterial(Random random) {	
@@ -174,5 +180,10 @@ public class BlockList {
 		
 		return chosenList[random.nextInt(chosenList.length)];
 		
+	}
+
+	public static Material getRandomMaterialForEnd(Random random) {
+		
+		return Material.ENDER_STONE;
 	}
 }

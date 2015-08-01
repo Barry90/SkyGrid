@@ -21,9 +21,9 @@ public class SkyGridBlockPopulator extends BlockPopulator {
 	public void populate(World world, Random random, Chunk chunk) {
 		
 		//start the thread for generating Inventorys for the chests
-		if (inventoryGenerator == null) {
-			inventoryGenerator = new SkyGridInventoryGeneratorThread();
-			inventoryGenerator.start();
+		if (this.inventoryGenerator == null) {
+			this.inventoryGenerator = new SkyGridInventoryGeneratorThread();
+			this.inventoryGenerator.start();
 		}
 				
 		switch (world.getEnvironment()) {
@@ -41,7 +41,7 @@ public class SkyGridBlockPopulator extends BlockPopulator {
 							case CHEST: {								
 								Chest chest = (Chest)block.getState();
 								try {
-									chest.getInventory().setContents(inventoryGenerator.getItemStacks());
+									chest.getInventory().setContents(this.inventoryGenerator.getItemStacks());
 								} catch (InterruptedException e) {
 									e.printStackTrace();
 									chest.getInventory().setContents(new ItemStack[chestsize]);

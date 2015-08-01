@@ -61,96 +61,154 @@ public class SkyGridChunkGeneratorOverWorld extends Thread {
     	ChunkWithBlockList result = new ChunkWithBlockList(this.worldMaxHeight);
 		
 		/* generate the grid */
-		
-		for (int y = 1; y < this.worldMaxHeight; y=y+4) {
-		
-			for (int z = 1; z < 16; z=z+4) {
-							
-				for (int x = 1; x < 16; x=x+4) {
-					
-					Material material = BlockList.getRandomMaterial(this.random);
-					
-					this.setBlock(result.chunk, x, y, z, material);
-					MaterialData materialdata = null;
-					switch (material) {
-						case WOOL : {				
-							materialdata = RandomMetaDataGenerator.getWool(this.random);
-							break;
-						}
-						case JACK_O_LANTERN:
-						case PUMPKIN : {
-							materialdata = RandomMetaDataGenerator.getPumpkin(this.random);
-							break;
-						}
-						case LOG :
-						case LOG_2 : {
-							materialdata = RandomMetaDataGenerator.getTree(material, this.random);
-							break;
-						}						
-						case FURNACE: {
-							materialdata = RandomMetaDataGenerator.getDirectionalContainer(material, this.random);
-							break;
-						}
-						case MONSTER_EGGS: {
-							materialdata = RandomMetaDataGenerator.getMonsterEggs(this.random);
-							break;
-						}
-						case CHEST: {
-							ComplexBlock cb = new ComplexBlock(material,null, x, y, z);
-							result.list.add(cb);
-							break;
-						}
-						/*case SOIL: {
-							Material crop = RandomBlockAppendix.getRandomCrop(random);
-							this.setBlock(result, x, y+1, z, crop);
-							ComplexBlock cb = new ComplexBlock(material,new Crops(CropState.SEEDED), x+chunkX*16, y+1, z+chunkZ*16);
-							list.add(cb);
-							break;
-						}	*/					
-						case SAND: {
-							if (this.random.nextInt(100) <= 2) {
-								this.setBlock(result.chunk, x, y+1, z, Material.SUGAR_CANE_BLOCK);
-								switch (this.random.nextInt(4)) {
-									case 0 : {this.setBlock(result.chunk, x+1, y, z, Material.STATIONARY_WATER); break;}
-									case 1 : {this.setBlock(result.chunk, x-1, y, z, Material.STATIONARY_WATER); break;}
-									case 2 : {this.setBlock(result.chunk, x, y, z+1, Material.STATIONARY_WATER); break;}
-									case 3 : {this.setBlock(result.chunk, x, y, z-1, Material.STATIONARY_WATER); break;}
-								}
-							}
-							break;
-						}
-						case MYCEL: {
-							Material mushroom = this.random.nextBoolean() ? Material.RED_MUSHROOM : Material.BROWN_MUSHROOM;
-							this.setBlock(result.chunk, x, y+1, z, mushroom);							
-							break;
-						}
-						case DIRT: {
-							if (this.random.nextInt(100) <= 2) {
-								this.setBlock(result.chunk, x, y+1, z, Material.SAPLING);
-								ComplexBlock cb = new ComplexBlock(material,new Tree(RandomMetaDataGenerator.getTreeSpecies(Material.SAPLING, this.random)), x, y+1, z);
-								result.list.add(cb);								
-							}
-							break;
-						}
-						case MOB_SPAWNER: {
-							ComplexBlock cb = new ComplexBlock(material,null, x, y, z);
-							result.list.add(cb);
-							break;
-						}
+    	
+    	for (int y = 1; y < this.worldMaxHeight; y=y+4) {
+    		
+    		if (y <= 45) {
+    			
+    			//////////////////////////////
+    			// generate End-layer
+    			//////////////////////////////
+    			
+				for (int z = 1; z < 16; z=z+4) {
+								
+					for (int x = 1; x < 16; x=x+4) {					
 						
-						default:
-							break;
+						Material material = BlockList.getRandomMaterialForEnd(random);
+						this.setBlock(result.chunk, x, y, z, material);
+	
 					}
-					if (materialdata != null) {
-						ComplexBlock cb = new ComplexBlock(material,materialdata, x, y, z);
-						result.list.add(cb);
-					}
+					
 				}
-				
-			}
-			
+    		} else if (y <= 117) {
+    			
+    			//////////////////////////////
+    			// generate Nether-layer
+    			//////////////////////////////
+    		
+    			for (int z = 1; z < 16; z=z+4) {
+    				
+    				for (int x = 1; x < 16; x=x+4) {
+    					
+    					Material material = y == 125 || y == 1 ? Material.BEDROCK : BlockList.getRandomMaterialForNether(random);
+    					
+    					this.setBlock(result.chunk, x, y, z, material);
+    					MaterialData materialdata = null;
+    					switch (material) {
+    						case JACK_O_LANTERN:
+    						case PUMPKIN : {
+    							materialdata = RandomMetaDataGenerator.getPumpkin(random);
+    							break;
+    						}						
+    						case CHEST: {
+    							ComplexBlock cb = new ComplexBlock(material,null, x, y, z);
+    							result.list.add(cb);
+    							break;
+    						}				
+    						case MOB_SPAWNER: {
+    							ComplexBlock cb = new ComplexBlock(material,null, x, y, z);
+    							result.list.add(cb);
+    							break;
+    						}						
+    						default:
+    							break;
+    					}
+    					
+    					if (materialdata != null) {
+    						ComplexBlock cb = new ComplexBlock(material,materialdata, x, y, z);
+    						result.list.add(cb);
+    					}
+    					
+    				}  
+    				
+    			}
+    			
+    		} else {
+    			
+    			//////////////////////////////
+    			//generate Normal-layer
+    			//////////////////////////////
+    			
+    			for (int z = 1; z < 16; z=z+4) {
+					
+    				for (int x = 1; x < 16; x=x+4) {
+    					
+    					Material material = BlockList.getRandomMaterial(this.random);
+    					
+    					this.setBlock(result.chunk, x, y, z, material);
+    					MaterialData materialdata = null;
+    					switch (material) {
+    						case WOOL : {				
+    							materialdata = RandomMetaDataGenerator.getWool(this.random);
+    							break;
+    						}
+    						case JACK_O_LANTERN:
+    						case PUMPKIN : {
+    							materialdata = RandomMetaDataGenerator.getPumpkin(this.random);
+    							break;
+    						}
+    						case LOG :
+    						case LOG_2 : {
+    							materialdata = RandomMetaDataGenerator.getTree(material, this.random);
+    							break;
+    						}						
+    						case FURNACE: {
+    							materialdata = RandomMetaDataGenerator.getDirectionalContainer(material, this.random);
+    							break;
+    						}
+    						case MONSTER_EGGS: {
+    							materialdata = RandomMetaDataGenerator.getMonsterEggs(this.random);
+    							break;
+    						}
+    						case CHEST: {
+    							ComplexBlock cb = new ComplexBlock(material,null, x, y, z);
+    							result.list.add(cb);
+    							break;
+    						}				
+    						case SAND: {
+    							if (this.random.nextInt(100) <= 2) {
+    								this.setBlock(result.chunk, x, y+1, z, Material.SUGAR_CANE_BLOCK);
+    								switch (this.random.nextInt(4)) {
+    									case 0 : {this.setBlock(result.chunk, x+1, y, z, Material.STATIONARY_WATER); break;}
+    									case 1 : {this.setBlock(result.chunk, x-1, y, z, Material.STATIONARY_WATER); break;}
+    									case 2 : {this.setBlock(result.chunk, x, y, z+1, Material.STATIONARY_WATER); break;}
+    									case 3 : {this.setBlock(result.chunk, x, y, z-1, Material.STATIONARY_WATER); break;}
+    								}
+    							}
+    							break;
+    						}
+    						case MYCEL: {
+    							Material mushroom = this.random.nextBoolean() ? Material.RED_MUSHROOM : Material.BROWN_MUSHROOM;
+    							this.setBlock(result.chunk, x, y+1, z, mushroom);							
+    							break;
+    						}
+    						case DIRT: {
+    							if (this.random.nextInt(100) <= 2) {
+    								this.setBlock(result.chunk, x, y+1, z, Material.SAPLING);
+    								ComplexBlock cb = new ComplexBlock(material,new Tree(RandomMetaDataGenerator.getTreeSpecies(Material.SAPLING, this.random)), x, y+1, z);
+    								result.list.add(cb);								
+    							}
+    							break;
+    						}
+    						case MOB_SPAWNER: {
+    							ComplexBlock cb = new ComplexBlock(material,null, x, y, z);
+    							result.list.add(cb);
+    							break;
+    						}
+    						
+    						default:
+    							break;
+    					}
+    					if (materialdata != null) {
+    						ComplexBlock cb = new ComplexBlock(material,materialdata, x, y, z);
+    						result.list.add(cb);
+    					}
+    				}
+    				
+    			}
+    		}
 		}
-		
+    	
 		return result;
 		
 	}

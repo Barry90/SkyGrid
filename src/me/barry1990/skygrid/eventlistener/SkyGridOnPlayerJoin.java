@@ -37,12 +37,11 @@ public class SkyGridOnPlayerJoin implements Listener {
 			z = (random.nextInt(1500)-750) * 4 + 1;
 			y = 255;
 			switch (player.getWorld().getEnvironment()) {
-				case NORMAL : y = random.nextInt(16) * 4 + 66; break;
-				case NETHER : y =  random.nextInt(16) * 4 + 2; break;
+				case NORMAL : y = random.nextInt(8) * 4 + 174; break;
+				case NETHER : y = 255; break;
 				case THE_END : y = 255;
 			}
 			Location loc = new Location(player.getWorld(), x, y, z);
-			//System.out.printf("%d %d %d", x, y, z);
 			player.teleport(loc);
 		}
 		

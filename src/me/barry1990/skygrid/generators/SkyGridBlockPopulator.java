@@ -15,7 +15,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.inventory.ItemStack;
 
-public class SkyGridBlockPopulator extends BlockPopulator {
+class SkyGridBlockPopulator extends BlockPopulator {
 
 	static final int chestsize = 27;
 	private SkyGridInventoryGeneratorThread inventoryGenerator;

@@ -13,7 +13,7 @@ import org.bukkit.material.Tree;
 import org.bukkit.material.Wool;
 
 
-public class RandomMetaDataGenerator {
+class RandomMetaDataGenerator {
 	/* Public  */
 	
 	public static Wool getWool(Random random) {

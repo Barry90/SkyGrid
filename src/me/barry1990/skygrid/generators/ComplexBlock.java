@@ -3,7 +3,7 @@ package me.barry1990.skygrid.generators;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
 
-public class ComplexBlock {
+class ComplexBlock {
 
 	public int x;
 	public int y;

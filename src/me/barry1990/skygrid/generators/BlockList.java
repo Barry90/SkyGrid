@@ -5,7 +5,7 @@ import java.util.Random;
 import org.bukkit.Material;
 
 
-public class BlockList {
+class BlockList {
 	
 	//list of blocks used for the grid
 	static private Material[] overworld_common = null;

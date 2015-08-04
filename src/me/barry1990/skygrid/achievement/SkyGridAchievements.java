@@ -16,39 +16,9 @@ import me.barry1990.skygrid.ActionBarAPI;
 import me.barry1990.utils.BarrysLogger;
 
 
-public class SkyGridAchievements {
+class SkyGridAchievements {
 	
-	public enum SGAchievement {
-		
-		////////////////////
-		// Overworld
-		////////////////////
-		
-		SO_IT_BEGINS,
-		WOOD_MANIAC,
-		STONE_MANIAC,
-		IRON_MANIAC,
-		DIAMOND_MANIAC,
-		INFINITE_WATER_SOURCE,
-		HOT_BUCKET,
-		THAT_WAS_CLOSE,
-		GET_RICH_OR_DIE_TRYIN,
-		ON_TOP_OF_THE_WORLD,
-		
-		////////////////////
-		// Nether
-		////////////////////
-		
-		GO_DEEPER,
-		
-		////////////////////
-		// End
-		////////////////////
-		
-		GO_EVEN_DEER
-	}
-	
-	private final static String PATH = "skygrid/achievements/";
+	private final static String PATH = "plugins/skygrid/achievements/";
 	private List<SGAchievement> achievements;
 	private UUID playeruuid;
 	
@@ -69,9 +39,9 @@ public class SkyGridAchievements {
 	
 	public synchronized void addAchievement(SGAchievement a) {
 		if (!this.constainsAchievement(a)) {
-			this.achievements.add(a);
-			ActionBarAPI.sendActionBar(Bukkit.getPlayer(this.playeruuid), "Achievement erhalten: §4" + a.name() );
+			this.achievements.add(a);			
 			this.saveAchievements();
+			ActionBarAPI.sendActionBar(Bukkit.getPlayer(this.playeruuid), "Achievement erhalten: §4" + a.name());
 		}
 	}
 	

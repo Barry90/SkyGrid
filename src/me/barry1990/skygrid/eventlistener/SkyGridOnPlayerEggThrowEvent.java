@@ -2,6 +2,9 @@ package me.barry1990.skygrid.eventlistener;
 
 import java.util.Random;
 
+import me.barry1990.skygrid.achievement.SkyGridAchievementManager;
+import me.barry1990.skygrid.achievement.SGAchievement;
+
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,7 +31,7 @@ public class SkyGridOnPlayerEggThrowEvent implements Listener {
 			//0.1%
 			e.setHatchingType(EntityType.CREEPER);
 			e.setNumHatches(this.random.nextInt(2) == 0 ? (byte)1 : (byte)2);
-			
+			SkyGridAchievementManager.addAchievementForPlayer(e.getPlayer(), SGAchievement.OH_SHIT);
 		}
 		
 	}

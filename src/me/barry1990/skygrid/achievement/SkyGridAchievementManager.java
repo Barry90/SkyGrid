@@ -3,10 +3,7 @@ package me.barry1990.skygrid.achievement;
 import java.util.HashMap;
 import java.util.UUID;
 
-import me.barry1990.skygrid.achievement.SkyGridAchievements.SGAchievement;
-
 import org.bukkit.entity.Player;
-
 
 public class SkyGridAchievementManager {
 	

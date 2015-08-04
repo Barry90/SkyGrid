@@ -1,8 +1,6 @@
 package me.barry1990.skygrid;
 
 //import eventlisteners
-import me.barry1990.skygrid.achievement.SkyGridAchievementManager;
-import me.barry1990.skygrid.achievement.SkyGridAchievements.SGAchievement;
 import me.barry1990.skygrid.eventlistener.SkyGridOnCraftItem;
 import me.barry1990.skygrid.eventlistener.SkyGridOnCreatureSpawnEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerEggThrowEvent;
@@ -10,9 +8,6 @@ import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerJoin;
 //import the generator
 import me.barry1990.skygrid.generators.SkyGridGenerator;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -47,18 +42,6 @@ public class SkyGrid extends JavaPlugin {
 	@Override
 	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
 		return SkyGridGenerator.sharedInstance();
-	}
-
-	@Override
-	public boolean onCommand(CommandSender sender, Command command,	String label, String[] args) {
-		if (sender instanceof Player) {
-			Player p = (Player) sender;
-			if(command.getName().equalsIgnoreCase("add")) {
-				SkyGridAchievementManager.addAchievementForPlayer(p, SGAchievement.DIAMOND_MANIAC);
-			}
-		}
-		return true;
-					
 	}
 
 }

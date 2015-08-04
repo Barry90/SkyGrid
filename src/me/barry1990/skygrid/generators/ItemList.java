@@ -5,7 +5,7 @@ import java.util.Random;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public class ItemList {
+class ItemList {
 	
 	//list of materials used for inventories
 	static private Material[] building_blocks = null;

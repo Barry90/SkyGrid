@@ -7,7 +7,7 @@ import java.util.Random;
 import org.bukkit.inventory.ItemStack;
 
 
-public class SkyGridInventoryGeneratorThread extends Thread {
+class SkyGridInventoryGeneratorThread extends Thread {
 	
 	static final int chestsize = 27;
 	static final int MAXQUEUE = 15;

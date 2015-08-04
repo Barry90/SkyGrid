@@ -11,7 +11,7 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.material.Tree;
 
 
-public class SkyGridChunkGeneratorOverWorld extends Thread {
+class SkyGridChunkGeneratorOverWorld extends Thread {
 	
 	static final int MAXQUEUE = 15;
 	private Queue<ChunkWithBlockList> chunkqueue = new LinkedList<ChunkWithBlockList>();

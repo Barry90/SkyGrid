@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.UUID;
 
 import me.barry1990.skygrid.achievement.SkyGridAchievementManager;
-import me.barry1990.skygrid.achievement.SkyGridAchievements.SGAchievement;
+import me.barry1990.skygrid.achievement.SGAchievement;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

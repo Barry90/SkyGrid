@@ -2,3 +2,6 @@ load: STARTUP
 name: SkyGrid
 main: me.barry1990.skygrid.SkyGrid
 version: 0.1
+
+commands:
+  add:

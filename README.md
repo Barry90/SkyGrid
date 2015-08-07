@@ -7,6 +7,7 @@ SkyGrid-Plugin for Minecraft 1.8
 
 TO DO:
  - materiallist for end-layer
+ - Inventory loss system
  - adding home-feature
  - adding more custom crafting recipes
  - achievement system

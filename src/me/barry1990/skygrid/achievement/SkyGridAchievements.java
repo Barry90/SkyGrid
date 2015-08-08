@@ -23,10 +23,10 @@ class SkyGridAchievements {
 	
 	private List<SGAchievement> achievements;
 	private List<Material> woodmaniacprogress;	
-//	private List<Material> stonemaniacprogress;	
-//	private List<Material> ironmaniacprogress;	
-//	private List<Material> goldmaniacprogress;	
-//	private List<Material> diamondmaniacprogress;	
+	private List<Material> stonemaniacprogress;	
+	private List<Material> ironmaniacprogress;	
+	private List<Material> goldmaniacprogress;	
+	private List<Material> diamondmaniacprogress;	
 	
 	public SkyGridAchievements(UUID uuid) {
 		if (uuid == null) {
@@ -34,10 +34,10 @@ class SkyGridAchievements {
 		}
 		this.achievements = new ArrayList<SGAchievement>();
 		this.woodmaniacprogress = new ArrayList<Material>();
-//		this.stonemaniacprogress = new ArrayList<Material>();
-//		this.ironmaniacprogress = new ArrayList<Material>();
-//		this.goldmaniacprogress = new ArrayList<Material>();
-//		this.diamondmaniacprogress = new ArrayList<Material>();
+		this.stonemaniacprogress = new ArrayList<Material>();
+		this.ironmaniacprogress = new ArrayList<Material>();
+		this.goldmaniacprogress = new ArrayList<Material>();
+		this.diamondmaniacprogress = new ArrayList<Material>();
 		this.playeruuid = uuid;
 		this.loadAchievements();
 		
@@ -63,8 +63,7 @@ class SkyGridAchievements {
 	// SPECIFIC ACHIEVEMENT OPARATIONS
 	//////////////////////////////////////////////
 	
-	/* WOOD MANIAC */
-	
+	/* WOOD MANIAC */	
 	public void addMaterialToWoodManiac(Material m) {
 		if (this.constainsAchievement(SGAchievement.WOOD_MANIAC)) 
 			return;
@@ -74,18 +73,74 @@ class SkyGridAchievements {
 			this.saveAchievements();
 		}
 		if (this.woodmaniacprogress.size() == 5) {			
-			this.woodmaniacprogress.clear();
 			this.addAchievement(SGAchievement.WOOD_MANIAC);
+			this.woodmaniacprogress.clear();
 		}
 	}
 	
+	/* STONE MANIAC */	
+	public void addMaterialToStoneManiac(Material m) {
+		if (this.constainsAchievement(SGAchievement.STONE_MANIAC)) 
+			return;
+		
+		if (!this.stonemaniacprogress.contains(m)) {
+			this.stonemaniacprogress.add(m);
+			this.saveAchievements();
+		}
+		if (this.stonemaniacprogress.size() == 5) {			
+			this.addAchievement(SGAchievement.STONE_MANIAC);
+			this.stonemaniacprogress.clear();
+		}
+	}	
 	
+	/* IRON MANIAC */	
+	public void addMaterialToIronManiac(Material m) {
+		if (this.constainsAchievement(SGAchievement.IRON_MANIAC)) 
+			return;
+		
+		if (!this.ironmaniacprogress.contains(m)) {
+			this.ironmaniacprogress.add(m);
+			this.saveAchievements();
+		}
+		if (this.ironmaniacprogress.size() == 9) {			
+			this.addAchievement(SGAchievement.IRON_MANIAC);
+			this.ironmaniacprogress.clear();
+		}
+	}	
 	
+	/* GOLD MANIAC */	
+	public void addMaterialToGoldManiac(Material m) {
+		if (this.constainsAchievement(SGAchievement.GOLD_MANIAC)) 
+			return;
+		
+		if (!this.goldmaniacprogress.contains(m)) {
+			this.goldmaniacprogress.add(m);
+			this.saveAchievements();
+		}
+		if (this.goldmaniacprogress.size() == 9) {			
+			this.addAchievement(SGAchievement.GOLD_MANIAC);
+			this.goldmaniacprogress.clear();
+		}
+	}	
+	
+	/* DIAMOND MANIAC */	
+	public void addMaterialToDiamondManiac(Material m) {
+		if (this.constainsAchievement(SGAchievement.DIAMOND_MANIAC)) 
+			return;
+		
+		if (!this.diamondmaniacprogress.contains(m)) {
+			this.diamondmaniacprogress.add(m);
+			this.saveAchievements();
+		}
+		if (this.diamondmaniacprogress.size() == 9) {			
+			this.addAchievement(SGAchievement.DIAMOND_MANIAC);
+			this.diamondmaniacprogress.clear();
+		}
+	}	
 	
 	//////////////////////////////////////////////
 	// LOAD/SAVE
-	//////////////////////////////////////////////
-	
+	//////////////////////////////////////////////	
 	
 	private void loadAchievements() {
 				
@@ -106,7 +161,15 @@ class SkyGridAchievements {
 					switch (input) {					
 						case SGAFileConst.ACHIEVEMENTS: { this.loadAchievementlist(in); break; }
 						case SGAFileConst.A_WOODMANIAC: { this.loadWoodManiac(in); break; }
-						default: {BarrysLogger.error(this, "Unknown Header in File: " + String.valueOf(input)); break;}
+						case SGAFileConst.A_STONEMANIAC: { this.loadStoneManiac(in); break; }
+						case SGAFileConst.A_IRONMANIAC: { this.loadIronManiac(in); break; }
+						case SGAFileConst.A_GOLDMANIAC: { this.loadGoldManiac(in); break; }
+						case SGAFileConst.A_DIAMMANIAC: { this.loadDiamondManiac(in); break; }
+						default: {
+							BarrysLogger.error(this, "Unknown Header in File: " + String.valueOf(input));
+							while (((input = in.read()) != -1) && (input != SGAFileConst.END)) {}
+							break;
+						}
 					}
 					
 				}	
@@ -143,6 +206,10 @@ class SkyGridAchievements {
 
 			/* SAVE PROGRESS */	
 			this.saveWoodManiac(out);
+			this.saveStoneManiac(out);
+			this.saveIronManiac(out);
+			this.saveGoldManiac(out);
+			this.saveDiamondManiac(out);
 	
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -167,8 +234,7 @@ class SkyGridAchievements {
 		}
 		out.write(SGAFileConst.END);
 	}
-		
-	
+			
 	/* WOOD MANIAC */
 	
 	private void loadWoodManiac(FileInputStream in) throws IOException {
@@ -181,13 +247,100 @@ class SkyGridAchievements {
 		
 	}
 	private void saveWoodManiac(FileOutputStream out) throws IOException {
+		if (this.constainsAchievement(SGAchievement.WOOD_MANIAC)) return;
 		out.write(SGAFileConst.A_WOODMANIAC);
-		if (!this.woodmaniacprogress.isEmpty()) {
-			for (Material m : this.woodmaniacprogress) {
+		for (Material m : this.woodmaniacprogress) {
+			out.write(SGAManiacConst.valueOf(m.name()).b);
+		}
+		out.write(SGAFileConst.END);	
+	}
+	
+	/* STONE MANIAC */
+	
+	private void loadStoneManiac(FileInputStream in) throws IOException {
+		int input;
+		while (((input = in.read()) != -1) && (input != SGAFileConst.END)) {
+			//convert byte to Material and add it
+			Material m = SGAManiacConst.getSGAManiacConstFromByte((byte)input).m;
+			this.stonemaniacprogress.add(m);			
+		}
+		
+	}
+	private void saveStoneManiac(FileOutputStream out) throws IOException {
+		if (this.constainsAchievement(SGAchievement.STONE_MANIAC)) return;
+		out.write(SGAFileConst.A_STONEMANIAC);
+		for (Material m : this.stonemaniacprogress) {
+			out.write(SGAManiacConst.valueOf(m.name()).b);
+		}
+		out.write(SGAFileConst.END);	
+	}
+	
+	/* IRON MANIAC */
+	
+	private void loadIronManiac(FileInputStream in) throws IOException {
+		int input;
+		while (((input = in.read()) != -1) && (input != SGAFileConst.END)) {
+			//convert byte to Material and add it
+			Material m = SGAManiacConst.getSGAManiacConstFromByte((byte)input).m;
+			this.ironmaniacprogress.add(m);			
+		}
+		
+	}
+	private void saveIronManiac(FileOutputStream out) throws IOException {
+		if (this.constainsAchievement(SGAchievement.IRON_MANIAC)) return;
+		out.write(SGAFileConst.A_IRONMANIAC);
+		if (!this.ironmaniacprogress.isEmpty()) {
+			for (Material m : this.ironmaniacprogress) {
 				out.write(SGAManiacConst.valueOf(m.name()).b);
 			}
 		}
 		out.write(SGAFileConst.END);	
 	}
+	
+	/* GOLD MANIAC */
+	
+	private void loadGoldManiac(FileInputStream in) throws IOException {
+		int input;
+		while (((input = in.read()) != -1) && (input != SGAFileConst.END)) {
+			//convert byte to Material and add it
+			Material m = SGAManiacConst.getSGAManiacConstFromByte((byte)input).m;
+			this.goldmaniacprogress.add(m);			
+		}
+		
+	}
+	private void saveGoldManiac(FileOutputStream out) throws IOException {
+		if (this.constainsAchievement(SGAchievement.GOLD_MANIAC)) return;
+		out.write(SGAFileConst.A_GOLDMANIAC);
+		if (!this.goldmaniacprogress.isEmpty()) {
+			for (Material m : this.goldmaniacprogress) {
+				out.write(SGAManiacConst.valueOf(m.name()).b);
+			}
+		}
+		out.write(SGAFileConst.END);	
+	}
+	
+	/* DIAMON MANIAC */
+	
+	private void loadDiamondManiac(FileInputStream in) throws IOException {
+		int input;
+		while (((input = in.read()) != -1) && (input != SGAFileConst.END)) {
+			//convert byte to Material and add it
+			Material m = SGAManiacConst.getSGAManiacConstFromByte((byte)input).m;
+			this.diamondmaniacprogress.add(m);			
+		}
+		
+	}
+	private void saveDiamondManiac(FileOutputStream out) throws IOException {
+		if (this.constainsAchievement(SGAchievement.DIAMOND_MANIAC)) return;
+		out.write(SGAFileConst.A_DIAMMANIAC);
+		if (!this.diamondmaniacprogress.isEmpty()) {
+			for (Material m : this.diamondmaniacprogress) {
+				out.write(SGAManiacConst.valueOf(m.name()).b);
+			}
+		}
+		out.write(SGAFileConst.END);	
+	}
+	
+	
 
 }

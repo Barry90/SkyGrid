@@ -1,7 +1,5 @@
 package me.barry1990.skygrid.achievement;
 
-import java.util.Map;
-
 public enum SGAchievement {
 	
 	////////////////////

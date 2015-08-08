@@ -42,11 +42,36 @@ public class SkyGridAchievementManager {
 	// PRECIFIC ACHIEVEMENT HANDLING
 	//////////////////////////////////////////////
 	
-	/* The X-Maniac-Achievements */
+	/* The Wood-Maniac-Achievements */
 	
 	public static void addMaterialForWoodManiac(Player player,Material m) {
 		pa.get(player.getUniqueId()).addMaterialToWoodManiac(m);
 	}
+	
+	/* The Stone-Maniac-Achievements */
+	
+	public static void addMaterialForStoneManiac(Player player,Material m) {
+		pa.get(player.getUniqueId()).addMaterialToStoneManiac(m);
+	}
+	
+	/* The Iron-Maniac-Achievements */
+	
+	public static void addMaterialForIronManiac(Player player,Material m) {
+		pa.get(player.getUniqueId()).addMaterialToIronManiac(m);
+	}
+	
+	/* The Gold-Maniac-Achievements */
+	
+	public static void addMaterialForGoldManiac(Player player,Material m) {
+		pa.get(player.getUniqueId()).addMaterialToGoldManiac(m);
+	}
+	
+	/* The Diamond-Maniac-Achievements */
+	
+	public static void addMaterialForDiamondManiac(Player player,Material m) {
+		pa.get(player.getUniqueId()).addMaterialToDiamondManiac(m);
+	}
+	
 	
 
 }

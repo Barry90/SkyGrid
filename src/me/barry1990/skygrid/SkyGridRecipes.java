@@ -44,6 +44,12 @@ public class SkyGridRecipes {
 			.setIngredient('S', Material.SMOOTH_BRICK).setIngredient('S', new SmoothBrick(Material.COBBLESTONE))
 			.setIngredient('B', Material.BLAZE_POWDER)
 		);
+		//Cobweb
+		SkyGridRecipes.skygridrecipes.add(
+			new ShapedRecipe(new ItemStack(Material.WEB, 1))
+			.shape("W W"," W ","W W")
+			.setIngredient('W', Material.STRING)
+		);
 		
 		BarrysLogger.info("SkyGrid recipes created");
 	}

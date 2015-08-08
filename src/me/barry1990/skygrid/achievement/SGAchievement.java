@@ -25,7 +25,8 @@ public enum SGAchievement {
 	
 	GO_DEEPER((byte)0x21),
 	OH_SHIT((byte)0x22),
-	USELESS_ITEM((byte)0x23),
+	NETHER_CLEANER((byte)0x23),
+	
 	
 	////////////////////
 	// End

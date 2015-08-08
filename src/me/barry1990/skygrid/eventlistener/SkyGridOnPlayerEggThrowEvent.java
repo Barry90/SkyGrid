@@ -27,10 +27,10 @@ public class SkyGridOnPlayerEggThrowEvent implements Listener {
 		// OH SH** - Achievement
 		/////////////////////////////////////
 		
-		if (this.random.nextInt(1000) == 0) {
-			//0.1%
+		if (this.random.nextInt(250) == 0) {
+			//0.4%
 			e.setHatchingType(EntityType.CREEPER);
-			e.setNumHatches(this.random.nextInt(2) == 0 ? (byte)1 : (byte)2);
+			e.setNumHatches(this.random.nextInt(2) == 0 ? (byte)2 : (byte)3);
 			SkyGridAchievementManager.addAchievementForPlayer(e.getPlayer(), SGAchievement.OH_SHIT);
 		}
 		

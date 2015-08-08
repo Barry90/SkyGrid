@@ -5,6 +5,7 @@ import me.barry1990.skygrid.eventlistener.SkyGridOnCraftItem;
 import me.barry1990.skygrid.eventlistener.SkyGridOnCreatureSpawnEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerEggThrowEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerJoin;
+import me.barry1990.skygrid.eventlistener.SkyGridOnPortalCreateEvent;
 //import the generator
 import me.barry1990.skygrid.generators.SkyGridGenerator;
 
@@ -25,6 +26,7 @@ public class SkyGrid extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerEggThrowEvent(), this);
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnCreatureSpawnEvent(), this);		
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnCraftItem(), this);
+		this.getServer().getPluginManager().registerEvents(new SkyGridOnPortalCreateEvent(), this);
 		
 		//add skygrid recipes
 		SkyGridRecipes.addSkyGridRecipes(this);

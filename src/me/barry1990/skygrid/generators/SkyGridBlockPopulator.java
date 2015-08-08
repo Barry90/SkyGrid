@@ -34,7 +34,7 @@ class SkyGridBlockPopulator extends BlockPopulator {
 		
 			// get list
 			String key = chunk.getX()+";"+chunk.getZ();
-			List<ComplexBlock> list = SkyGridGenerator.blockQueue_normal_get(key);
+			List<ComplexBlock> list = SkyGridGenerator.blockQueue_get(key);
 			
 			if (list != null){
 				for (ComplexBlock cb : list) {
@@ -65,7 +65,7 @@ class SkyGridBlockPopulator extends BlockPopulator {
 				}
 				// delete list
 				list.clear();			
-				SkyGridGenerator.blockQueue_normal_remove(key);
+				SkyGridGenerator.blockQueue_remove(key);
 			}
 			
 		}

@@ -59,42 +59,42 @@ class SkyGridInventoryGeneratorThread extends Thread {
 		while ((pos < chestsize) && ((this.random.nextInt(100)+1) > range)) {
 			items[pos] = ItemList.getRandomBuildingBlock(random);
 			pos++;
-			range =+20;
+			range +=20;
 		}
 		
 		range = 15;		
 		while ((pos < chestsize) && ((this.random.nextInt(100)+1) > range)) {
 			items[pos] = ItemList.getRandomMaterialItems(random);
 			pos++;
-			range =+15;
+			range +=15;
 		}
 		
 		range = 50;		
 		while ((pos < chestsize) && ((this.random.nextInt(100)+1) > range)) {
 			items[pos] = ItemList.getRandomEquipmentItems(random);
 			pos++;
-			range =+22;
+			range +=22;
 		}
 		
 		range = 70;		
 		while ((pos < chestsize) && ((this.random.nextInt(100)+1) > range)) {
 			items[pos] = ItemList.getRandomRareItems(random);
 			pos++;
-			range =+9;
+			range +=9;
 		}
 		
 		range = 20;		
 		while ((pos < chestsize) && ((this.random.nextInt(100)+1) > range)) {
 			items[pos] = ItemList.getRandomFoodItem(random);
 			pos++;
-			range =+30;
+			range +=30;
 		}
 		
 		range = 95;		
 		while ((pos < chestsize) && ((this.random.nextInt(100)+1) > range)) {
 			items[pos] = ItemList.getRandomLendaryItem(random);
 			pos++;
-			range =+1;
+			range +=1;
 		}
 		
 		return items;		

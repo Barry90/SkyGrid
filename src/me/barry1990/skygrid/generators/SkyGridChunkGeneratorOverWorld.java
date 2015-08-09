@@ -74,7 +74,7 @@ class SkyGridChunkGeneratorOverWorld extends Thread {
 								
 					for (int x = 1; x < 16; x=x+4) {					
 						
-						Material material = BlockList.getRandomMaterialForEnd(random);
+						Material material = BlockList.getRandomMaterialForEnd();
 						this.setBlock(result.chunk, x, y, z, material);
 	
 					}
@@ -90,7 +90,7 @@ class SkyGridChunkGeneratorOverWorld extends Thread {
 					
 					for (int x = 1; x < 16; x=x+4) {
 						
-						Material material = y == 125 || y == 1 ? Material.BEDROCK : BlockList.getRandomMaterialForNether(random);
+						Material material = y == 125 || y == 1 ? Material.BEDROCK : BlockList.getRandomMaterialForNether();
 						
 						this.setBlock(result.chunk, x, y, z, material);
 						MaterialData materialdata = null;
@@ -133,7 +133,7 @@ class SkyGridChunkGeneratorOverWorld extends Thread {
 					
 					for (int x = 1; x < 16; x=x+4) {
 						
-						Material material = BlockList.getRandomMaterial(this.random);
+						Material material = BlockList.getRandomMaterial();
 						
 						this.setBlock(result.chunk, x, y, z, material);
 						MaterialData materialdata = null;

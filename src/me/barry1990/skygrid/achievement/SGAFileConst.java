@@ -10,6 +10,7 @@ class SGAFileConst {
 	public static final byte A_IRONMANIAC = (byte) 0x12;
 	public static final byte A_GOLDMANIAC = (byte) 0x13;
 	public static final byte A_DIAMMANIAC = (byte) 0x14;
+	public static final byte A_NETHERCLEANER = (byte) 0x20;
 	
 }
 

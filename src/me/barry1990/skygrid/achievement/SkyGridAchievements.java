@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import me.barry1990.skygrid.ActionBarAPI;
 import me.barry1990.utils.BarrysLogger;
+import me.barry1990.utils.FileManagement;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -27,18 +28,22 @@ class SkyGridAchievements {
 	private List<Material> ironmaniacprogress;	
 	private List<Material> goldmaniacprogress;	
 	private List<Material> diamondmaniacprogress;	
+	private short nethercleanerprogress;
 	
 	public SkyGridAchievements(UUID uuid) {
 		if (uuid == null) {
 			throw new IllegalArgumentException("uuid is null");
 		}
+		this.playeruuid = uuid;
+		
 		this.achievements = new ArrayList<SGAchievement>();
 		this.woodmaniacprogress = new ArrayList<Material>();
 		this.stonemaniacprogress = new ArrayList<Material>();
 		this.ironmaniacprogress = new ArrayList<Material>();
 		this.goldmaniacprogress = new ArrayList<Material>();
 		this.diamondmaniacprogress = new ArrayList<Material>();
-		this.playeruuid = uuid;
+		this.nethercleanerprogress = 0;
+		
 		this.loadAchievements();
 		
 	}
@@ -138,11 +143,25 @@ class SkyGridAchievements {
 		}
 	}	
 	
+	/* NETHER CLEANER */
+	public void addNetherCleanerProgress() {		
+		if (this.constainsAchievement(SGAchievement.NETHER_CLEANER)) 
+			return;
+		
+		this.nethercleanerprogress += 1;
+		if (this.nethercleanerprogress == 150) {
+			this.addAchievement(SGAchievement.NETHER_CLEANER);
+		} else {
+			this.saveAchievements();
+		}
+	}
+	
+	
 	//////////////////////////////////////////////
 	// LOAD/SAVE
 	//////////////////////////////////////////////	
 	
-	private void loadAchievements() {
+	private synchronized void loadAchievements() {
 				
 		File file = new File(PATH + this.playeruuid.toString());
 		
@@ -165,6 +184,7 @@ class SkyGridAchievements {
 						case SGAFileConst.A_IRONMANIAC: { this.loadIronManiac(in); break; }
 						case SGAFileConst.A_GOLDMANIAC: { this.loadGoldManiac(in); break; }
 						case SGAFileConst.A_DIAMMANIAC: { this.loadDiamondManiac(in); break; }
+						case SGAFileConst.A_NETHERCLEANER: {this.loadNetherCleaner(in); break; }
 						default: {
 							BarrysLogger.error(this, "Unknown Header in File: " + String.valueOf(input));
 							while (((input = in.read()) != -1) && (input != SGAFileConst.END)) {}
@@ -183,7 +203,7 @@ class SkyGridAchievements {
 		
 	}
 	
-	private void saveAchievements() {
+	private synchronized void saveAchievements() {
 		
 		File file = new File(PATH + this.playeruuid.toString());
 		
@@ -210,6 +230,7 @@ class SkyGridAchievements {
 			this.saveIronManiac(out);
 			this.saveGoldManiac(out);
 			this.saveDiamondManiac(out);
+			this.saveNetherCleaner(out);
 	
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -340,6 +361,22 @@ class SkyGridAchievements {
 		}
 		out.write(SGAFileConst.END);	
 	}
+	
+	/* NETHER CLEANER */
+	
+	private void loadNetherCleaner(FileInputStream in) throws IOException {
+		this.nethercleanerprogress = FileManagement.readShortFrom(in);
+		
+	}
+	private void saveNetherCleaner(FileOutputStream out) throws IOException {
+		if (this.constainsAchievement(SGAchievement.NETHER_CLEANER)) return;
+		out.write(SGAFileConst.A_NETHERCLEANER);
+		FileManagement.writeShortTo(out, this.nethercleanerprogress);
+		out.write(SGAFileConst.END);	
+	}
+	
+
+	
 	
 	
 

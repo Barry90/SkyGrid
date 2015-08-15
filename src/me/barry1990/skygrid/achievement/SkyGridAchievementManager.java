@@ -72,6 +72,11 @@ public class SkyGridAchievementManager {
 		pa.get(player.getUniqueId()).addMaterialToDiamondManiac(m);
 	}
 	
+	/* The Nether Cleaner-Achievement */
+	
+	public static void addNetherCleanerProgress(Player player) {
+		pa.get(player.getUniqueId()).addNetherCleanerProgress();
+	}
 	
 
 }

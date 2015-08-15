@@ -69,7 +69,7 @@ public enum SGAchievement {
 	
 			case 0x21:	return "GO DEEPER";
 			case 0x22:	return "OH SH**";
-			case 0x23:	return "USELESS ITEM";
+			case 0x23:	return "NETHER CLEANER";
 				
 			case 0x41:	return "GO EVEN DEEPER";
 			case 0x42:	return "A VERY BIG EGG";

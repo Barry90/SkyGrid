@@ -61,7 +61,12 @@ class SkyGridAchievements {
 			this.achievements.add(a);			
 			this.saveAchievements();
 			ActionBarAPI.sendActionBar(Bukkit.getPlayer(this.playeruuid), "Achievement erhalten: §4" + SGAchievement.getname(a.b));
+			Bukkit.getPlayer(this.playeruuid).sendMessage("Achievement erhalten: §4" + SGAchievement.getname(a.b));
 		}
+	}
+	
+	public synchronized void saveAchievementAndProgress() {
+		this.saveAchievements();
 	}
 	
 	//////////////////////////////////////////////
@@ -149,11 +154,9 @@ class SkyGridAchievements {
 			return;
 		
 		this.nethercleanerprogress += 1;
-		if (this.nethercleanerprogress == 150) {
+		if (this.nethercleanerprogress == 400) {
 			this.addAchievement(SGAchievement.NETHER_CLEANER);
-		} else {
-			this.saveAchievements();
-		}
+		} 
 	}
 	
 	

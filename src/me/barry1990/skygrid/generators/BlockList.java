@@ -59,6 +59,7 @@ class BlockList {
 				Material.HAY_BLOCK,
 				Material.CAKE_BLOCK,
 				Material.MELON_BLOCK,
+				Material.CHEST
 		};
 		BlockList.overworld_epic = new Material[] { 
 				Material.STATIONARY_LAVA,
@@ -66,8 +67,7 @@ class BlockList {
 				Material.LAPIS_ORE,
 				Material.NOTE_BLOCK,
 				Material.BOOKSHELF,
-				Material.OBSIDIAN,
-				Material.CHEST,
+				Material.OBSIDIAN,				
 				Material.DIAMOND_ORE,
 				Material.FURNACE,
 				Material.MYCEL,

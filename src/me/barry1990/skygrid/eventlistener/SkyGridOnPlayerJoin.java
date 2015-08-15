@@ -4,42 +4,71 @@ import java.util.Random;
 
 import me.barry1990.skygrid.achievement.SGAchievement;
 import me.barry1990.skygrid.achievement.SkyGridAchievementManager;
+import me.barry1990.utils.BarrysLogger;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World.Environment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerLoginEvent.Result;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 
 
 public class SkyGridOnPlayerJoin implements Listener {
 	
-	@EventHandler
-	public void onPlayerJoin(PlayerJoinEvent event) {
-		
-		Player player = event.getPlayer();
-		
-		SkyGridAchievementManager.loadAchievementsForPlayer(player);
+	/* These events will be called in the below order */
+	
+	@EventHandler (ignoreCancelled=true, priority=EventPriority.HIGH)
+	public void OnPlayerLoginEvent(PlayerLoginEvent e) {
+		BarrysLogger.info(this, "OnPlayerLoginEvent called");
+		if (e.getResult() == Result.ALLOWED) {			
+			SkyGridAchievementManager.loadAchievementsForPlayer(e.getPlayer());
+		}
+	}
+	
+	@EventHandler (ignoreCancelled=true, priority=EventPriority.HIGHEST)
+	public void OnPlayerSpawnLocationEvent(PlayerSpawnLocationEvent e) {
+		BarrysLogger.info(this, "PlayerSpawnLocationEvent called");
+		Player player = e.getPlayer();
 		
 		if (!SkyGridAchievementManager.playerHasAchievement(player, SGAchievement.SO_IT_BEGINS)) {
-			
-			player.sendMessage(ChatColor.GREEN + "Willkommen in SkyGrid");
-			
+						
 			Random random = new Random();
-			int x,y,z;
-			x = (random.nextInt(1500)-750) * 4 + 1;
-			z = (random.nextInt(1500)-750) * 4 + 1;
+			double x,y,z;
+			x = (random.nextInt(1500)-750) * 4 + 1.5;
+			z = (random.nextInt(1500)-750) * 4 + 1.5;
 			y = player.getWorld().getEnvironment() == Environment.NORMAL ? random.nextInt(8) * 4 + 174 : 255;
 			
 			Location loc = new Location(player.getWorld(), x, y, z);
-			player.teleport(loc);
+			e.setSpawnLocation(loc);
 
+		} 
+	}
+	
+	@EventHandler (ignoreCancelled=true, priority=EventPriority.HIGH)
+	public void OnPlayerJoin(PlayerJoinEvent event) {
+		BarrysLogger.info(this, "PlayerJoinEvent called");
+		Player player = event.getPlayer();		
+		if (!SkyGridAchievementManager.playerHasAchievement(player, SGAchievement.SO_IT_BEGINS)) {
+			
+			player.sendMessage(ChatColor.GREEN + "Willkommen in SkyGrid");
 			SkyGridAchievementManager.addAchievementForPlayer(player, SGAchievement.SO_IT_BEGINS);
+			
+		} else {
+			player.sendMessage(ChatColor.GREEN + "Willkommen zurück");
 		}
 
-		
-		
 	}
+	
+	@EventHandler (ignoreCancelled=true, priority=EventPriority.HIGHEST)
+	public void OnPlayerQuitEvent(PlayerQuitEvent e) {
+		SkyGridAchievementManager.closeAchievementsForPlayer(e.getPlayer());
+	}
+
 }

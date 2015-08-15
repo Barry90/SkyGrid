@@ -27,6 +27,7 @@ public class SkyGridAchievementManager {
 	}
 	
 	public static void closeAchievementsForPlayer(Player player) {
+		pa.get(player.getUniqueId()).saveAchievementAndProgress();
 		pa.remove(player.getUniqueId());			
 	}
 	

@@ -177,5 +177,19 @@ public class BarrysLogger {
 		if (!PRINT_LOGS) return;
 		System.out.print(String.format(RED + "#E :" + WHITE + " %s" + RESET, errorMessage));
 	}
+	
+	/////////////////////////////////
+	// 		WARNING 
+	/////////////////////////////////
+	
+	public static void warn(Object this_, String errorMessage) {
+		if (!PRINT_LOGS) return;
+		System.out.print(String.format(DARKYELLOW + "#E %s :" + WHITE + " %s" + RESET, this_.getClass().getName(),errorMessage));
+	}
+	
+	public static void warn(String errorMessage) {
+		if (!PRINT_LOGS) return;
+		System.out.print(String.format(DARKYELLOW + "#E :" + WHITE + " %s" + RESET, errorMessage));
+	}
 
 }

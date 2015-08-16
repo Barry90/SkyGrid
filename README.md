@@ -2,15 +2,14 @@
 
 SkyGrid-Plugin for Minecraft 1.8
 
- - status: work in progress
+ - status: still work in progress
 
 
 TO DO:
- - materiallist for end-layer
+ - better materiallist for end-layer
  - Inventory loss system
- - adding home-feature
- - adding more custom crafting recipes
- - achievement system
- - make a sandwich ...
- - ...find a way for automatic sandwich creation
- - adding more points to this todo-list
+ - adding more custom crafting recipes (EndPortalFrame, .. )
+ - implement more achievements
+ - adding home-feature -> maybe i uses essentials for this
+ - make a hot dog ...
+ - ...because a hot cat doesn't tastes well

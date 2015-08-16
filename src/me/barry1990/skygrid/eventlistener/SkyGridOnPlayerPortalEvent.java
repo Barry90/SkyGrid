@@ -14,11 +14,11 @@ import org.bukkit.event.player.PlayerPortalEvent;
 public class SkyGridOnPlayerPortalEvent implements Listener {
 	
 	/*
-	 * 	  [][][]	──────── p_x_max
+	 * 	  [][][]	─────── p_x_max
 	 *  []▒▒▒▒▒▒[]
-	 *  []▒▒><▒▒[]       	 >< dragon egg
+	 *  []▒▒><▒▒[]		 >< dragon egg
 	 *  []▒▒▒▒▒▒[]
-	 *	  [][][] 	──────── p_y_min
+	 *    [][][] 	─────── p_y_min
 	 *
 	 *  │        │
 	 * 	p_z_min  │

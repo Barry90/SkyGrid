@@ -2,7 +2,9 @@ package me.barry1990.skygrid.eventlistener;
 
 import java.util.Random;
 
-import me.barry1990.skygrid.achievement.SGAchievement;
+
+import me.barry1990.skygrid.achievement.SGAIDENTIFIER;
+//import me.barry1990.skygrid.achievement.SGAchievement;
 import me.barry1990.skygrid.achievement.SkyGridAchievementManager;
 import me.barry1990.utils.BarrysLogger;
 
@@ -37,7 +39,7 @@ public class SkyGridOnPlayerJoin implements Listener {
 		BarrysLogger.info(this, "PlayerSpawnLocationEvent called");
 		Player player = e.getPlayer();
 		
-		if (!SkyGridAchievementManager.playerHasAchievement(player, SGAchievement.SO_IT_BEGINS)) {
+		if (!SkyGridAchievementManager.playerHasAchievementWithID(player, SGAIDENTIFIER.SO_IT_BEGINS)) {
 						
 			Random random = new Random();
 			double x,y,z;
@@ -55,10 +57,10 @@ public class SkyGridOnPlayerJoin implements Listener {
 	public void OnPlayerJoin(PlayerJoinEvent event) {
 		BarrysLogger.info(this, "PlayerJoinEvent called");
 		Player player = event.getPlayer();		
-		if (!SkyGridAchievementManager.playerHasAchievement(player, SGAchievement.SO_IT_BEGINS)) {
+		if (!SkyGridAchievementManager.playerHasAchievementWithID(player, SGAIDENTIFIER.SO_IT_BEGINS)) {
 			
 			player.sendMessage(ChatColor.GREEN + "Willkommen in SkyGrid");
-			SkyGridAchievementManager.addAchievementForPlayer(player, SGAchievement.SO_IT_BEGINS);
+			SkyGridAchievementManager.award(player, SGAIDENTIFIER.SO_IT_BEGINS);
 			
 		} else {
 			player.sendMessage(ChatColor.GREEN + "Willkommen zurück");

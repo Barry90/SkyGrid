@@ -31,52 +31,57 @@ public class SkyGridAchievementManager {
 		pa.remove(player.getUniqueId());			
 	}
 	
-	public static void addAchievementForPlayer(Player player, SGAchievement a) {
-		pa.get(player.getUniqueId()).addAchievement(a);
+	public static void award(Player player, byte SGA_ID) {
+		pa.get(player.getUniqueId()).award(SGA_ID);
 	}
 	
-	public static boolean playerHasAchievement(Player player, SGAchievement a) {
-		return pa.get(player.getUniqueId()).constainsAchievement(a);
+	public static boolean playerHasAchievementWithID(Player player, byte SGA_ID) {
+		return pa.get(player.getUniqueId()).hasAchievementWithID(SGA_ID);
+	}
+	
+	public static SkyGridAchievements getAchievementsForPlayer(Player player) {
+		return pa.get(player.getUniqueId());
 	}
 	
 	//////////////////////////////////////////////
 	// PRECIFIC ACHIEVEMENT HANDLING
 	//////////////////////////////////////////////
 	
+	
 	/* The Wood-Maniac-Achievements */
 	
 	public static void addMaterialForWoodManiac(Player player,Material m) {
-		pa.get(player.getUniqueId()).addMaterialToWoodManiac(m);
+		pa.get(player.getUniqueId()).getWoodManiac().addMaterial(m);
 	}
 	
 	/* The Stone-Maniac-Achievements */
 	
 	public static void addMaterialForStoneManiac(Player player,Material m) {
-		pa.get(player.getUniqueId()).addMaterialToStoneManiac(m);
+		pa.get(player.getUniqueId()).getStoneManiac().addMaterial(m);
 	}
 	
 	/* The Iron-Maniac-Achievements */
 	
 	public static void addMaterialForIronManiac(Player player,Material m) {
-		pa.get(player.getUniqueId()).addMaterialToIronManiac(m);
+		pa.get(player.getUniqueId()).getIronManiac().addMaterial(m);
 	}
 	
 	/* The Gold-Maniac-Achievements */
 	
 	public static void addMaterialForGoldManiac(Player player,Material m) {
-		pa.get(player.getUniqueId()).addMaterialToGoldManiac(m);
+		pa.get(player.getUniqueId()).getGoldManiac().addMaterial(m);
 	}
 	
 	/* The Diamond-Maniac-Achievements */
 	
 	public static void addMaterialForDiamondManiac(Player player,Material m) {
-		pa.get(player.getUniqueId()).addMaterialToDiamondManiac(m);
+		pa.get(player.getUniqueId()).getDiamondManiac().addMaterial(m);
 	}
 	
 	/* The Nether Cleaner-Achievement */
 	
 	public static void addNetherCleanerProgress(Player player) {
-		pa.get(player.getUniqueId()).addNetherCleanerProgress();
+		pa.get(player.getUniqueId()).getNetherCleaner().addProgress();
 	}
 	
 

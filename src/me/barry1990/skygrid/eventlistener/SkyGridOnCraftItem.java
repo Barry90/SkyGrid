@@ -1,6 +1,7 @@
 package me.barry1990.skygrid.eventlistener;
 
-import me.barry1990.skygrid.achievement.SGAchievement;
+//import me.barry1990.skygrid.achievement.SGAchievement;
+import me.barry1990.skygrid.achievement.SGAIDENTIFIER;
 import me.barry1990.skygrid.achievement.SkyGridAchievementManager;
 
 import org.bukkit.entity.Player;
@@ -23,7 +24,7 @@ public class SkyGridOnCraftItem implements Listener {
 			case WATER_BUCKET: {
 				e.getInventory().setMatrix(new ItemStack[e.getInventory().getMatrix().length]);
 				if (e.getWhoClicked() instanceof Player) {
-					SkyGridAchievementManager.addAchievementForPlayer((Player)e.getWhoClicked(), SGAchievement.INFINITE_WATER_SOURCE);
+					 SkyGridAchievementManager.award((Player)e.getWhoClicked(), SGAIDENTIFIER.INFINITE_WATER_SOURCE);
 				}
 				break;
 			}
@@ -34,7 +35,7 @@ public class SkyGridOnCraftItem implements Listener {
 			
 			case LAVA_BUCKET: {
 				if (e.getWhoClicked() instanceof Player) {
-					SkyGridAchievementManager.addAchievementForPlayer((Player)e.getWhoClicked(), SGAchievement.HOT_BUCKET);
+					 SkyGridAchievementManager.award((Player)e.getWhoClicked(), SGAIDENTIFIER.HOT_BUCKET);
 				}
 				break;
 			}

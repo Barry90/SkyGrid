@@ -29,7 +29,7 @@ abstract class IAchievement {
 	final void award() {
 		this.hasAchievement = true;
 		this.saveEverything();
-		BarrysLogger.info(this,String.format("%s got achievement %s", Bukkit.getPlayer(this.playeruuid).getName(),this.getName()));;
+		BarrysLogger.info(this,String.format("%s got achievement: %s", Bukkit.getPlayer(this.playeruuid).getName(),this.getName()));;
 		ActionBarAPI.sendActionBar(Bukkit.getPlayer(this.playeruuid), "Achievement get: §4" + this.getName());
 		Bukkit.getPlayer(this.playeruuid).sendMessage("Achievement get: §4" + this.getName());
 	}

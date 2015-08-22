@@ -24,16 +24,21 @@ abstract class IAchievement {
 	
 	final void award() {
 		this.hasAchievement = true;
+		this.saveEverything();
 		ActionBarAPI.sendActionBar(Bukkit.getPlayer(this.playeruuid), "Achievement erhalten: §4" + this.getName());
 		Bukkit.getPlayer(this.playeruuid).sendMessage("Achievement erhalten: §4" + this.getName());
 	}
 	
 	final boolean hasAchievement() {
 		return hasAchievement;
-	};
+	}
 	
 	final void setAchievementAwarded() {
 		this.hasAchievement = true;
+	}
+	
+	final void saveEverything() {
+		SkyGridAchievementManager.saveAchievementsForPlayer(playeruuid);
 	}
 
 }

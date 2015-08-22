@@ -42,6 +42,14 @@ public class SkyGridAchievementManager {
 	public static SkyGridAchievements getAchievementsForPlayer(Player player) {
 		return pa.get(player.getUniqueId());
 	}
+
+	//////////////////////////////////////////////
+	// PACKAGE HANDLING
+	//////////////////////////////////////////////
+	
+	static void saveAchievementsForPlayer(UUID playeruuid) {
+		pa.get(playeruuid).saveAchievementAndProgress();
+	}
 	
 	//////////////////////////////////////////////
 	// PRECIFIC ACHIEVEMENT HANDLING

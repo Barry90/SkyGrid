@@ -46,7 +46,9 @@ final class SGANetherCleaner extends IAchievementWP {
 		this.progress += 1;
 		if (this.progress == 400) {
 			this.award();
-		} 
+		} else {
+			this.saveEverything();
+		}
 	}
 
 }

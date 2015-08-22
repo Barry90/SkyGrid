@@ -56,7 +56,7 @@ final class SGAGoldManiac extends IAchievementWP {
 		
 		if (!this.progress.contains(m)) {
 			this.progress.add(m);
-			//this.saveAchievements(); save von außen anstoßen
+			this.saveEverything();
 		}
 		if (this.progress.size() == 9) {	
 			this.award();;

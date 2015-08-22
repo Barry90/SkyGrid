@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerPortalEvent;
 
 
-public class SkyGridOnPlayerPortalEvent implements Listener {
+public final  class SkyGridOnPlayerPortalEvent implements Listener {
 	
 	/*
 	 *    [][][]	─────── p_x_max
@@ -21,7 +21,7 @@ public class SkyGridOnPlayerPortalEvent implements Listener {
 	 *    [][][] 	─────── p_y_min
 	 *
 	 *  │        │
-	 * 	p_z_min  │
+	 *  p_z_min  │
 	 * 	         p_z_max
 	 * 
 	 */

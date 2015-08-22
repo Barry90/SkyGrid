@@ -6,13 +6,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFromToEvent;
 
 
-public class SkyGridOnBlockFromTo implements Listener {
+public final class SkyGridOnBlockFromTo implements Listener {
 	
-	// to prevent water and lava from flowing
+	// to prevent dragonegg from teleporting
 	@EventHandler
 	public void onBlockFromTo(BlockFromToEvent event) {
 		Material m = event.getBlock().getType();
-		if(m == Material.WATER || m == Material.STATIONARY_WATER || m == Material.LAVA || m == Material.STATIONARY_LAVA) {
+		if (m == Material.DRAGON_EGG) {
 			event.setCancelled(true);
 		}
 	}

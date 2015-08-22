@@ -22,12 +22,12 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 
 
-public class SkyGridOnPlayerJoin implements Listener {
+public final class SkyGridOnPlayerJoin implements Listener {
 	
 	/* These events will be called in the below order */
 	
 	@EventHandler (ignoreCancelled=true, priority=EventPriority.HIGH)
-	public void OnPlayerLoginEvent(PlayerLoginEvent e) {
+	public void onPlayerLoginEvent(PlayerLoginEvent e) {
 		BarrysLogger.info(this, "OnPlayerLoginEvent called");
 		if (e.getResult() == Result.ALLOWED) {			
 			SkyGridAchievementManager.loadAchievementsForPlayer(e.getPlayer());
@@ -35,7 +35,7 @@ public class SkyGridOnPlayerJoin implements Listener {
 	}
 	
 	@EventHandler (ignoreCancelled=true, priority=EventPriority.HIGHEST)
-	public void OnPlayerSpawnLocationEvent(PlayerSpawnLocationEvent e) {
+	public void onPlayerSpawnLocationEvent(PlayerSpawnLocationEvent e) {
 		BarrysLogger.info(this, "PlayerSpawnLocationEvent called");
 		Player player = e.getPlayer();
 		
@@ -54,7 +54,7 @@ public class SkyGridOnPlayerJoin implements Listener {
 	}
 	
 	@EventHandler (ignoreCancelled=true, priority=EventPriority.HIGH)
-	public void OnPlayerJoin(PlayerJoinEvent event) {
+	public void onPlayerJoin(PlayerJoinEvent event) {
 		BarrysLogger.info(this, "PlayerJoinEvent called");
 		Player player = event.getPlayer();		
 		if (!SkyGridAchievementManager.playerHasAchievementWithID(player, SGAIDENTIFIER.SO_IT_BEGINS)) {
@@ -69,7 +69,7 @@ public class SkyGridOnPlayerJoin implements Listener {
 	}
 	
 	@EventHandler (ignoreCancelled=true, priority=EventPriority.HIGHEST)
-	public void OnPlayerQuitEvent(PlayerQuitEvent e) {
+	public void onPlayerQuitEvent(PlayerQuitEvent e) {
 		SkyGridAchievementManager.closeAchievementsForPlayer(e.getPlayer());
 	}
 

@@ -13,7 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerEggThrowEvent;
 
 
-public class SkyGridOnPlayerEggThrowEvent implements Listener {
+public final class SkyGridOnPlayerEggThrowEvent implements Listener {
 	
 	private Random random;
 	

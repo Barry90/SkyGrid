@@ -8,10 +8,10 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
 
-public class SkyGridOnCreatureSpawnEvent implements Listener {
+public final class SkyGridOnCreatureSpawnEvent implements Listener {
 	
 	@EventHandler
-	public void OnEntitySpawnEvent(CreatureSpawnEvent e) {
+	public void onEntitySpawnEvent(CreatureSpawnEvent e) {
 		
 		/////////////////////////////////////
 		// OH SH** - Achievement

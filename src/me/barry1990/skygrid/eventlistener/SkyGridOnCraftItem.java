@@ -11,10 +11,10 @@ import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.inventory.ItemStack;
 
 
-public class SkyGridOnCraftItem implements Listener {
+public final class SkyGridOnCraftItem implements Listener {
 
 	@EventHandler
-	public void OnCraftItem(CraftItemEvent e) {		
+	public void onCraftItem(CraftItemEvent e) {		
 		switch (e.getRecipe().getResult().getType()) {
 		
 			/////////////////////////////////////////////

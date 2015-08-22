@@ -7,10 +7,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 
-public class SkyGridOnEntityDeathEvent implements Listener {
+public final class SkyGridOnEntityDeathEvent implements Listener {
 	
 	@EventHandler
-	public void OnEntityDeathEvent(EntityDeathEvent e) {
+	public void onEntityDeathEvent(EntityDeathEvent e) {
 		
 		/////////////////////////////////////
 		// NETHER CLEANER - Achievement

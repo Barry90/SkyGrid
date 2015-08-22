@@ -136,17 +136,19 @@ class SkyGridAchievements {
 				while (((input = in.read()) != -1) && (input != SkyGridConst.END)) {
 					
 					//input = header-byte					
-					switch (input) {					
+					switch (input) {	
+						//achievements with no progress
 						case SkyGridConst.ACHIEVEMENTS: { this.loadAchievementlist(in); break; }
-												
+						
+						//achievements with progress
 						case SGAIDENTIFIER.WOOD_MANIAC: 						
 						case SGAIDENTIFIER.STONE_MANIAC: 
 						case SGAIDENTIFIER.IRON_MANIAC: 
 						case SGAIDENTIFIER.GOLD_MANIAC: 
-						case SGAIDENTIFIER.DIAMOND_MANIAC: { ((IAchievementWP) this.map.get((byte)input)).load(in); break; }
+						case SGAIDENTIFIER.DIAMOND_MANIAC: 
+						case SGAIDENTIFIER.NETHER_CLEANER: { ((IAchievementWP) this.map.get((byte)input)).load(in); break; }
 						
-//						case SGAIDENTIFIER.A_NETHERCLEANER: {this.loadNetherCleaner(in); break; }
-						
+						//unknown header - read until next header or EOF
 						default: {
 							BarrysLogger.error(this, "Unknown Header in File: " + String.valueOf(input));
 							while (((input = in.read()) != -1) && (input != SkyGridConst.END)) {}
@@ -158,6 +160,11 @@ class SkyGridAchievements {
 			    
 			} catch (IOException e) {
 				e.printStackTrace();
+			}  finally {
+				try {
+					in.close();
+				} catch (Exception e) {
+				}
 			}
 			
 		}

@@ -1,12 +1,15 @@
 package me.barry1990.skygrid;
 
 //import eventlisteners
+import me.barry1990.skygrid.eventlistener.SkyGridOnBlockFromTo;
 import me.barry1990.skygrid.eventlistener.SkyGridOnCraftItem;
 import me.barry1990.skygrid.eventlistener.SkyGridOnCreatureSpawnEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnEntityDeathEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerEggThrowEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerJoin;
+import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerPickupItemEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPortalCreateEvent;
+
 //import the generator
 import me.barry1990.skygrid.generators.SkyGridGenerator;
 
@@ -22,13 +25,14 @@ public class SkyGrid extends JavaPlugin {
 		SkyGridGenerator.sharedInstance();
 			
 		//register eventlisteners
-		//this.getServer().getPluginManager().registerEvents(new SkyGridOnBlockFromTo(), this);
+		this.getServer().getPluginManager().registerEvents(new SkyGridOnBlockFromTo(), this);
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerJoin(), this);
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerEggThrowEvent(), this);
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnCreatureSpawnEvent(), this);		
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnCraftItem(), this);
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnPortalCreateEvent(), this);
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnEntityDeathEvent(), this);
+		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerPickupItemEvent(), this);
 		
 		
 		//add skygrid recipes

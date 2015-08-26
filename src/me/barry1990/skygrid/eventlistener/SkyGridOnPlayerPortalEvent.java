@@ -18,7 +18,7 @@ public final  class SkyGridOnPlayerPortalEvent implements Listener {
 	 *  []▒▒▒▒▒▒[]
 	 *  []▒▒><▒▒[]		 >< dragon egg
 	 *  []▒▒▒▒▒▒[]
-	 *    [][][] 	─────── p_y_min
+	 *    [][][] 	─────── p_x_min
 	 *
 	 *  │        │
 	 *  p_z_min  │

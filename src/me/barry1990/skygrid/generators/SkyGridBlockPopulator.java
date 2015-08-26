@@ -52,6 +52,7 @@ class SkyGridBlockPopulator extends BlockPopulator {
 							break;
 						}
 						case MOB_SPAWNER: {
+							//TODO: check y for overworld/nether-moblist for the spawner
 							((CreatureSpawner) block.getState()).setSpawnedType(SkyGridBlockPopulator.getOverworldEntityType(random));
 							break;
 						}
@@ -72,7 +73,7 @@ class SkyGridBlockPopulator extends BlockPopulator {
 
 	}
 	
-	public static EntityType getOverworldEntityType(Random random) {
+	private static EntityType getOverworldEntityType(Random random) {
 		switch (random.nextInt(14)) {
 			case 0 : return EntityType.CAVE_SPIDER;
 			case 1 : return EntityType.CHICKEN;
@@ -95,7 +96,7 @@ class SkyGridBlockPopulator extends BlockPopulator {
 		return EntityType.ZOMBIE;
 	}
 	
-	public static EntityType getNetherEntityType(Random random) {
+	private static EntityType getNetherEntityType(Random random) {
 		switch (random.nextInt(8)) {
 			case 0 : return EntityType.BLAZE;
 			case 1 : return EntityType.ENDERMAN;
@@ -111,19 +112,5 @@ class SkyGridBlockPopulator extends BlockPopulator {
 		/* we should never get here */
 		return EntityType.ZOMBIE;
 	}
-	/*
-	public static void setRandomInventoryContent(Inventory inv, Random random){
-		
-		ItemStack[] items = new ItemStack[inv.getSize()];
-		
-		for (int i=0; i<inv.getSize(); i++){
-			
-			items[i] = ItemList.getRandomItemstack(random);
-			if (random.nextFloat() < 0.1)
-				break;
-		}
-		
-		inv.setContents(items);		
-	}
-	*/
+
 }

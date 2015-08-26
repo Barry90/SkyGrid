@@ -3,7 +3,7 @@ package me.barry1990.skygrid.achievement;
 import java.util.HashMap;
 import java.util.UUID;
 
-import me.barry1990.skygrid.ActionBarAPI;
+import me.barry1990.skygrid.TitleManager;
 import me.barry1990.utils.BarrysLogger;
 
 import org.bukkit.Bukkit;
@@ -26,11 +26,11 @@ abstract class IAchievement {
 	abstract protected Byte getId();
 	abstract protected String getName();
 	
-	final void award() {
+	final synchronized void award() {
 		this.hasAchievement = true;
 		this.saveEverything();
-		BarrysLogger.info(this,String.format("%s got achievement: %s", Bukkit.getPlayer(this.playeruuid).getName(),this.getName()));;
-		ActionBarAPI.sendActionBar(Bukkit.getPlayer(this.playeruuid), "Achievement get: §4" + this.getName());
+		BarrysLogger.info(this,String.format("%s got achievement: %s", Bukkit.getPlayer(this.playeruuid).getName(),this.getName()));
+		TitleManager.sendActionBar(Bukkit.getPlayer(this.playeruuid), "Achievement get: §4" + this.getName());
 		Bukkit.getPlayer(this.playeruuid).sendMessage("Achievement get: §4" + this.getName());
 	}
 	
@@ -38,7 +38,7 @@ abstract class IAchievement {
 		return hasAchievement;
 	}
 	
-	final void setAchievementAwarded() {
+	final synchronized void setAchievementAwarded() {
 		this.hasAchievement = true;
 	}
 	

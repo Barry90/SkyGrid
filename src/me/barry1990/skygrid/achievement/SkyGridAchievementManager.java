@@ -52,7 +52,7 @@ public class SkyGridAchievementManager {
 	}
 	
 	//////////////////////////////////////////////
-	// PRECIFIC ACHIEVEMENT HANDLING
+	// SPECIFIC ACHIEVEMENT HANDLING
 	//////////////////////////////////////////////
 	
 	

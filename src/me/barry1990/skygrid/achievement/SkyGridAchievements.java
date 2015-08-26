@@ -167,6 +167,8 @@ class SkyGridAchievements {
 				}
 			}
 			
+		} else {
+			BarrysLogger.info(this, "Nothing to load. Achievementfile does not exist.");
 		}
 		
 	}

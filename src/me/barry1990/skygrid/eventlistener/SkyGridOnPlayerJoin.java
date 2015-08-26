@@ -2,7 +2,6 @@ package me.barry1990.skygrid.eventlistener;
 
 import java.util.Random;
 
-
 import me.barry1990.skygrid.achievement.SGAIDENTIFIER;
 //import me.barry1990.skygrid.achievement.SGAchievement;
 import me.barry1990.skygrid.achievement.SkyGridAchievementManager;
@@ -13,7 +12,6 @@ import org.bukkit.Location;
 import org.bukkit.World.Environment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -26,7 +24,7 @@ public final class SkyGridOnPlayerJoin implements Listener {
 	
 	/* These events will be called in the below order */
 	
-	@EventHandler (ignoreCancelled=true, priority=EventPriority.HIGH)
+	@EventHandler (ignoreCancelled=true)
 	public void onPlayerLoginEvent(PlayerLoginEvent e) {
 		BarrysLogger.info(this, "OnPlayerLoginEvent called");
 		if (e.getResult() == Result.ALLOWED) {			
@@ -34,7 +32,7 @@ public final class SkyGridOnPlayerJoin implements Listener {
 		}
 	}
 	
-	@EventHandler (ignoreCancelled=true, priority=EventPriority.HIGHEST)
+	@EventHandler (ignoreCancelled=true)
 	public void onPlayerSpawnLocationEvent(PlayerSpawnLocationEvent e) {
 		BarrysLogger.info(this, "PlayerSpawnLocationEvent called");
 		Player player = e.getPlayer();
@@ -47,13 +45,17 @@ public final class SkyGridOnPlayerJoin implements Listener {
 			z = (random.nextInt(1500)-750) * 4 + 1.5;
 			y = player.getWorld().getEnvironment() == Environment.NORMAL ? random.nextInt(8) * 4 + 174 : 255;
 			
+			BarrysLogger.info(this,"x",x);
+			BarrysLogger.info(this,"y",y);
+			BarrysLogger.info(this,"z",z);
+			
 			Location loc = new Location(player.getWorld(), x, y, z);
 			e.setSpawnLocation(loc);
 
 		} 
 	}
 	
-	@EventHandler (ignoreCancelled=true, priority=EventPriority.HIGH)
+	@EventHandler (ignoreCancelled=true)
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		BarrysLogger.info(this, "PlayerJoinEvent called");
 		Player player = event.getPlayer();		
@@ -68,7 +70,7 @@ public final class SkyGridOnPlayerJoin implements Listener {
 
 	}
 	
-	@EventHandler (ignoreCancelled=true, priority=EventPriority.HIGHEST)
+	@EventHandler (ignoreCancelled=true)
 	public void onPlayerQuitEvent(PlayerQuitEvent e) {
 		SkyGridAchievementManager.closeAchievementsForPlayer(e.getPlayer());
 	}

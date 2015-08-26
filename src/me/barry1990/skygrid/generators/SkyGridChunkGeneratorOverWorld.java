@@ -97,7 +97,7 @@ class SkyGridChunkGeneratorOverWorld extends Thread {
 						switch (material) {
 							case JACK_O_LANTERN:
 							case PUMPKIN : {
-								materialdata = RandomMetaDataGenerator.getPumpkin(random);
+								materialdata = RandomMetaDataGenerator.getPumpkin(this.random);
 								break;
 							}						
 							case CHEST: {

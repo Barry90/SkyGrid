@@ -14,6 +14,9 @@ import me.barry1990.skygrid.eventlistener.SkyGridOnPortalCreateEvent;
 //import the generator
 import me.barry1990.skygrid.generators.SkyGridGenerator;
 
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -53,6 +56,29 @@ public class SkyGrid extends JavaPlugin {
 	@Override
 	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
 		return SkyGridGenerator.sharedInstance();
+	}
+	
+	/* test commands */
+	
+	private TestThread tt;
+	
+	@Override
+	public boolean onCommand(CommandSender sender, Command command,	String label, String[] args) {
+		if (sender instanceof Player) {
+			Player p = (Player) sender;
+			if(command.getName().equalsIgnoreCase("s")) {
+				tt = new TestThread(p,true,5000);
+				tt.start();
+				p.sendMessage("Thread gestartet");
+			}
+			if(command.getName().equalsIgnoreCase("t")) {
+				if (tt != null)
+					tt.softstop();
+				p.sendMessage("Thread gestoppt");
+			}
+		}
+		return true;
+					
 	}
 
 }

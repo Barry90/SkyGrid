@@ -5,6 +5,7 @@ import java.util.Random;
 import me.barry1990.skygrid.achievement.SGAIDENTIFIER;
 //import me.barry1990.skygrid.achievement.SGAchievement;
 import me.barry1990.skygrid.achievement.SkyGridAchievementManager;
+import me.barry1990.skygrid.sql.SkyGridSQL;
 import me.barry1990.utils.BarrysLogger;
 
 import org.bukkit.ChatColor;
@@ -27,6 +28,9 @@ public final class SkyGridOnPlayerJoin implements Listener {
 	@EventHandler (ignoreCancelled=true)
 	public void onPlayerLoginEvent(PlayerLoginEvent e) {
 		BarrysLogger.info(this, "OnPlayerLoginEvent called");
+		
+		SkyGridSQL.sharedInstance().addPlayer(e.getPlayer());
+		
 		if (e.getResult() == Result.ALLOWED) {			
 			SkyGridAchievementManager.loadAchievementsForPlayer(e.getPlayer());
 		}

@@ -13,7 +13,9 @@ import me.barry1990.skygrid.eventlistener.SkyGridOnPortalCreateEvent;
 
 //import the generator
 import me.barry1990.skygrid.generators.SkyGridGenerator;
+import me.barry1990.skygrid.sql.SkyGridSQL;
 
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -24,6 +26,8 @@ public class SkyGrid extends JavaPlugin {
 		
 	@Override
 	public void onEnable() {
+		
+		SkyGridSQL.sharedInstance();
 		
 		//prepare the generator
 		SkyGridGenerator.sharedInstance();
@@ -75,6 +79,31 @@ public class SkyGrid extends JavaPlugin {
 				if (tt != null)
 					tt.softstop();
 				p.sendMessage("Thread gestoppt");
+			}
+			if(command.getName().equalsIgnoreCase("home")) {
+				
+				switch (args.length) {
+					//no argument - show help
+					case 0 : break;
+					
+					//one argument - teleport to home
+					case 1 : {
+						Location loc = SkyGridSQL.sharedInstance().getHome(p, args[0]);
+						if (loc != null) {
+							p.teleport(loc);
+						}
+						break;
+					}
+					
+					//two arguments - teleport to other players home
+					case 2: {
+						break;
+					}
+				}
+			}
+			if(command.getName().equalsIgnoreCase("sethome")) {
+				if (args.length == 1)
+					SkyGridSQL.sharedInstance().addHome(p, p.getLocation(), args[0]);
 			}
 		}
 		return true;

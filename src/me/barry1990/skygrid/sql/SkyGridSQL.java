@@ -2,7 +2,6 @@ package me.barry1990.skygrid.sql;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,8 +15,6 @@ import org.bukkit.entity.Player;
 
 public class SkyGridSQL {
 	
-
-
 	private static SkyGridSQL sharedinstance;
 	private static Connection connection;
 	private static final String DB_PATH = "plugins/skygrid/skygrid.db";
@@ -30,6 +27,7 @@ public class SkyGridSQL {
 	private static final String HOME_NOT_FOUND = "You have no home named %s.";
 	private static final String WELCOME = "Welcome to your new home %s.";
 	private static final String MOVED_HOME = "You have moved your home %s.";
+	private static final String TOO_MANY_HOMES = "You cannot have more than 3 homes.";
 	
 	
 	////////////////////////////////////////
@@ -39,7 +37,9 @@ public class SkyGridSQL {
 	//query	
 	private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS ";
 	private static final String INSERT_INTO = "INSERT INTO ";
+	private static final String DELETE_FROM = "DELETE FROM ";
 	private static final String GET_ALL = "SELECT * FROM ";
+	private static final String COUNT = "SELECT COUNT(*) AS count FROM ";
 	private static final String SELECT = "SELECT ";
 	private static final String FROM = " FROM ";
 	private static final String WHERE = " WHERE ";
@@ -180,9 +180,11 @@ public class SkyGridSQL {
 	// DATABASE GLOBAL ACCESS
 	////////////////////////////////////////
 	
-	
 	//player-table
-	
+	/**
+	 * Adds a player to the player-table
+	 * @param p The Player
+	 */
 	public void addPlayer(Player p) {
 		try {
 			
@@ -200,6 +202,12 @@ public class SkyGridSQL {
 		
 	}
 	
+	/**
+	 * Get the PRIMARY KEY value of the player in the player-table
+	 * @param p	The Player
+	 * @return PRIMARY KEY of the player or 0 if the player is not in the player-table
+	 * @throws SQLException
+	 */
 	private int getPKfromPlayer(Player p) throws SQLException {
 		int ret = 0;
 		String uuid = p.getUniqueId().toString();
@@ -214,11 +222,25 @@ public class SkyGridSQL {
 	}
 	
 	//homes-table
-	
+	/**
+	 * Adds a home
+	 * @param p The player the home belongs to.
+	 * @param loc The location of the new home.
+	 * @param name The name of the home.
+	 */
 	public void addHome(Player p, Location loc, String name) {
 		try {
 			
 			boolean home_exists = this.homeExists(p, name);
+			
+			if (!home_exists) {
+				
+				if (this.getHomesCount(p) >= 3) {
+					p.sendMessage(TOO_MANY_HOMES);
+					return;
+				}
+				
+			}
 			
 			PreparedStatement ps = connection.prepareStatement(INSERT_INTO + HOMES_TABLE 
 					+ "(" + H_NAME + "," 
@@ -252,6 +274,12 @@ public class SkyGridSQL {
 		
 	}
 	
+	/**
+	 * Gets the location of a home for a player 
+	 * @param p The player.
+	 * @param name The players home name.
+	 * @return The location of the home or null if no home was found.
+	 */
 	public Location getHome(Player p, String name) {
 		Location ret = null;
 		try {
@@ -270,6 +298,47 @@ public class SkyGridSQL {
 		return ret;
 	}
 	
+	/**
+	 * Count the homes of a player
+	 * @param p The player.
+	 * @return The number of homes of the player.
+	 */
+	public int getHomesCount(Player p) {
+		int result = 0;
+		try {
+			ResultSet rs = this.executeQuery(COUNT + HOMES_TABLE + WHERE + H_PLAYER_PID + IS + String.valueOf(this.getPKfromPlayer(p)) + ";");
+			result = rs.getInt(1);
+			rs.close();
+		} catch (SQLException e) {
+			BarrysLogger.error(this,"Couldn't handle DB-Query");
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/**
+	 * Deletes a home of a player.
+	 * @param p The Player.
+	 * @param name The name of the home.
+	 */
+	public void deleteHome(Player p, String name) {
+		try {
+			PreparedStatement ps =  connection.prepareStatement(DELETE_FROM + HOMES_TABLE + WHERE + H_NAME + IS + Q + "?" + Q + AND + H_PLAYER_PID + IS + "?;");
+			ps.setString(1, name);
+			ps.setInt(2, this.getPKfromPlayer(p));
+		} catch (SQLException e) {
+			BarrysLogger.error(this,"Couldn't handle DB-Query");
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Checks if a specific home exists.
+	 * @param p The player the home belongs to.
+	 * @param name The name of that home.
+	 * @return true if the home exists.
+	 * @throws SQLException
+	 */
 	private boolean homeExists(Player p, String name) throws SQLException {
 		
 		boolean result = false;

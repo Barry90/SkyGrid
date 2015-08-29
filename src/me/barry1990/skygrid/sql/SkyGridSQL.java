@@ -28,6 +28,7 @@ public class SkyGridSQL {
 	private static final String WELCOME = "Welcome to your new home %s.";
 	private static final String MOVED_HOME = "You have moved your home %s.";
 	private static final String TOO_MANY_HOMES = "You cannot have more than 3 homes.";
+	private static final String DELETED_HOME = "You deleted your home %s.";
 	
 	
 	////////////////////////////////////////
@@ -189,12 +190,8 @@ public class SkyGridSQL {
 		try {
 			
 			PreparedStatement ps = connection.prepareStatement(INSERT_INTO + PLAYER_TABLE + "(" + P_UUID + ") VALUES (?);");
-			ps.setString(1, p.getUniqueId().toString());
-			ps.addBatch();
-			
-			connection.setAutoCommit(false);
-			ps.executeBatch();
-			connection.setAutoCommit(true);
+			ps.setString(1, p.getUniqueId().toString());			
+			ps.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -325,7 +322,12 @@ public class SkyGridSQL {
 		try {
 			PreparedStatement ps =  connection.prepareStatement(DELETE_FROM + HOMES_TABLE + WHERE + H_NAME + IS + Q + "?" + Q + AND + H_PLAYER_PID + IS + "?;");
 			ps.setString(1, name);
-			ps.setInt(2, this.getPKfromPlayer(p));
+			ps.setInt(2, this.getPKfromPlayer(p));			
+			
+			if (ps.executeUpdate() != 0) {
+				p.sendMessage(String.format(DELETED_HOME, name));
+			}
+			
 		} catch (SQLException e) {
 			BarrysLogger.error(this,"Couldn't handle DB-Query");
 			e.printStackTrace();

@@ -104,7 +104,11 @@ public class SkyGrid extends JavaPlugin {
 					
 					//two arguments - teleport to other players home
 					case 2: {
-						break;
+						Location loc = SkyGridSQL.sharedInstance().getInvitedHome(p, args[0], args[1]);
+						if (loc != null) {
+							p.teleport(loc);
+						}
+						return true;
 					}
 					default:
 						return false;
@@ -147,6 +151,17 @@ public class SkyGrid extends JavaPlugin {
 					//no argument - show all homes
 					case 0 : {
 						SkyGridSQL.sharedInstance().getHomesList(p);
+						return true;
+					}
+					default:
+						return false;
+				}
+			}
+			if(command.getName().equalsIgnoreCase("invitehome")) {
+				switch (args.length) {
+					//no argument - show all homes
+					case 2 : {
+						SkyGridSQL.sharedInstance().addInvite(p, args[0], args[1]);
 						return true;
 					}
 					default:

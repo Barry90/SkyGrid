@@ -29,6 +29,8 @@ public class SkyGridSQL {
 	private static final String MOVED_HOME = "You have moved your home %s.";
 	private static final String TOO_MANY_HOMES = "You cannot have more than 3 homes.";
 	private static final String DELETED_HOME = "You deleted your home %s.";
+	private static final String NO_HOMES = "You dont have any homes yet. Use /sethome to set a home.";
+	private static final String HOMES_LIST = "Your homes are: %s.";
 	
 	
 	////////////////////////////////////////
@@ -284,10 +286,16 @@ public class SkyGridSQL {
 			
 			if (rs.next()) {				
 				ret = new Location(p.getWorld(), rs.getDouble(H_X), rs.getDouble(H_Y), rs.getDouble(H_Z), rs.getFloat(H_YAW), rs.getFloat(H_PITCH));
+				rs.close();
 			} else {
-				p.sendMessage(String.format(HOME_NOT_FOUND, name));
+				rs.close();
+				if (name.equals("home") && getHomesCount(p) == 0) {
+					p.sendMessage(NO_HOMES);
+				} else {
+					p.sendMessage(String.format(HOME_NOT_FOUND, name));
+				}
 			}
-			rs.close();
+			
 		} catch (SQLException e) {
 			BarrysLogger.error(this,"Couldn't handle DB-Query");
 			e.printStackTrace();
@@ -320,12 +328,43 @@ public class SkyGridSQL {
 	 */
 	public void deleteHome(Player p, String name) {
 		try {
-			PreparedStatement ps =  connection.prepareStatement(DELETE_FROM + HOMES_TABLE + WHERE + H_NAME + IS + Q + "?" + Q + AND + H_PLAYER_PID + IS + "?;");
-			ps.setString(1, name);
-			ps.setInt(2, this.getPKfromPlayer(p));			
+			PreparedStatement ps =  connection.prepareStatement(DELETE_FROM + HOMES_TABLE + WHERE + H_NAME + IS + Q + name + Q + AND + H_PLAYER_PID + IS + String.valueOf(this.getPKfromPlayer(p)) +";");
 			
 			if (ps.executeUpdate() != 0) {
 				p.sendMessage(String.format(DELETED_HOME, name));
+			} else {
+				p.sendMessage(String.format(HOME_NOT_FOUND, name));
+			}
+			
+		} catch (SQLException e) {
+			BarrysLogger.error(this,"Couldn't handle DB-Query");
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Sends a list of all homes of a player
+	 * @param p The player.
+	 */
+	public void getHomesList(Player p) {
+		try {
+			ResultSet rs = this.executeQuery(SELECT + H_NAME + FROM + HOMES_TABLE + WHERE + H_PLAYER_PID + IS + String.valueOf(this.getPKfromPlayer(p)) + ";");
+			
+			int count = 0;
+			String homes = "";
+			
+			while (rs.next()) {
+				if (count != 0) {
+					homes = homes +", ";
+				}
+				homes = homes + rs.getString(H_NAME);
+				count++;
+			}
+			
+			if (count > 0) {
+				p.sendMessage(String.format(HOMES_LIST, homes));
+			} else {
+				p.sendMessage(NO_HOMES);
 			}
 			
 		} catch (SQLException e) {
@@ -365,6 +404,7 @@ public class SkyGridSQL {
 		return stmt.executeQuery(query);
 	}
 		
+	@SuppressWarnings("unused")
 	private boolean tableExists(String tablename) {
 
 		boolean result = false;

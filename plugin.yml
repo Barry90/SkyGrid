@@ -1,10 +1,29 @@
-load: STARTUP
 name: SkyGrid
+author: Barry1990
+authors: [Barry1990, Ktesibios]
+version: 0.2
+
+
+load: STARTUP
 main: me.barry1990.skygrid.SkyGrid
-version: 0.1
+
 
 commands:
   s:
   t:
   home:
+    description: Teleport to your home.
+    aliases: [h]
+    usage: Syntax error! /home <homename>.
   sethome:
+    description: Set new a home or move an existing home.
+    aliases: [seth, homeset]
+    usage: Syntax error! /sethome <homename>.
+  deletehome:
+    description: Delete a home
+    aliases: [delhome, homedel, homedelete]
+    usage: Syntax error! /deletehome <homename>.
+  listhomes:
+    description: Get a list of your homes
+    aliases: [listhome, homelist]
+    usage: Syntax error! /deletehome <homename>.

@@ -74,37 +74,86 @@ public class SkyGrid extends JavaPlugin {
 				tt = new TestThread(p,true,5000);
 				tt.start();
 				p.sendMessage("Thread gestartet");
+				return true;
 			}
 			if(command.getName().equalsIgnoreCase("t")) {
 				if (tt != null)
 					tt.softstop();
 				p.sendMessage("Thread gestoppt");
+				return true;
 			}
 			if(command.getName().equalsIgnoreCase("home")) {
 				
 				switch (args.length) {
-					//no argument - show help
-					case 0 : break;
-					
+					//no argument - teleport to default home "home"
+					case 0 : {
+						Location loc = SkyGridSQL.sharedInstance().getHome(p, "home");
+						if (loc != null) {
+							p.teleport(loc);
+						}
+						return true;
+					}					
 					//one argument - teleport to home
 					case 1 : {
 						Location loc = SkyGridSQL.sharedInstance().getHome(p, args[0]);
 						if (loc != null) {
 							p.teleport(loc);
 						}
-						break;
+						return true;
 					}
 					
 					//two arguments - teleport to other players home
 					case 2: {
 						break;
 					}
+					default:
+						return false;
 				}
 			}
 			if(command.getName().equalsIgnoreCase("sethome")) {
-				if (args.length == 1)
-					SkyGridSQL.sharedInstance().addHome(p, p.getLocation(), args[0]);
+				switch (args.length) {
+					//no argument - set default home "home"
+					case 0 : {
+						SkyGridSQL.sharedInstance().addHome(p, p.getLocation(), "home");
+						return true;
+					}
+					//one argument - set home
+					case 1 : {
+						SkyGridSQL.sharedInstance().addHome(p, p.getLocation(), args[0]);
+						return true;
+					}
+					default:
+						return false;
+				}
 			}
+			if(command.getName().equalsIgnoreCase("deletehome")) {
+				switch (args.length) {
+					//no argument - delete default home "home"
+					case 0 : {
+						SkyGridSQL.sharedInstance().deleteHome(p, "home");
+						return true;
+					}
+					//one argument - delete home
+					case 1 : {
+						SkyGridSQL.sharedInstance().deleteHome(p, args[0]);
+						return true;
+					}
+					default:
+						return false;
+				}
+			}
+			if(command.getName().equalsIgnoreCase("listhomes")) {
+				switch (args.length) {
+					//no argument - show all homes
+					case 0 : {
+						SkyGridSQL.sharedInstance().getHomesList(p);
+						return true;
+					}
+					default:
+						return false;
+				}
+			}
+			
 		}
 		return true;
 					

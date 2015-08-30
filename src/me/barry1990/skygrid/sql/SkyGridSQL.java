@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Locale;
 
 import me.barry1990.utils.BarrysLogger;
 
@@ -44,6 +45,7 @@ public class SkyGridSQL {
 	////////////////////////////////////////
 	
 	//query	
+	
 	private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS ";
 	private static final String INSERT_INTO = "INSERT INTO ";
 	private static final String DELETE_FROM = "DELETE FROM ";
@@ -181,7 +183,7 @@ public class SkyGridSQL {
 			// invite table			
 			stmt.executeUpdate(CREATE_TABLE + INVITE_TABLE 
 					+ "(" + I_IID + " integer PRIMARY KEY AUTOINCREMENT, "
-					+ I_HOMES_HID + " hid integer REFERENCES " + HOMES_TABLE + " ON DELETE RESTRICT,"
+					+ I_HOMES_HID + " integer REFERENCES " + HOMES_TABLE + " ON DELETE RESTRICT,"
 					+ I_PLAYER_PID + " integer REFERENCES " + PLAYER_TABLE + " ON DELETE RESTRICT);"
 					);
 			BarrysLogger.info(this, INVITE_TABLE + "-table check.");			
@@ -214,39 +216,38 @@ public class SkyGridSQL {
 	}
 	
 	/**
-	 * Get the PRIMARY KEY value of the player in the player-table
+	 * Returns a SELECT query to get the PRIMARY KEY value of the player in the player-table by a given playername
 	 * @param p The Player
-	 * @return PRIMARY KEY of the player or 0 if the player is not in the player-table
+	 * @return SELECT query to get the PRIMARY KEY value of the player. Use for INNER SELECT.
 	 * @throws SQLException
 	 */
-	private int getPKfromPlayer(Player p) throws SQLException {
-		int ret = 0;
-		String uuid = p.getUniqueId().toString();
-		
-		ResultSet rs = this.executeQuery(SELECT + P_PID + FROM + PLAYER_TABLE + WHERE + P_UUID + IS + Q + uuid + Q +";");			
-		if (rs.next()) {
-			ret = rs.getInt(P_PID);
-		}			
-		rs.close();	
-		
-		return ret;
+	private String getPID(Player p) throws SQLException {
+		return "(" + SELECT + P_PID + FROM + PLAYER_TABLE + WHERE + P_UUID + IS + Q + p.getUniqueId().toString() + Q  + ")";
 	}
 	
 	/**
-	 * Get the PRIMARY KEY value of the player in the player-table
+	 * Returns a SELECT query to get the PRIMARY KEY value of the player in the player-table by a given playername
 	 * @param name The name of the player
-	 * @return PRIMARY KEY of the player or 0 if the player is not in the player-table
+	 * @return SELECT query to get the PRIMARY KEY value of the player. Use for INNER SELECT.
 	 * @throws SQLException
 	 */
-	private int getPKfromPlayer(String name) throws SQLException {
+	private String getPID(String playername) throws SQLException {
+		return "(" + SELECT + P_PID + FROM + PLAYER_TABLE + WHERE + P_NAME + IS + Q + playername + Q  + ")";
+	}
+	
+	/**
+	 * Returns the pid of a player
+	 * @param playername The name of the player.
+	 * @return The pid of the player or 0 if the player does not exists in the player-table
+	 * @throws SQLException
+	 */
+	private int getPIDasInt(String playername) throws SQLException {
 		int ret = 0;
-		
-		ResultSet rs = this.executeQuery(SELECT + P_PID + FROM + PLAYER_TABLE + WHERE + P_NAME + IS + Q + name + Q +";");			
+		ResultSet rs = this.executeQuery(SELECT + P_PID + FROM + PLAYER_TABLE + WHERE + P_NAME + IS + Q + playername + Q + ";");
 		if (rs.next()) {
 			ret = rs.getInt(P_PID);
-		}			
-		rs.close();	
-		
+		}
+		rs.close();
 		return ret;
 	}
 	
@@ -274,26 +275,9 @@ public class SkyGridSQL {
 				
 			}
 			
-			PreparedStatement ps = connection.prepareStatement(INSERT_INTO + HOMES_TABLE 
-					+ "(" + H_NAME + "," 
-					+ H_X + "," 
-					+ H_Y + "," 
-					+ H_Z + "," 
-					+ H_YAW + "," 
-					+ H_PITCH + "," 
-					+ H_PLAYER_PID 
-					+ ") VALUES (?,?,?,?,?,?,?);");
-			
-			ps.setString(1, name);
-			ps.setDouble(2, loc.getX());
-			ps.setDouble(3, loc.getY());
-			ps.setDouble(4, loc.getZ());
-			ps.setFloat(5, loc.getYaw());
-			ps.setFloat(6, loc.getPitch());
-			ps.setInt(7, this.getPKfromPlayer(p));
-			
-			
-			ps.executeUpdate();
+			this.executeUpdate(String.format(Locale.US, INSERT_INTO + HOMES_TABLE + "(" + H_NAME + "," + H_X + "," + H_Y + "," + H_Z + "," + H_YAW + "," + H_PITCH + "," + H_PLAYER_PID + ") "
+					+ "VALUES ("+Q+"%s"+Q+",%f,%f,%f,%f,%f,%s);", 
+					name, loc.getX(), loc.getY() , loc.getZ(),loc.getYaw(), loc.getPitch(), this.getPID(p)));
 			
 			p.sendMessage(String.format(home_exists ? MOVED_HOME : WELCOME, name));
 			
@@ -312,11 +296,10 @@ public class SkyGridSQL {
 	public Location getHome(Player p, String homename) {
 		Location ret = null;
 		try {
-			ResultSet rs = this.getLocationFromHome(this.getPKfromPlayer(p), homename);
-					//this.executeQuery(GET_ALL + HOMES_TABLE + WHERE + H_NAME + IS + Q + name + Q + AND + H_PLAYER_PID + IS + String.valueOf(this.getPKfromPlayer(p)) + ";");
+			ResultSet rs = this.getResultSetForHome(this.getPID(p), homename);
 			
 			if (rs.next()) {				
-				ret = new Location(Bukkit.getWorld("skygrid") /*p.getWorld()*/, rs.getDouble(H_X), rs.getDouble(H_Y), rs.getDouble(H_Z), rs.getFloat(H_YAW), rs.getFloat(H_PITCH));
+				ret = new Location(Bukkit.getWorld("world") /*p.getWorld()*/, rs.getDouble(H_X), rs.getDouble(H_Y), rs.getDouble(H_Z), rs.getFloat(H_YAW), rs.getFloat(H_PITCH));
 				rs.close();
 			} else {
 				rs.close();
@@ -342,7 +325,7 @@ public class SkyGridSQL {
 	public int getHomesCount(Player p) {
 		int result = 0;
 		try {
-			ResultSet rs = this.executeQuery(COUNT + HOMES_TABLE + WHERE + H_PLAYER_PID + IS + String.valueOf(this.getPKfromPlayer(p)) + ";");
+			ResultSet rs = this.executeQuery(COUNT + HOMES_TABLE + WHERE + H_PLAYER_PID + IS + this.getPID(p) + ";");
 			result = rs.getInt(1);
 			rs.close();
 		} catch (SQLException e) {
@@ -359,7 +342,7 @@ public class SkyGridSQL {
 	 */
 	public void deleteHome(Player p, String name) {
 		try {
-			PreparedStatement ps =  connection.prepareStatement(DELETE_FROM + HOMES_TABLE + WHERE + H_NAME + IS + Q + name + Q + AND + H_PLAYER_PID + IS + String.valueOf(this.getPKfromPlayer(p)) +";");
+			PreparedStatement ps =  connection.prepareStatement(DELETE_FROM + HOMES_TABLE + WHERE + H_NAME + IS + Q + name + Q + AND + H_PLAYER_PID + IS + this.getPID(p) +";");
 			
 			if (ps.executeUpdate() != 0) {
 				p.sendMessage(String.format(DELETED_HOME, name));
@@ -379,7 +362,7 @@ public class SkyGridSQL {
 	 */
 	public void getHomesList(Player p) {
 		try {
-			ResultSet rs = this.executeQuery(SELECT + H_NAME + FROM + HOMES_TABLE + WHERE + H_PLAYER_PID + IS + String.valueOf(this.getPKfromPlayer(p)) + ";");
+			ResultSet rs = this.executeQuery(SELECT + H_NAME + FROM + HOMES_TABLE + WHERE + H_PLAYER_PID + IS + this.getPID(p) + ";");
 			
 			int count = 0;
 			String homes = "";
@@ -413,7 +396,7 @@ public class SkyGridSQL {
 	 * @throws SQLException
 	 */
 	private boolean homeExists(Player p, String homename) throws SQLException {
-		return homeExists(this.getPKfromPlayer(p), homename);		
+		return executehomeExists(this.getPID(p), homename);		
 	}
 	
 	/**
@@ -424,78 +407,75 @@ public class SkyGridSQL {
 	 * @throws SQLException
 	 */
 	private boolean homeExists(String playername, String homename) throws SQLException {
-		return homeExists(this.getPKfromPlayer(playername), homename);
+		return executehomeExists(this.getPID(playername), homename);
 	}
 	
-	private boolean homeExists(int player_id, String homename) throws SQLException {
+	/**
+	 * Checks if a specific home exists
+	 * @param pid_query INNER SELECT query to get a player pid
+	 * @param homename The name of the home
+	 * @return true if the home exists.
+	 * @throws SQLException
+	 */
+	private boolean executehomeExists(String pid_query, String homename) throws SQLException {
 		boolean result = false;
 		ResultSet rs = this.executeQuery(SELECT + H_HID + FROM + HOMES_TABLE 
 				+ WHERE + H_NAME + IS + Q + homename + Q 
-				+ AND + H_PLAYER_PID + IS + String.valueOf(player_id) + ";");
+				+ AND + H_PLAYER_PID + IS + pid_query + ";");
 		
 		result = rs.next();
 		rs.close();
 		
 		return result;
 	}
-		
-	private ResultSet getLocationFromHome(int player_id, String homename) throws SQLException {
-		return this.executeQuery(GET_ALL + HOMES_TABLE + WHERE + H_NAME + IS + Q + homename + Q + AND + H_PLAYER_PID + IS + String.valueOf(player_id) + ";");
-	}
-	
-	
-	// PRIMARY KEY
 	
 	/**
-	 * Get the PRIMARY KEY value of the home in the homes-table
+	 * Gets a ResultSet which contains a row of the homelist
+	 * @param pid_query INNER SELECT query to get a player pid
+	 * @param homename The name of the home
+	 * @return a ResultSet
+	 * @throws SQLException
+	 */
+	private ResultSet getResultSetForHome(String pid_query, String homename) throws SQLException {
+		return this.executeQuery(GET_ALL + HOMES_TABLE + WHERE + H_NAME + IS + Q + homename + Q + AND + H_PLAYER_PID + IS + pid_query + ";");
+	}
+	
+	/**
+	 * Returns a SELECT query to get the PRIMARY KEY value of the home in the homes-table by a given player and homename
 	 * @param p The player the home belongs to.
 	 * @param homename The name of the home
-	 * @return PRIMARY KEY of the home or 0 if the home is not in the homes-table
+	 * @return SELECT query to get the PRIMARY KEY value of the home. Use for INNER SELECT.
 	 * @throws SQLException
 	 */
-	private int getPKfromHome(Player p, String homename) throws SQLException {
-		int ret = 0;
-		
-		ResultSet rs = this.executeQuery(SELECT + H_HID + FROM + HOMES_TABLE 
-				+ WHERE + H_NAME + IS + Q + homename + Q 
-				+ AND + H_PLAYER_PID + IS + String.valueOf(this.getPKfromPlayer(p)) + ";");			
-		if (rs.next()) {
-			ret = rs.getInt(H_HID);
-		}			
-		rs.close();	
-		
-		return ret;
+	private String getHID(Player p, String homename) throws SQLException {
+		return "(" + SELECT + H_HID + FROM + HOMES_TABLE + WHERE 
+				+ H_NAME + IS + Q + homename + Q 
+				+ AND + H_PLAYER_PID + IS + this.getPID(p) + ")"; 
 	}
 	
 	/**
-	 * Get the PRIMARY KEY value of the home in the homes-table
+	 * Returns a SELECT query to get the PRIMARY KEY value of the home in the homes-table by a given playername and homename
 	 * @param playername The name of the player the home belongs to.
 	 * @param homename The name of the home
-	 * @return PRIMARY KEY of the home or 0 if the home is not in the homes-table
+	 * @return SELECT query to get the PRIMARY KEY value of the home. Use for INNER SELECT.
 	 * @throws SQLException
 	 */
-	private int getPKfromHome(String playername, String homename) throws SQLException {
-		return this.getPKfromHome(this.getPKfromPlayer(playername),homename);
-	}
-	
-	private int getPKfromHome(int player_id, String homename) throws SQLException {
-		int ret = 0;
-		
-		ResultSet rs = this.executeQuery(SELECT + H_HID + FROM + HOMES_TABLE 
-				+ WHERE + H_NAME + IS + Q + homename + Q 
-				+ AND + H_PLAYER_PID + IS + String.valueOf(player_id) + ";");			
-		if (rs.next()) {
-			ret = rs.getInt(H_HID);
-		}			
-		rs.close();	
-		
-		return ret;
+	private String getHID(String playername, String homename) throws SQLException {
+		return "(" + SELECT + H_HID + FROM + HOMES_TABLE + WHERE 
+				+ H_NAME + IS + Q + homename + Q 
+				+ AND + H_PLAYER_PID + IS + this.getPID(playername) + ")"; 
 	}
 	
 	////////////////////////////////////////
 	// INVITES TABLE METHODS
 	////////////////////////////////////////
 
+	/**
+	 * Adds an invite for a home
+	 * @param p The player the home belongs to.
+	 * @param playername The name of the player that is invited
+	 * @param homename The name of the home
+	 */
 	public void addInvite(Player p, String playername, String homename) {
 
 		try {
@@ -506,7 +486,7 @@ public class SkyGridSQL {
 			}
 
 			// check if the playername exists
-			if (this.getPKfromPlayer(playername) == 0) {
+			if (this.getPIDasInt(playername) == 0) {
 				p.sendMessage(String.format(PLAYER_NOT_FOUND, playername));
 				return;
 			}
@@ -518,15 +498,7 @@ public class SkyGridSQL {
 			}
 
 			//add the invite
-			PreparedStatement ps = connection.prepareStatement(INSERT_INTO + INVITE_TABLE 
-					+ "(" + I_HOMES_HID + "," 
-					+ I_PLAYER_PID  
-					+ ") VALUES (?,?);");
-
-			ps.setInt(1, this.getPKfromHome(p, homename));
-			ps.setInt(2, this.getPKfromPlayer(playername));
-
-			ps.executeUpdate();
+			this.executeUpdate(String.format(INSERT_INTO + INVITE_TABLE + " (" + I_HOMES_HID + "," + I_PLAYER_PID + ") VALUES (%s,%s);", this.getHID(p, homename), this.getPIDasInt(playername)));
 
 			p.sendMessage(String.format(INVITED, playername, homename));
 
@@ -537,6 +509,13 @@ public class SkyGridSQL {
 
 	}
 
+	/**
+	 * Will return a Location for another players home if the player was invited to that home
+	 * @param p The player that wants to teleport to the home
+	 * @param playername The name of the player the home belongs to
+	 * @param homename The name of the home
+	 * @return The Location if the player (p) was invited to the home, otherwiese it will return null;
+	 */
 	public Location getInvitedHome(Player p, String playername, String homename) {
 
 		Location ret = null;
@@ -555,7 +534,7 @@ public class SkyGridSQL {
 			}
 			BarrysLogger.info("invite okay");
 
-			ResultSet rs = this.getLocationFromHome(this.getPKfromPlayer(playername), homename);
+			ResultSet rs = this.getResultSetForHome(this.getPID(playername), homename);
 
 			if (rs.next()) {
 				ret = new Location(Bukkit.getWorld("world") /* p.getWorld() */, rs.getDouble(H_X), rs.getDouble(H_Y), rs.getDouble(H_Z), rs.getFloat(H_YAW), rs.getFloat(H_PITCH));
@@ -569,12 +548,20 @@ public class SkyGridSQL {
 		return ret;
 	}
 
+	/**
+	 * Checks if a player is invited to a specific home
+	 * @param p The player to test
+	 * @param homename The homename
+	 * @param playername The name of the player the home belongs to
+	 * @return true if the player was invited
+	 * @throws SQLException
+	 */
 	private boolean isInvitedToHome(Player p, String homename, String playername) throws SQLException {
 
 		boolean result = false;
 		ResultSet rs = this.executeQuery(SELECT + I_IID + FROM + INVITE_TABLE 
-				+ WHERE + I_HOMES_HID + IS + String.valueOf(this.getPKfromHome(playername, homename)) 
-				+ AND + I_PLAYER_PID + IS + String.valueOf(this.getPKfromPlayer(p)) + ";");
+				+ WHERE + I_HOMES_HID + IS + this.getHID(playername, homename) 
+				+ AND + I_PLAYER_PID + IS + this.getPID(p) + ";");
 
 		result = rs.next();
 		rs.close();
@@ -590,6 +577,11 @@ public class SkyGridSQL {
 		Statement stmt = connection.createStatement();
 		BarrysLogger.info(this, "query", query);
 		return stmt.executeQuery(query);
+	}
+	private int executeUpdate(String query) throws SQLException {
+		Statement stmt = connection.createStatement();
+		BarrysLogger.info(this, "query", query);
+		return stmt.executeUpdate(query);
 	}
 
 	@SuppressWarnings("unused")

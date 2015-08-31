@@ -37,6 +37,7 @@ public class SkyGridSQL {
 	private static final String PLAYER_NOT_FOUND = "The player %s doesn't play SkyGrid yet.";
 	private static final String ALREADY_INVITED = "The player %s is already invited to your home %s.";
 	private static final String INVITED = "You invited %s to your home %s.";
+	private static final String WAS_INVITED = "You have been invited to %s's home %s.";
 	private static final String NOT_INVITED = "You are not invited to this home.";
 	
 	
@@ -336,18 +337,26 @@ public class SkyGridSQL {
 	}
 	
 	/**
-	 * Deletes a home of a player.
+	 * Deletes a home of a player and all invites to that home.
 	 * @param p The Player.
 	 * @param name The name of the home.
 	 */
-	public void deleteHome(Player p, String name) {
+	public void deleteHome(Player p, String homename) {
+		//TODO: Test this method
 		try {
-			PreparedStatement ps =  connection.prepareStatement(DELETE_FROM + HOMES_TABLE + WHERE + H_NAME + IS + Q + name + Q + AND + H_PLAYER_PID + IS + this.getPID(p) +";");
-			
-			if (ps.executeUpdate() != 0) {
-				p.sendMessage(String.format(DELETED_HOME, name));
+			if (this.homeExists(p, homename)) {
+				//delete all invites
+				PreparedStatement ps =  connection.prepareStatement(DELETE_FROM + INVITE_TABLE + WHERE + I_HOMES_HID + IS + this.getHID(p, homename) + ";");
+				ps.executeUpdate();
+				
+				//delete the home
+				ps =  connection.prepareStatement(DELETE_FROM + HOMES_TABLE + WHERE + H_NAME + IS + Q + homename + Q + AND + H_PLAYER_PID + IS + this.getPID(p) +";");
+				ps.executeUpdate();
+				
+				p.sendMessage(String.format(DELETED_HOME, homename));
+
 			} else {
-				p.sendMessage(String.format(HOME_NOT_FOUND, name));
+				p.sendMessage(String.format(HOME_NOT_FOUND, homename));
 			}
 			
 		} catch (SQLException e) {
@@ -501,6 +510,10 @@ public class SkyGridSQL {
 			this.executeUpdate(String.format(INSERT_INTO + INVITE_TABLE + " (" + I_HOMES_HID + "," + I_PLAYER_PID + ") VALUES (%s,%s);", this.getHID(p, homename), this.getPIDasInt(playername)));
 
 			p.sendMessage(String.format(INVITED, playername, homename));
+			Player invitedPlayer = Bukkit.getPlayer(playername);
+			if (invitedPlayer != null) {
+				invitedPlayer.sendMessage(String.format(WAS_INVITED, p.getName(), homename));
+			}
 
 		} catch (SQLException e) {
 			BarrysLogger.error(this, "Couldn't handle DB-Query");

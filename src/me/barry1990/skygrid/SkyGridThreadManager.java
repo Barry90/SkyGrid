@@ -20,7 +20,7 @@ final public class SkyGridThreadManager {
 		}
 		
 		public void invalidateThreads() {
-			
+			//not neccessary for these two thread. they will stop themselves
 //			this.netherwarning.softstop();
 //			this.endwarning.softstop();
 			

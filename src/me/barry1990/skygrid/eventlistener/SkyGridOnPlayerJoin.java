@@ -2,6 +2,7 @@ package me.barry1990.skygrid.eventlistener;
 
 import java.util.Random;
 
+import me.barry1990.skygrid.SkyGridThreadManager;
 import me.barry1990.skygrid.achievement.SGAIDENTIFIER;
 //import me.barry1990.skygrid.achievement.SGAchievement;
 import me.barry1990.skygrid.achievement.SkyGridAchievementManager;
@@ -33,6 +34,7 @@ public final class SkyGridOnPlayerJoin implements Listener {
 		
 		if (e.getResult() == Result.ALLOWED) {			
 			SkyGridAchievementManager.loadAchievementsForPlayer(e.getPlayer());
+			SkyGridThreadManager.addPlayerThread(e.getPlayer());
 		}
 	}
 	
@@ -77,6 +79,7 @@ public final class SkyGridOnPlayerJoin implements Listener {
 	@EventHandler (ignoreCancelled=true)
 	public void onPlayerQuitEvent(PlayerQuitEvent e) {
 		SkyGridAchievementManager.closeAchievementsForPlayer(e.getPlayer());
+		SkyGridThreadManager.invalidateThreadsForPlayer(e.getPlayer());
 	}
 
 }

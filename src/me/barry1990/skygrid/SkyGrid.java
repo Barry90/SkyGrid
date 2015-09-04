@@ -64,14 +64,14 @@ public class SkyGrid extends JavaPlugin {
 	
 	/* test commands */
 	
-	private TestThread tt;
+	private NetherWarningThread tt;
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command,	String label, String[] args) {
 		if (sender instanceof Player) {
 			Player p = (Player) sender;
 			if(command.getName().equalsIgnoreCase("s")) {
-				tt = new TestThread(p,true,5000);
+				tt = new NetherWarningThread(p,true,5000);
 				tt.start();
 				p.sendMessage("Thread gestartet");
 				return true;

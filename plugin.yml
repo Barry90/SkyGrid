@@ -8,25 +8,23 @@ main: me.barry1990.skygrid.SkyGrid
 
 
 commands:
-  s:
-  t:
   home:
     description: Teleport to your home.
     aliases: [h]
-    usage: Syntax error! /home <homename>.
+    usage: §4 Usage §6/home <homename>.
   sethome:
     description: Set new a home or move an existing home.
     aliases: [seth, homeset]
-    usage: Syntax error! /sethome <homename>.
+    usage: §4 Usage §6/sethome <homename>.
   deletehome:
     description: Delete a home
     aliases: [delhome, homedel, homedelete]
-    usage: Syntax error! /deletehome <homename>.
+    usage: §4 Usage §6/deletehome <homename>.
   listhomes:
     description: Get a list of your homes
     aliases: [listhome, homelist]
-    usage: Syntax error! /deletehome <homename>.
+    usage: §4 Usage §6/deletehome <homename>.
   invitehome:
     description: Invite a player to your home
     aliases: [homeinvite, hinv]
-    usage: Syntax error! /invitehome <playername> <homename>.
+    usage: §4 Usage §6/invitehome <playername> <homename>.

@@ -14,7 +14,7 @@ import org.bukkit.material.SmoothBrick;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
-public class SkyGridRecipes {
+public final class SkyGridRecipes {
 
 	private static List<Recipe> skygridrecipes;
 	
@@ -50,6 +50,15 @@ public class SkyGridRecipes {
 			.shape("W W"," W ","W W")
 			.setIngredient('W', Material.STRING)
 		);
+		//Netherportalframe
+		SkyGridRecipes.skygridrecipes.add(
+			new ShapedRecipe(new ItemStack(Material.ENDER_PORTAL_FRAME, 1))
+			.shape("BIB","ECE","EEE")
+			.setIngredient('B', Material.BLAZE_ROD)
+			.setIngredient('I', Material.ENDER_PEARL)
+			.setIngredient('E', Material.ENDER_STONE)
+			.setIngredient('C', Material.CAULDRON_ITEM)
+		);
 		
 		BarrysLogger.info("SkyGrid recipes created");
 	}
@@ -57,7 +66,7 @@ public class SkyGridRecipes {
 	public static void addSkyGridRecipes(JavaPlugin plugin) {
 		for (Recipe recipe : skygridrecipes) {
 			plugin.getServer().addRecipe(recipe);
-			BarrysLogger.info("SkyGrid recipes added");
+			BarrysLogger.infoEnum("SkyGrid recipes added for", recipe.getResult().getType());
 		}
 	}
 }

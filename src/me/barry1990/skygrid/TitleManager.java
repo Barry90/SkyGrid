@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public class TitleManager {
+public final class TitleManager {
 
 	private static Class<?>	title			= getNMSClass("PacketPlayOutTitle");
 	private static Class<?>	enumtitleaction	= TitleManager.title.getDeclaredClasses()[0];

@@ -1,13 +1,12 @@
-package me.barry1990.skygrid;
+package me.barry1990.skygrid.PlayerThreads;
 
 import java.util.HashMap;
 
 import org.bukkit.entity.Player;
 
-
-final public class SkyGridThreadManager {
+public final class SkyGridThreadManager {
 	
-	final private static class PlayerThread {
+	private final static class PlayerThread {
 
 		private NetherWarningThread netherwarning;
 		private EndWarningThread endwarning;

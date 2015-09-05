@@ -68,7 +68,7 @@ class SkyGridAchievements {
 			if (!achievement.hasAchievement()) {
 				achievement.award();			
 				this.saveAchievements();
-				
+				this.testForLayerAchievement();
 			}
 		} else
 			BarrysLogger.error(this, String.format("Could not award Achievement with ID : %d", SGA_ID));
@@ -78,11 +78,25 @@ class SkyGridAchievements {
 		this.saveAchievements();
 	}
 	
+	private synchronized void testForLayerAchievement() {
+		int achievementcount = 0;
+		for (IAchievement a : this.map.values()) {
+			achievementcount += a.hasAchievement()?1:0;
+		}
+		if (achievementcount > 5) {
+			this.award(SGAIDENTIFIER.GO_DEEPER);
+		}
+		if (achievementcount > 9) {
+			this.award(SGAIDENTIFIER.GO_EVEN_DEEPER);
+		}
+		
+	}
+	
 	//////////////////////////////////////////////
 	// LOAD/SAVE
 	//////////////////////////////////////////////		
 	
-	private synchronized void saveAchievements() {
+ 	private synchronized void saveAchievements() {
 		File file = new File(PATH + this.playeruuid.toString());
 		
 		if (!file.exists()) {
@@ -187,6 +201,7 @@ class SkyGridAchievements {
 				BarrysLogger.error(this, String.format("Could not find Achievement with ID : %d", (byte)input));					
 		}
 	}
+	
 	private void saveAchievementlist(FileOutputStream out) throws IOException {
 		out.write(SkyGridConst.ACHIEVEMENTS);
 		for (IAchievement achievement : map.values()) {

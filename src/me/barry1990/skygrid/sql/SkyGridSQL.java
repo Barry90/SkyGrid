@@ -28,20 +28,20 @@ public class SkyGridSQL {
 	// MESSAGES
 	////////////////////////////////////////
 	
-	private static final String HOME_NOT_FOUND = "You have no home named %s.";
-	private static final String PLAYER_HOME_NOT_FOUND = "%s has no home named %s.";
-	private static final String WELCOME = "Welcome to your new home %s.";
-	private static final String MOVED_HOME = "You have moved your home %s.";
-	private static final String MOVED_SPAWN = "You have moved your spawn point.";
-	private static final String TOO_MANY_HOMES = "You cannot have more than 3 homes.";
-	private static final String DELETED_HOME = "You deleted your home %s.";
-	private static final String NO_HOMES = "You dont have any homes yet. Use /sethome to set a home.";
-	private static final String HOMES_LIST = "Your homes are: %s.";
-	private static final String PLAYER_NOT_FOUND = "The player %s doesn't play SkyGrid yet.";
-	private static final String ALREADY_INVITED = "The player %s is already invited to your home %s.";
-	private static final String INVITED = "You invited %s to your home %s.";
-	private static final String WAS_INVITED = "You have been invited to %s's home %s.";
-	private static final String NOT_INVITED = "You are not invited to this home.";
+	private static final String HOME_NOT_FOUND = "§4You have no home named %s.";
+	private static final String PLAYER_HOME_NOT_FOUND = "§4%s has no home named %s.";
+	private static final String WELCOME = "§6Welcome to your new home %s.";
+	private static final String MOVED_HOME = "§6You have moved your home %s.";
+	private static final String MOVED_SPAWN = "§6You have moved your spawn point.";
+	private static final String TOO_MANY_HOMES = "§4You cannot have more than 3 homes.";
+	private static final String DELETED_HOME = "§6You §4deleted §6your home %s.";
+	private static final String NO_HOMES = "§6You dont have any homes yet. Use /sethome to set a home.";
+	private static final String HOMES_LIST = "§6Your homes are: %s.";
+	private static final String PLAYER_NOT_FOUND = "§4The player %s doesn't play SkyGrid yet.";
+	private static final String ALREADY_INVITED = "§6The player %s is already invited to your home %s.";
+	private static final String INVITED = "§6You invited %s to your home %s.";
+	private static final String WAS_INVITED = "§6You have been invited to %s's home %s.";
+	private static final String NOT_INVITED = "§4You are not invited to this home.";
 	
 	
 	////////////////////////////////////////
@@ -143,19 +143,13 @@ public class SkyGridSQL {
 		});
 		
 		//prepare database
-		this.prepareDatabase();
+		this.createDatabaseTables();
 
 	}
 
 	////////////////////////////////////////
 	// DATABASE
 	////////////////////////////////////////
-	
-	public void prepareDatabase() {
-
-		this.createDatabaseTables();
-		
-	}
 	
 	private void createDatabaseTables() {
 		try {
@@ -348,7 +342,6 @@ public class SkyGridSQL {
 	 * @param name The name of the home.
 	 */
 	public void deleteHome(Player p, String homename) {
-		//TODO: Test this method
 		try {
 			if (this.homeExists(p, homename)) {
 				//delete all invites

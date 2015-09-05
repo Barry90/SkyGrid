@@ -14,7 +14,7 @@ final class SGAGoEvenDeeper extends IAchievementNP {
 
 	@Override
 	protected Byte getId() {
-		return SGAIDENTIFIER.GO_EVEN_DEER;
+		return SGAIDENTIFIER.GO_EVEN_DEEPER;
 	}
 
 	@Override

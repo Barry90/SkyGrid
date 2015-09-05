@@ -41,6 +41,7 @@ public final class SkyGridOnPlayerRespawnEvent implements Listener {
 			loc = new Location(player.getWorld(), x, y, z);
 			SkyGridSQL.sharedInstance().addHome(player, loc, SkyGridSQL.SPAWN_POINT);
 			
+			e.setRespawnLocation(loc);
 		}
 	}
 

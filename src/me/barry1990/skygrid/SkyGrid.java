@@ -1,6 +1,8 @@
 package me.barry1990.skygrid;
 
 //import eventlisteners
+import me.barry1990.skygrid.eventlistener.SkyGridOnBlockBreakEvent;
+import me.barry1990.skygrid.eventlistener.SkyGridOnBlockDamageEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnBlockFromTo;
 import me.barry1990.skygrid.eventlistener.SkyGridOnCraftItem;
 import me.barry1990.skygrid.eventlistener.SkyGridOnCreatureSpawnEvent;
@@ -24,7 +26,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class SkyGrid extends JavaPlugin {
+public final class SkyGrid extends JavaPlugin {
 		
 	@Override
 	public void onEnable() {
@@ -46,6 +48,8 @@ public class SkyGrid extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerPickupItemEvent(), this);
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerRespawnEvent(), this);
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerBedEnterEvent(), this);
+		this.getServer().getPluginManager().registerEvents(new SkyGridOnBlockBreakEvent(), this);
+		this.getServer().getPluginManager().registerEvents(new SkyGridOnBlockDamageEvent(), this);
 		
 		
 		//add skygrid recipes
@@ -68,24 +72,10 @@ public class SkyGrid extends JavaPlugin {
 	
 	/* test commands */
 	
-	private NetherWarningThread tt;
-	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command,	String label, String[] args) {
 		if (sender instanceof Player) {
 			Player p = (Player) sender;
-			if(command.getName().equalsIgnoreCase("s")) {
-				tt = new NetherWarningThread(p,true,5000);
-				tt.start();
-				p.sendMessage("Thread gestartet");
-				return true;
-			}
-			if(command.getName().equalsIgnoreCase("t")) {
-				if (tt != null)
-					tt.softstop();
-				p.sendMessage("Thread gestoppt");
-				return true;
-			}
 			if(command.getName().equalsIgnoreCase("home")) {
 				
 				switch (args.length) {

@@ -29,7 +29,7 @@ public final class SGAIDENTIFIER {
 	/* permissions achievements */
 	public static final byte SO_IT_BEGINS = (byte) 0xF0;
 	public static final byte GO_DEEPER = (byte)0xF1;
-	public static final byte GO_EVEN_DEER = (byte)0xF2;	
+	public static final byte GO_EVEN_DEEPER = (byte)0xF2;	
 
 }
 

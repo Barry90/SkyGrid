@@ -5,10 +5,12 @@ import me.barry1990.skygrid.eventlistener.SkyGridOnBlockFromTo;
 import me.barry1990.skygrid.eventlistener.SkyGridOnCraftItem;
 import me.barry1990.skygrid.eventlistener.SkyGridOnCreatureSpawnEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnEntityDeathEvent;
+import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerBedEnterEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerDeathEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerEggThrowEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerJoin;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerPickupItemEvent;
+import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerRespawnEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPortalCreateEvent;
 
 //import the generator
@@ -42,6 +44,8 @@ public class SkyGrid extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnEntityDeathEvent(), this);
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerDeathEvent(), this);
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerPickupItemEvent(), this);
+		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerRespawnEvent(), this);
+		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerBedEnterEvent(), this);
 		
 		
 		//add skygrid recipes

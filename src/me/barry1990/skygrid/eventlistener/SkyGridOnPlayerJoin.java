@@ -56,7 +56,9 @@ public final class SkyGridOnPlayerJoin implements Listener {
 			BarrysLogger.info(this,"z",z);
 			
 			Location loc = new Location(player.getWorld(), x, y, z);
+			SkyGridSQL.sharedInstance().addHome(player, loc, SkyGridSQL.SPAWN_POINT);
 			e.setSpawnLocation(loc);
+			
 
 		} 
 	}

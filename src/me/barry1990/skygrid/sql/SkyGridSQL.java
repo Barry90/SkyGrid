@@ -17,6 +17,8 @@ import org.bukkit.entity.Player;
 
 public class SkyGridSQL {
 	
+	public static final String SPAWN_POINT = "spawn point";
+	
 	private static SkyGridSQL sharedinstance;
 	private static Connection connection;
 	private static final String DB_PATH = "plugins/skygrid/skygrid.db";
@@ -30,6 +32,7 @@ public class SkyGridSQL {
 	private static final String PLAYER_HOME_NOT_FOUND = "%s has no home named %s.";
 	private static final String WELCOME = "Welcome to your new home %s.";
 	private static final String MOVED_HOME = "You have moved your home %s.";
+	private static final String MOVED_SPAWN = "You have moved your spawn point.";
 	private static final String TOO_MANY_HOMES = "You cannot have more than 3 homes.";
 	private static final String DELETED_HOME = "You deleted your home %s.";
 	private static final String NO_HOMES = "You dont have any homes yet. Use /sethome to set a home.";
@@ -269,7 +272,7 @@ public class SkyGridSQL {
 			
 			if (!home_exists) {
 				
-				if (this.getHomesCount(p) >= 3) {
+				if (this.getHomesCount(p) >= 4) {
 					p.sendMessage(TOO_MANY_HOMES);
 					return;
 				}
@@ -280,7 +283,10 @@ public class SkyGridSQL {
 					+ "VALUES ("+Q+"%s"+Q+",%f,%f,%f,%f,%f,%s);", 
 					name, loc.getX(), loc.getY() , loc.getZ(),loc.getYaw(), loc.getPitch(), this.getPID(p)));
 			
-			p.sendMessage(String.format(home_exists ? MOVED_HOME : WELCOME, name));
+			if (!home_exists && name.equals(SPAWN_POINT))
+				return;
+			
+			p.sendMessage(String.format(home_exists ? (name.equals(SPAWN_POINT) ? MOVED_SPAWN : MOVED_HOME) : WELCOME, name));
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

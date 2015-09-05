@@ -6,12 +6,15 @@ import me.barry1990.skygrid.eventlistener.SkyGridOnBlockDamageEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnBlockFromTo;
 import me.barry1990.skygrid.eventlistener.SkyGridOnCraftItem;
 import me.barry1990.skygrid.eventlistener.SkyGridOnCreatureSpawnEvent;
+import me.barry1990.skygrid.eventlistener.SkyGridOnEnchantItemEvent;
+import me.barry1990.skygrid.eventlistener.SkyGridOnEntityDamageEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnEntityDeathEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerBedEnterEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerDeathEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerEggThrowEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerJoin;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerPickupItemEvent;
+import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerPortalEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerRespawnEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPortalCreateEvent;
 
@@ -37,19 +40,24 @@ public final class SkyGrid extends JavaPlugin {
 		SkyGridGenerator.sharedInstance();
 			
 		//register eventlisteners
-		this.getServer().getPluginManager().registerEvents(new SkyGridOnBlockFromTo(), this);
-		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerJoin(), this);
-		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerEggThrowEvent(), this);
-		this.getServer().getPluginManager().registerEvents(new SkyGridOnCreatureSpawnEvent(), this);		
-		this.getServer().getPluginManager().registerEvents(new SkyGridOnCraftItem(), this);
-		this.getServer().getPluginManager().registerEvents(new SkyGridOnPortalCreateEvent(), this);
-		this.getServer().getPluginManager().registerEvents(new SkyGridOnEntityDeathEvent(), this);
-		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerDeathEvent(), this);
-		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerPickupItemEvent(), this);
-		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerRespawnEvent(), this);
-		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerBedEnterEvent(), this);
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnBlockBreakEvent(), this);
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnBlockDamageEvent(), this);
+		this.getServer().getPluginManager().registerEvents(new SkyGridOnBlockFromTo(), this);
+		this.getServer().getPluginManager().registerEvents(new SkyGridOnCraftItem(), this);
+		this.getServer().getPluginManager().registerEvents(new SkyGridOnCreatureSpawnEvent(), this);		
+		this.getServer().getPluginManager().registerEvents(new SkyGridOnEnchantItemEvent(), this);
+		this.getServer().getPluginManager().registerEvents(new SkyGridOnEntityDamageEvent(), this);
+		this.getServer().getPluginManager().registerEvents(new SkyGridOnEntityDeathEvent(), this);
+		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerBedEnterEvent(), this);
+		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerDeathEvent(), this);
+		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerEggThrowEvent(), this);
+		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerJoin(), this);
+		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerPickupItemEvent(), this);
+		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerPortalEvent(), this);
+		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerRespawnEvent(), this);
+		this.getServer().getPluginManager().registerEvents(new SkyGridOnPortalCreateEvent(), this);
+		
+		
 		
 		
 		//add skygrid recipes

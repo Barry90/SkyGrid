@@ -6,7 +6,7 @@ SkyGrid-Plugin for Minecraft 1.8
 
 
 TO DO:
- - Add SQLLite support for save achievements and homes
- - Add Inventory loss system
+ - Add SQLLite support for achievements
+ - add home teleportation cooldown
  - better materiallist for end-layer
- - adding missing custom crafting recipes (EndPortalFrame, .. )
+ - adding more custom crafting recipes

@@ -19,7 +19,7 @@ public final class SkyGridOnPlayerDeathEvent implements Listener {
 	
 	@EventHandler
 	public void onPlayerDeathEvent(PlayerDeathEvent e) {
-		
+				
 		e.setKeepInventory(true);
 		
 		//dont loose items if the player has a dragon egg
@@ -46,6 +46,7 @@ public final class SkyGridOnPlayerDeathEvent implements Listener {
 		//drop items from inventory
 		PlayerInventory inv = e.getEntity().getInventory();
 		for (ItemStack item : e.getDrops()) {
+			//TODO: use Bukkit scheduler
 			e.getEntity().getWorld().dropItem(e.getEntity().getLocation(), item);
 			inv.remove(item);
 		}

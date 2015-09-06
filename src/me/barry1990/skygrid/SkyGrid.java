@@ -30,9 +30,13 @@ import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SkyGrid extends JavaPlugin {
+	
+	private static SkyGrid sharedinstance;
 		
 	@Override
 	public void onEnable() {
+		
+		SkyGrid.sharedinstance = this;
 		
 		SkyGridSQL.sharedInstance();
 		
@@ -174,6 +178,10 @@ public final class SkyGrid extends JavaPlugin {
 		}
 		return true;
 					
+	}
+	
+	public static SkyGrid sharedInstance() {
+		return SkyGrid.sharedinstance;
 	}
 
 }

@@ -32,7 +32,7 @@ abstract class IAchievement {
 		BarrysLogger.info(this,String.format("%s got achievement: %s", Bukkit.getPlayer(this.playeruuid).getName(),this.getName()));
 		TitleManager.sendActionBar(Bukkit.getPlayer(this.playeruuid), "Achievement get: §4" + this.getName());
 		Bukkit.getPlayer(this.playeruuid).sendMessage("Achievement get: §4" + this.getName());
-		Bukkit.getServer().broadcastMessage(String.format("§f%s §a got the achiement: §4%s",Bukkit.getPlayer(this.playeruuid).getName(), this.getName()));
+		Bukkit.getServer().broadcastMessage(String.format("§f%s §agot the achiement: §4%s",Bukkit.getPlayer(this.playeruuid).getName(), this.getName()));
 	}
 	
 	final boolean hasAchievement() {

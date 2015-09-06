@@ -2,6 +2,8 @@ package me.barry1990.skygrid.PlayerThreads;
 
 import java.util.HashMap;
 
+import me.barry1990.skygrid.SkyGrid;
+
 import org.bukkit.entity.Player;
 
 public final class SkyGridThreadManager {
@@ -12,17 +14,15 @@ public final class SkyGridThreadManager {
 		private EndWarningThread endwarning;
 		
 		public PlayerThread(Player player) {
-			this.netherwarning = new NetherWarningThread(player, true, 5000);
-			this.netherwarning.start();
-			this.endwarning = new EndWarningThread(player, true, 3000);
-			this.endwarning.start();
+			this.netherwarning = new NetherWarningThread(player);
+			this.netherwarning.runTaskTimer(SkyGrid.sharedInstance(), 0, 100);
+			this.endwarning = new EndWarningThread(player);
+			this.endwarning.runTaskTimer(SkyGrid.sharedInstance(), 0, 60);
 		}
 		
 		public void invalidateThreads() {
-			//not neccessary for these two thread. they will stop themselves
-//			this.netherwarning.softstop();
-//			this.endwarning.softstop();
-			
+			this.netherwarning.cancel();
+			this.endwarning.cancel();			
 		}
 		
 	}

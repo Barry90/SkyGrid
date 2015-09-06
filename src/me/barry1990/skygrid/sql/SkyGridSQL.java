@@ -28,6 +28,7 @@ public class SkyGridSQL {
 	// MESSAGES
 	////////////////////////////////////////
 	
+	private static final String HOMENAME_TOO_LONG = "§4Your homename is too long.";
 	private static final String HOME_NOT_FOUND = "§4You have no home named %s.";
 	private static final String PLAYER_HOME_NOT_FOUND = "§4%s has no home named %s.";
 	private static final String WELCOME = "§6Welcome to your new home %s.";
@@ -262,6 +263,14 @@ public class SkyGridSQL {
 	public void addHome(Player p, Location loc, String name) {
 		try {
 			
+			if (name.length() > 128) {
+				p.sendMessage(HOMENAME_TOO_LONG);
+				return;
+			}
+			
+			name.replace("'", "\'");
+			name.replace("\"", "\\\"");
+			
 			boolean home_exists = this.homeExists(p, name);
 			
 			if (!home_exists) {
@@ -376,11 +385,13 @@ public class SkyGridSQL {
 			String homes = "";
 			
 			while (rs.next()) {
-				if (count != 0) {
-					homes = homes +", ";
+				if (!rs.getString(H_NAME).equals(SPAWN_POINT)) {
+					if (count != 0) {
+						homes = homes +", ";
+					}
+					homes = homes + rs.getString(H_NAME);
+					count++;
 				}
-				homes = homes + rs.getString(H_NAME);
-				count++;
 			}
 			
 			if (count > 0) {

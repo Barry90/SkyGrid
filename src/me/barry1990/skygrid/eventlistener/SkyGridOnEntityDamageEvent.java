@@ -21,10 +21,14 @@ public class SkyGridOnEntityDamageEvent implements Listener {
 		switch (e.getCause()) {
 			case FALL: {
 				if (e.getEntityType() == EntityType.PLAYER) {
-					if ( (e.getDamage() > 16) && ((Player)e.getEntity()).getHealth() - e.getFinalDamage() <= 2) {
-						SkyGridAchievementManager.award((Player)e.getEntity(), SGAIDENTIFIER.THAT_WAS_CLOSE);
+					
+					if  (e.getDamage() > 16) {						
+						double finalhealth = ((Player)e.getEntity()).getHealth() - e.getFinalDamage();
+						if (finalhealth > 0 && finalhealth <= 2 ) 
+							SkyGridAchievementManager.award((Player)e.getEntity(), SGAIDENTIFIER.THAT_WAS_CLOSE);					
 					}
 				}
+				break;
 			}
 			default:
 				return;

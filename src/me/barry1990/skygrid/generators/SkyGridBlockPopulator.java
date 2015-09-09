@@ -52,7 +52,15 @@ class SkyGridBlockPopulator extends BlockPopulator {
 							break;
 						}
 						case MOB_SPAWNER: {
-							//TODO: check y for overworld/nether-moblist for the spawner
+							
+							if (cb.y <= 45) {
+								((CreatureSpawner) block.getState()).setSpawnedType(SkyGridBlockPopulator.getEndEntityType(random));
+								break;
+							}							
+							if (cb.y <= 117) {
+								((CreatureSpawner) block.getState()).setSpawnedType(SkyGridBlockPopulator.getNetherEntityType(random));
+								break;
+							}							
 							((CreatureSpawner) block.getState()).setSpawnedType(SkyGridBlockPopulator.getOverworldEntityType(random));
 							break;
 						}
@@ -112,5 +120,18 @@ class SkyGridBlockPopulator extends BlockPopulator {
 		/* we should never get here */
 		return EntityType.ZOMBIE;
 	}
+	
+	private static EntityType getEndEntityType(Random random) {
+		switch (random.nextInt(3)) {
+			case 0 : return EntityType.ENDERMAN;
+			case 1 : return EntityType.ENDERMITE;
+			case 2 : return EntityType.WITCH;
+			default: break;
+		}	
+		
+		/* we should never get here */
+		return EntityType.ZOMBIE;
+	}
+
 
 }

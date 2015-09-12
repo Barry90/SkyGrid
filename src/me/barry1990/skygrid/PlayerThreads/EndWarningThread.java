@@ -1,6 +1,5 @@
 package me.barry1990.skygrid.PlayerThreads;
 
-import me.barry1990.skygrid.SkyGrid;
 import me.barry1990.skygrid.TitleManager;
 import me.barry1990.skygrid.achievement.SGAIDENTIFIER;
 import me.barry1990.skygrid.achievement.SkyGridAchievementManager;

@@ -258,19 +258,18 @@ public class SkyGridSQL {
 	 * Adds a home
 	 * @param p The player the home belongs to.
 	 * @param loc The location of the new home.
-	 * @param name The name of the home.
+	 * @param homename The name of the home.
 	 */
-	public void addHome(Player p, Location loc, String name) {
+	public void addHome(Player p, Location loc, String homename) {
 		try {
 			
-			if (name.length() > 128) {
+			if (homename.length() > 128) {
 				p.sendMessage(HOMENAME_TOO_LONG);
 				return;
 			}
 			
-			name.replace("'", "\'");
-			name.replace("\"", "\\\"");
-			
+			String name = this.saveString(homename);
+						
 			boolean home_exists = this.homeExists(p, name);
 			
 			if (!home_exists) {
@@ -286,10 +285,10 @@ public class SkyGridSQL {
 					+ "VALUES ("+Q+"%s"+Q+",%f,%f,%f,%f,%f,%s);", 
 					name, loc.getX(), loc.getY() , loc.getZ(),loc.getYaw(), loc.getPitch(), this.getPID(p)));
 			
-			if (!home_exists && name.equals(SPAWN_POINT))
+			if (!home_exists && homename.equals(SPAWN_POINT))
 				return;
 			
-			p.sendMessage(String.format(home_exists ? (name.equals(SPAWN_POINT) ? MOVED_SPAWN : MOVED_HOME) : WELCOME, name));
+			p.sendMessage(String.format(home_exists ? (homename.equals(SPAWN_POINT) ? MOVED_SPAWN : MOVED_HOME) : WELCOME, homename));
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -306,14 +305,15 @@ public class SkyGridSQL {
 	public Location getHome(Player p, String homename) {
 		Location ret = null;
 		try {
-			ResultSet rs = this.getResultSetForHome(this.getPID(p), homename);
+			String name = this.saveString(homename);
+			ResultSet rs = this.getResultSetForHome(this.getPID(p), name);
 			
 			if (rs.next()) {				
 				ret = new Location(Bukkit.getWorld("world") /*p.getWorld()*/, rs.getDouble(H_X), rs.getDouble(H_Y), rs.getDouble(H_Z), rs.getFloat(H_YAW), rs.getFloat(H_PITCH));
 				rs.close();
 			} else {
 				rs.close();
-				if (homename.equals("home") && getHomesCount(p) == 0) {
+				if (homename.equals("home") && getHomesCount(p) == 1) {
 					p.sendMessage(NO_HOMES);
 				} else {
 					p.sendMessage(String.format(HOME_NOT_FOUND, homename));
@@ -352,13 +352,14 @@ public class SkyGridSQL {
 	 */
 	public void deleteHome(Player p, String homename) {
 		try {
-			if (this.homeExists(p, homename)) {
+			String name = this.saveString(homename);
+			if (this.homeExists(p, name)) {
 				//delete all invites
-				PreparedStatement ps =  connection.prepareStatement(DELETE_FROM + INVITE_TABLE + WHERE + I_HOMES_HID + IS + this.getHID(p, homename) + ";");
+				PreparedStatement ps =  connection.prepareStatement(DELETE_FROM + INVITE_TABLE + WHERE + I_HOMES_HID + IS + this.getHID(p, name) + ";");
 				ps.executeUpdate();
 				
 				//delete the home
-				ps =  connection.prepareStatement(DELETE_FROM + HOMES_TABLE + WHERE + H_NAME + IS + Q + homename + Q + AND + H_PLAYER_PID + IS + this.getPID(p) +";");
+				ps =  connection.prepareStatement(DELETE_FROM + HOMES_TABLE + WHERE + H_NAME + IS + Q + name + Q + AND + H_PLAYER_PID + IS + this.getPID(p) +";");
 				ps.executeUpdate();
 				
 				p.sendMessage(String.format(DELETED_HOME, homename));
@@ -605,6 +606,12 @@ public class SkyGridSQL {
 		Statement stmt = connection.createStatement();
 		BarrysLogger.info(this, "query", query);
 		return stmt.executeUpdate(query);
+	}
+	private String saveString(String s) {
+		s.replace("\\", "\\\\");
+		s.replace("'", "\'");
+		s.replace("\"", "\\\"");
+		return s;
 	}
 
 	@SuppressWarnings("unused")

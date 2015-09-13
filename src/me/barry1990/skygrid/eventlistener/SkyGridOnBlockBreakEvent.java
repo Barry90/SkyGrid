@@ -1,7 +1,7 @@
 package me.barry1990.skygrid.eventlistener;
 
 import me.barry1990.skygrid.achievement.SGAIDENTIFIER;
-import me.barry1990.skygrid.achievement.SkyGridAchievementManager;
+import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -18,7 +18,7 @@ public final class SkyGridOnBlockBreakEvent implements Listener {
 	@EventHandler
 	public void SkyGridonBlockBreakEvent(BlockBreakEvent e) {
 		if (e.getBlock().getType() == Material.DIAMOND_ORE) {
-			SkyGridAchievementManager.award(e.getPlayer(), SGAIDENTIFIER.GET_RICH_OR_DIE_TRYIN);
+			SkyGridPlayerManager.awardAchievement(e.getPlayer(), SGAIDENTIFIER.GET_RICH_OR_DIE_TRYIN);
 		}
 	}
 	

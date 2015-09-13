@@ -9,7 +9,9 @@ import java.util.UUID;
 
 import me.barry1990.utils.BarrysLogger;
 
-class SkyGridAchievements {
+import org.bukkit.Material;
+
+public class SkyGridAchievements {
 	
 	private static final String PATH = "plugins/skygrid/achievements/";
 	
@@ -213,32 +215,43 @@ class SkyGridAchievements {
 	}
 		
 	//////////////////////////////////////////////
-	// ACHIEVEMENT GETTER
-	//////////////////////////////////////////////	
-	
-	public synchronized SGAWoodManiac getWoodManiac() {
-		return (SGAWoodManiac) this.map.get(SGAIDENTIFIER.WOOD_MANIAC);
-	}
-	
-	public synchronized SGAStoneManiac getStoneManiac() {
-		return (SGAStoneManiac) this.map.get(SGAIDENTIFIER.STONE_MANIAC);
-	}
-	
-	public synchronized SGAIronManiac getIronManiac() {
-		return (SGAIronManiac) this.map.get(SGAIDENTIFIER.IRON_MANIAC);
-	}
-	
-	public synchronized SGAGoldManiac getGoldManiac() {
-		return (SGAGoldManiac) this.map.get(SGAIDENTIFIER.GOLD_MANIAC);
-	}
-	
-	public synchronized SGADiamondManiac getDiamondManiac() {
-		return (SGADiamondManiac) this.map.get(SGAIDENTIFIER.DIAMOND_MANIAC);
-	}
-	
-	public synchronized SGANetherCleaner getNetherCleaner() {
-		return (SGANetherCleaner) this.map.get(SGAIDENTIFIER.NETHER_CLEANER);
-	}
-		
+	// SPECIFIC ACHIEVEMENT HANDLING
+	//////////////////////////////////////////////
 
+
+	/* The Wood-Maniac-Achievements */
+
+	public synchronized void addMaterialForWoodManiac(Material m) {
+		((SGAWoodManiac) this.map.get(SGAIDENTIFIER.WOOD_MANIAC)).addMaterial(m);
+	}
+
+	/* The Stone-Maniac-Achievements */
+
+	public synchronized void addMaterialForStoneManiac(Material m) {
+		((SGAStoneManiac) this.map.get(SGAIDENTIFIER.STONE_MANIAC)).addMaterial(m);
+	}
+
+	/* The Iron-Maniac-Achievements */
+
+	public synchronized void addMaterialForIronManiac(Material m) {
+		((SGAIronManiac) this.map.get(SGAIDENTIFIER.IRON_MANIAC)).addMaterial(m);
+	}
+
+	/* The Gold-Maniac-Achievements */
+
+	public synchronized void addMaterialForGoldManiac(Material m) {
+		((SGAGoldManiac) this.map.get(SGAIDENTIFIER.GOLD_MANIAC)).addMaterial(m);
+	}
+
+	/* The Diamond-Maniac-Achievements */
+
+	public synchronized void addMaterialForDiamondManiac(Material m) {
+		((SGADiamondManiac) this.map.get(SGAIDENTIFIER.DIAMOND_MANIAC)).addMaterial(m);
+	}
+
+	/* The Nether Cleaner-Achievement */
+
+	public synchronized void addNetherCleanerProgress() {
+		((SGANetherCleaner) this.map.get(SGAIDENTIFIER.NETHER_CLEANER)).addProgress();
+	}
 }

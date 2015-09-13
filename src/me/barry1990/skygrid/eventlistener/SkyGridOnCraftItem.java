@@ -2,7 +2,7 @@ package me.barry1990.skygrid.eventlistener;
 
 //import me.barry1990.skygrid.achievement.SGAchievement;
 import me.barry1990.skygrid.achievement.SGAIDENTIFIER;
-import me.barry1990.skygrid.achievement.SkyGridAchievementManager;
+import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,7 +24,7 @@ public final class SkyGridOnCraftItem implements Listener {
 			case WATER_BUCKET: {
 				e.getInventory().setMatrix(new ItemStack[e.getInventory().getMatrix().length]);
 				if (e.getWhoClicked() instanceof Player) {
-					 SkyGridAchievementManager.award((Player)e.getWhoClicked(), SGAIDENTIFIER.INFINITE_WATER_SOURCE);
+					SkyGridPlayerManager.awardAchievement((Player)e.getWhoClicked(), SGAIDENTIFIER.INFINITE_WATER_SOURCE);
 				}
 				break;
 			}
@@ -35,7 +35,7 @@ public final class SkyGridOnCraftItem implements Listener {
 			
 			case LAVA_BUCKET: {
 				if (e.getWhoClicked() instanceof Player) {
-					 SkyGridAchievementManager.award((Player)e.getWhoClicked(), SGAIDENTIFIER.HOT_BUCKET);
+					SkyGridPlayerManager.awardAchievement((Player)e.getWhoClicked(), SGAIDENTIFIER.HOT_BUCKET);
 				}
 				break;
 			}
@@ -50,7 +50,7 @@ public final class SkyGridOnCraftItem implements Listener {
 			case WOOD_SPADE:
 			case WOOD_PICKAXE: {
 				if (e.getWhoClicked() instanceof Player) {
-					SkyGridAchievementManager.addMaterialForWoodManiac((Player)e.getWhoClicked(), e.getRecipe().getResult().getType());
+					SkyGridPlayerManager.addMaterialForWoodManiac((Player)e.getWhoClicked(), e.getRecipe().getResult().getType());
 				}
 				break;
 			}
@@ -65,7 +65,7 @@ public final class SkyGridOnCraftItem implements Listener {
 			case STONE_SPADE:
 			case STONE_PICKAXE: {
 				if (e.getWhoClicked() instanceof Player) {
-					SkyGridAchievementManager.addMaterialForStoneManiac((Player)e.getWhoClicked(), e.getRecipe().getResult().getType());
+					SkyGridPlayerManager.addMaterialForStoneManiac((Player)e.getWhoClicked(), e.getRecipe().getResult().getType());
 				}
 				break;
 			}
@@ -84,7 +84,7 @@ public final class SkyGridOnCraftItem implements Listener {
 			case IRON_LEGGINGS:
 			case IRON_BOOTS: {
 				if (e.getWhoClicked() instanceof Player) {
-					SkyGridAchievementManager.addMaterialForIronManiac((Player)e.getWhoClicked(), e.getRecipe().getResult().getType());
+					SkyGridPlayerManager.addMaterialForIronManiac((Player)e.getWhoClicked(), e.getRecipe().getResult().getType());
 				}
 				break;
 			}
@@ -103,7 +103,7 @@ public final class SkyGridOnCraftItem implements Listener {
 			case GOLD_LEGGINGS:
 			case GOLD_BOOTS: {
 				if (e.getWhoClicked() instanceof Player) {
-					SkyGridAchievementManager.addMaterialForGoldManiac((Player)e.getWhoClicked(), e.getRecipe().getResult().getType());
+					SkyGridPlayerManager.addMaterialForGoldManiac((Player)e.getWhoClicked(), e.getRecipe().getResult().getType());
 				}
 				break;
 			}
@@ -122,7 +122,7 @@ public final class SkyGridOnCraftItem implements Listener {
 			case DIAMOND_LEGGINGS:
 			case DIAMOND_BOOTS: {
 				if (e.getWhoClicked() instanceof Player) {
-					SkyGridAchievementManager.addMaterialForDiamondManiac((Player)e.getWhoClicked(), e.getRecipe().getResult().getType());
+					SkyGridPlayerManager.addMaterialForDiamondManiac((Player)e.getWhoClicked(), e.getRecipe().getResult().getType());
 				}
 				break;
 			}

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import me.barry1990.skygrid.TitleManager;
+import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 import me.barry1990.utils.BarrysLogger;
 
 import org.bukkit.Bukkit;
@@ -44,7 +45,7 @@ abstract class IAchievement {
 	}
 	
 	final void saveEverything() {
-		SkyGridAchievementManager.saveAchievementsForPlayer(playeruuid);
+		SkyGridPlayerManager.saveAchievementsForPlayer(playeruuid);
 	}
 
 }

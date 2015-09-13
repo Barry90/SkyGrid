@@ -1,6 +1,6 @@
 package me.barry1990.skygrid.eventlistener;
 
-import me.barry1990.skygrid.achievement.SkyGridAchievementManager;
+import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,7 +22,7 @@ public final class SkyGridOnEntityDeathEvent implements Listener {
 				case PIG_ZOMBIE:
 				case GHAST:
 				case BLAZE: {
-					SkyGridAchievementManager.addNetherCleanerProgress(e.getEntity().getKiller());
+					SkyGridPlayerManager.addNetherCleanerProgress(e.getEntity().getKiller());
 					break;
 				}
 				default:

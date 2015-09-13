@@ -3,14 +3,13 @@ package me.barry1990.skygrid.eventlistener;
 import java.util.Random;
 
 import me.barry1990.skygrid.achievement.SGAIDENTIFIER;
-import me.barry1990.skygrid.achievement.SkyGridAchievementManager;
-//import me.barry1990.skygrid.achievement.SGAchievement;
-
+import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerEggThrowEvent;
+//import me.barry1990.skygrid.achievement.SGAchievement;
 
 
 public final class SkyGridOnPlayerEggThrowEvent implements Listener {
@@ -33,7 +32,7 @@ public final class SkyGridOnPlayerEggThrowEvent implements Listener {
 			//0.4%
 			e.setHatchingType(EntityType.CREEPER);
 			e.setNumHatches(this.random.nextInt(2) == 0 ? (byte)2 : (byte)3);
-			SkyGridAchievementManager.award(e.getPlayer(), SGAIDENTIFIER.OH_SHIT);
+			SkyGridPlayerManager.awardAchievement(e.getPlayer(), SGAIDENTIFIER.OH_SHIT);
 		}
 		
 	}

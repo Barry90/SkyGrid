@@ -2,10 +2,8 @@ package me.barry1990.skygrid.eventlistener;
 
 import java.util.Random;
 
-import me.barry1990.skygrid.PlayerThreads.SkyGridThreadManager;
 import me.barry1990.skygrid.achievement.SGAIDENTIFIER;
-//import me.barry1990.skygrid.achievement.SGAchievement;
-import me.barry1990.skygrid.achievement.SkyGridAchievementManager;
+import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 import me.barry1990.skygrid.sql.SkyGridSQL;
 import me.barry1990.utils.BarrysLogger;
 
@@ -20,6 +18,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.spigotmc.event.player.PlayerSpawnLocationEvent;
+//import me.barry1990.skygrid.achievement.SGAchievement;
 
 
 public final class SkyGridOnPlayerJoin implements Listener {
@@ -30,10 +29,11 @@ public final class SkyGridOnPlayerJoin implements Listener {
 	public void onPlayerLoginEvent(PlayerLoginEvent e) {
 		BarrysLogger.info(this, "OnPlayerLoginEvent called");
 		
-		SkyGridSQL.sharedInstance().addPlayer(e.getPlayer());
 		
-		if (e.getResult() == Result.ALLOWED) {			
-			SkyGridAchievementManager.loadAchievementsForPlayer(e.getPlayer());
+		
+		if (e.getResult() == Result.ALLOWED) {	
+			SkyGridSQL.sharedInstance().addPlayer(e.getPlayer());
+			SkyGridPlayerManager.load(e.getPlayer());
 		}
 	}
 	
@@ -42,7 +42,7 @@ public final class SkyGridOnPlayerJoin implements Listener {
 		BarrysLogger.info(this, "PlayerSpawnLocationEvent called");
 		Player player = e.getPlayer();
 		
-		if (!SkyGridAchievementManager.playerHasAchievementWithID(player, SGAIDENTIFIER.SO_IT_BEGINS)) {
+		if (!SkyGridPlayerManager.playerHasAchievementWithID(player, SGAIDENTIFIER.SO_IT_BEGINS)) {
 						
 			Random random = new Random();
 			double x,y,z;
@@ -66,23 +66,22 @@ public final class SkyGridOnPlayerJoin implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		BarrysLogger.info(this, "PlayerJoinEvent called");
 		Player player = event.getPlayer();		
-		if (!SkyGridAchievementManager.playerHasAchievementWithID(player, SGAIDENTIFIER.SO_IT_BEGINS)) {
+		if (!SkyGridPlayerManager.playerHasAchievementWithID(player, SGAIDENTIFIER.SO_IT_BEGINS)) {
 			
 			player.sendMessage(ChatColor.GREEN + "Willkommen in SkyGrid");
-			SkyGridAchievementManager.award(player, SGAIDENTIFIER.SO_IT_BEGINS);
+			SkyGridPlayerManager.awardAchievement(player, SGAIDENTIFIER.SO_IT_BEGINS);
 			
 		} else {
 			player.sendMessage(ChatColor.GREEN + "Willkommen zurück");
 		}
 		
-		SkyGridThreadManager.addPlayerThread(player.getPlayer());
+		SkyGridPlayerManager.loadAfterPlayerJoin(player.getPlayer());
 
 	}
 	
 	@EventHandler (ignoreCancelled=true)
 	public void onPlayerQuitEvent(PlayerQuitEvent e) {
-		SkyGridAchievementManager.closeAchievementsForPlayer(e.getPlayer());
-		SkyGridThreadManager.invalidateThreadsForPlayer(e.getPlayer());
+		SkyGridPlayerManager.unload(e.getPlayer());
 	}
 
 }

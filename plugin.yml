@@ -1,6 +1,6 @@
 name: SkyGrid
 authors: [Barry1990, Ktesibios]
-version: 1.0.2
+version: 1.0.3
 
 
 load: STARTUP
@@ -28,3 +28,6 @@ commands:
     description: Invite a player to your home
     aliases: [homeinvite, hinv]
     usage: §4 Usage §6/invitehome <playername> <homename>.
+  afk:
+    description: Toggle your AFK status
+    usage: §4 Usage §6/afk.

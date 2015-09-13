@@ -1,7 +1,7 @@
 package me.barry1990.skygrid.eventlistener;
 
 import me.barry1990.skygrid.achievement.SGAIDENTIFIER;
-import me.barry1990.skygrid.achievement.SkyGridAchievementManager;
+import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -25,7 +25,7 @@ public class SkyGridOnEntityDamageEvent implements Listener {
 					if  (e.getDamage() > 16) {						
 						double finalhealth = ((Player)e.getEntity()).getHealth() - e.getFinalDamage();
 						if (finalhealth > 0 && finalhealth <= 2 ) 
-							SkyGridAchievementManager.award((Player)e.getEntity(), SGAIDENTIFIER.THAT_WAS_CLOSE);					
+							SkyGridPlayerManager.awardAchievement((Player)e.getEntity(), SGAIDENTIFIER.THAT_WAS_CLOSE);					
 					}
 				}
 				break;

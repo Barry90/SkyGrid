@@ -1,8 +1,10 @@
 package me.barry1990.skygrid.PlayerThreads;
 
+import java.util.UUID;
+
 import me.barry1990.skygrid.TitleManager;
 import me.barry1990.skygrid.achievement.SGAIDENTIFIER;
-import me.barry1990.skygrid.achievement.SkyGridAchievementManager;
+import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 import me.barry1990.utils.BarrysLogger;
 
 import org.bukkit.Bukkit;
@@ -11,32 +13,34 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 final class NetherWarningThread extends BukkitRunnable {
 	
-	private Player player;
+	private UUID playeruuid;
 	
-	public NetherWarningThread(Player player ) {
-		this.player = player;
+	public NetherWarningThread(UUID playeruuid) {
+		this.playeruuid = playeruuid;
 	}
 
 	@Override
 	public void run() {
 		
-		if (!Bukkit.getServer().getOnlinePlayers().contains(this.player)) {
+		Player player = Bukkit.getServer().getPlayer(this.playeruuid);
+		
+		if (player == null) {
 			BarrysLogger.info(this,"player not found");	
 			return;
 		}
 		
-		if (!SkyGridAchievementManager.playerHasAchievementWithID(this.player, SGAIDENTIFIER.GO_DEEPER)) {
+		if (!SkyGridPlayerManager.playerHasAchievementWithID(player, SGAIDENTIFIER.GO_DEEPER)) {
 		
 			double playerY = player.getLocation().getBlockY();
 			
 			if (playerY < 124 && playerY >= 120) {				
-				TitleManager.sendActionBar(this.player, "§6Warning: Do not go deeper!");
+				TitleManager.sendActionBar(player, "§6Warning: Do not go deeper!");
 				return;
 			}
 			if (playerY < 120 && playerY >=  48) {	
 				
-				TitleManager.sendTitles(this.player, "", "§4Its too hot!", 10, 15, 10);
-				this.player.damage(2);
+				TitleManager.sendTitles(player, "", "§4Its too hot!", 10, 15, 10);
+				player.damage(2);
 				
 			}
 		}

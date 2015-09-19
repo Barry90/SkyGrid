@@ -80,11 +80,16 @@ public class SkyGridAchievements {
 		this.saveAchievements();
 	}
 	
-	private synchronized void testForLayerAchievement() {
+	public synchronized int getAchievementCount() {
 		int achievementcount = 0;
 		for (IAchievement a : this.map.values()) {
 			achievementcount += a.hasAchievement()?1:0;
 		}
+		return achievementcount;
+	}
+	
+	private synchronized void testForLayerAchievement() {
+		int achievementcount = this.getAchievementCount();
 		if (achievementcount > 5) {
 			this.award(SGAIDENTIFIER.GO_DEEPER);
 		}

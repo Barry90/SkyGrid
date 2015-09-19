@@ -50,6 +50,10 @@ public final class SkyGridPlayerManager {
 		players.get(playeruuid).achievements.saveAchievementAndProgress();
 	}
 	
+	public static int getAchievementCountForPlayer(Player player) {
+		return players.get(player.getUniqueId()).achievements.getAchievementCount();
+	}
+	
 	//////////////////////////////////////////////
 	// SPECIFIC ACHIEVEMENT HANDLING
 	//////////////////////////////////////////////

@@ -76,7 +76,16 @@ class SkyGridChunkGeneratorOverWorld extends Thread {
 						
 						Material material = BlockList.getRandomMaterialForEnd();
 						this.setBlock(result.chunk, x, y, z, material);
-	
+						
+						switch (material) {			
+							case MOB_SPAWNER: {
+								ComplexBlock cb = new ComplexBlock(material,null, x, y, z);
+								result.list.add(cb);
+								break;
+							}						
+							default:
+								break;
+						}
 					}
 					
 				}

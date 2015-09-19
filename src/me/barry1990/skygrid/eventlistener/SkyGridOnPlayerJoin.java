@@ -42,7 +42,8 @@ public final class SkyGridOnPlayerJoin implements Listener {
 		BarrysLogger.info(this, "PlayerSpawnLocationEvent called");
 		Player player = e.getPlayer();
 		
-		if (!SkyGridPlayerManager.playerHasAchievementWithID(player, SGAIDENTIFIER.SO_IT_BEGINS)) {
+		if (SkyGridSQL.sharedInstance().getHome(player, SkyGridSQL.SPAWN_POINT) == null) {
+		//if (!SkyGridPlayerManager.playerHasAchievementWithID(player, SGAIDENTIFIER.SO_IT_BEGINS)) {
 						
 			Random random = new Random();
 			double x,y,z;

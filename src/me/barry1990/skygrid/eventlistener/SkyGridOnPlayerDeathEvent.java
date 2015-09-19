@@ -46,7 +46,7 @@ public final class SkyGridOnPlayerDeathEvent implements Listener {
 		//drop items from inventory
 		PlayerInventory inv = e.getEntity().getInventory();
 		for (ItemStack item : e.getDrops()) {
-			//TODO: use Bukkit scheduler			
+
 			if (inv.contains(item)) {
 				e.getEntity().getWorld().dropItem(e.getEntity().getLocation(), item);
 				inv.remove(item);

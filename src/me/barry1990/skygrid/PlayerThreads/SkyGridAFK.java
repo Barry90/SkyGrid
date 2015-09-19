@@ -11,9 +11,9 @@ import org.bukkit.Location;
 
 public final class SkyGridAFK {
 	
-	private static final String IS_AFK_MSG = "§8  %s is now afk.";
-	private static final String IS_BACK_MSG = "§8  %s is back.";
-	private static long idletime = 10 * 20;
+	private static final String IS_AFK_MSG = "§f * §8  %s is now afk.";
+	private static final String IS_BACK_MSG = "§f * §8  %s is back.";
+	private static long idletime = 180 * 20;
 	
 	private UUID playeruuid;
 	private Location afkLocation;

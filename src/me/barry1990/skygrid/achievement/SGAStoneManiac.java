@@ -46,7 +46,7 @@ final class SGAStoneManiac extends IAchievementWP {
 	
 	@Override
 	protected String getName() {
-		return name;
+		return SGAStoneManiac.name;
 	}
 	
 	

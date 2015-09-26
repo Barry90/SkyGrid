@@ -47,5 +47,9 @@ abstract class IAchievement {
 	final void saveEverything() {
 		SkyGridPlayerManager.saveAchievementsForPlayer(playeruuid);
 	}
+	
+	final UUID getPlayerUUID() {
+		return this.playeruuid;
+	}
 
 }

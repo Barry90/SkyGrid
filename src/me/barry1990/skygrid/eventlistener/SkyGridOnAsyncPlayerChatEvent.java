@@ -43,8 +43,6 @@ public final class SkyGridOnAsyncPlayerChatEvent implements Listener {
 			
 		} else 
 			e.setFormat(f1 + c1 + f2);
-
-		e.getPlayer().setDisplayName("§7"+e.getPlayer().getDisplayName());
 		
 	}
 }

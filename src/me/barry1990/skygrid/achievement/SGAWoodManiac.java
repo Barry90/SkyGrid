@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
+
 import org.bukkit.Material;
 
 
@@ -59,7 +61,7 @@ final class SGAWoodManiac extends IAchievementWP {
 			this.saveEverything();
 		}
 		if (this.progress.size() == 5) {	
-			this.award();;
+			SkyGridPlayerManager.awardAchievement(this.getPlayerUUID(), this.getId());
 			this.progress.clear();
 		}
 	}

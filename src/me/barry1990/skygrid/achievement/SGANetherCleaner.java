@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 
+import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 import me.barry1990.utils.FileManagement;
 
 
@@ -45,7 +46,7 @@ final class SGANetherCleaner extends IAchievementWP {
 		
 		this.progress += 1;
 		if (this.progress == 400) {
-			this.award();
+			SkyGridPlayerManager.awardAchievement(this.getPlayerUUID(), this.getId());
 		} else {
 			this.saveEverything();
 		}

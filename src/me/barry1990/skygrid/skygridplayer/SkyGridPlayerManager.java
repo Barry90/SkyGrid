@@ -39,7 +39,11 @@ public final class SkyGridPlayerManager {
 	/////////////////////////
 	
 	public static void awardAchievement(Player player, byte SGA_ID) {
-		players.get(player.getUniqueId()).achievements.award(SGA_ID);
+		SkyGridPlayerManager.awardAchievement(player.getUniqueId(), SGA_ID);
+	}
+	
+	public static void awardAchievement(UUID playeruuid, byte SGA_ID) {
+		players.get(playeruuid).achievements.award(SGA_ID);
 	}
 	
 	public static boolean playerHasAchievementWithID(Player player, byte SGA_ID) {

@@ -7,11 +7,16 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 
+import me.barry1990.skygrid.SkyGrid;
 import me.barry1990.utils.BarrysLogger;
 
 import org.bukkit.Material;
 
 public class SkyGridAchievements {
+	
+	static {
+		SkyGrid.registerEvent(new SkyGridOnAsyncPlayerChatEvent());
+	}
 	
 	private static final String PATH = "plugins/skygrid/achievements/";
 	

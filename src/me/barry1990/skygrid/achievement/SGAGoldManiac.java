@@ -10,9 +10,17 @@ import java.util.UUID;
 import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.CraftItemEvent;
 
 
 final class SGAGoldManiac extends IAchievementWP {	
+	
+	static {
+		IAchievement.registerEvent(new SGAListener());
+	}
 	
 	private static final String name = "Gold Maniac";
 
@@ -65,4 +73,32 @@ final class SGAGoldManiac extends IAchievementWP {
 			this.progress.clear();
 		}
 	}
+	
+	private static class SGAListener implements Listener {
+		
+		@EventHandler
+		public void onCraftItem(CraftItemEvent e) {		
+			switch (e.getRecipe().getResult().getType()) {
+				
+				case GOLD_SWORD:
+				case GOLD_AXE:
+				case GOLD_HOE:
+				case GOLD_SPADE:
+				case GOLD_PICKAXE: 
+				case GOLD_HELMET:
+				case GOLD_CHESTPLATE:
+				case GOLD_LEGGINGS:
+				case GOLD_BOOTS: {
+					if (e.getWhoClicked() instanceof Player) {
+						SkyGridPlayerManager.addMaterialForGoldManiac((Player)e.getWhoClicked(), e.getRecipe().getResult().getType());
+					}
+					break;
+				}
+
+				default:
+					break;
+			}
+		}
+	}
+	
 }

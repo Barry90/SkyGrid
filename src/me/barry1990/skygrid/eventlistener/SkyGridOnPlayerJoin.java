@@ -2,12 +2,10 @@ package me.barry1990.skygrid.eventlistener;
 
 import java.util.Random;
 
-import me.barry1990.skygrid.achievement.SGAIDENTIFIER;
 import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 import me.barry1990.skygrid.sql.SkyGridSQL;
 import me.barry1990.utils.BarrysLogger;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World.Environment;
 import org.bukkit.entity.Player;
@@ -67,14 +65,6 @@ public final class SkyGridOnPlayerJoin implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		BarrysLogger.info(this, "PlayerJoinEvent called");
 		Player player = event.getPlayer();		
-		if (!SkyGridPlayerManager.playerHasAchievementWithID(player, SGAIDENTIFIER.SO_IT_BEGINS)) {
-			
-			player.sendMessage(ChatColor.GREEN + "Willkommen in SkyGrid");
-			SkyGridPlayerManager.awardAchievement(player, SGAIDENTIFIER.SO_IT_BEGINS);
-			
-		} else {
-			player.sendMessage(ChatColor.GREEN + "Willkommen zurück");
-		}
 		
 		SkyGridPlayerManager.loadAfterPlayerJoin(player.getPlayer());
 

@@ -3,11 +3,13 @@ package me.barry1990.skygrid.achievement;
 import java.util.HashMap;
 import java.util.UUID;
 
+import me.barry1990.skygrid.SkyGrid;
 import me.barry1990.skygrid.TitleManager;
 import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 import me.barry1990.utils.BarrysLogger;
 
 import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
 
 
 abstract class IAchievement {
@@ -26,6 +28,10 @@ abstract class IAchievement {
 	
 	abstract protected Byte getId();
 	abstract protected String getName();
+	
+	final static void registerEvent(Listener event) {
+		SkyGrid.registerEvent(event);
+	}
 	
 	final synchronized void award() {
 		this.hasAchievement = true;

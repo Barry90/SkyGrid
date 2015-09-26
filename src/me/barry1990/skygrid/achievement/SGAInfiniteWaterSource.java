@@ -3,8 +3,20 @@ package me.barry1990.skygrid.achievement;
 import java.util.HashMap;
 import java.util.UUID;
 
+import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
+
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.inventory.ItemStack;
+
 
 final class SGAInfiniteWaterSource extends IAchievementNP {
+	
+	static {
+		IAchievement.registerEvent(new SGAListener());
+	}
 	
 	private static final String name = "Infinite Water Source?";
 	
@@ -20,6 +32,30 @@ final class SGAInfiniteWaterSource extends IAchievementNP {
 	@Override
 	protected String getName() {
 		return SGAInfiniteWaterSource.name;
+	}
+	
+	
+	private static class SGAListener implements Listener {
+	
+		@EventHandler
+		public void onCraftItem(CraftItemEvent e) {		
+			switch (e.getRecipe().getResult().getType()) {
+			
+				/////////////////////////////////////////////
+				//	ACHIEVEMENT: INFINITE_WATER_SOURCE
+				/////////////////////////////////////////////
+			
+				case WATER_BUCKET: {
+					e.getInventory().setMatrix(new ItemStack[e.getInventory().getMatrix().length]);
+					if (e.getWhoClicked() instanceof Player) {
+						SkyGridPlayerManager.awardAchievement((Player)e.getWhoClicked(), SGAIDENTIFIER.INFINITE_WATER_SOURCE);
+					}
+					break;
+				}
+				default: 
+					break;
+			}			
+		}
 	}
 
 }

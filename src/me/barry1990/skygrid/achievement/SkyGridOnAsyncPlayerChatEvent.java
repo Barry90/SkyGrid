@@ -1,6 +1,5 @@
-package me.barry1990.skygrid.eventlistener;
+package me.barry1990.skygrid.achievement;
 
-import me.barry1990.skygrid.achievement.SGAIDENTIFIER;
 import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 
 import org.bukkit.entity.Player;
@@ -8,8 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-//Explicit indexing is used when the format specifier contains an argument index. The argument i
-public final class SkyGridOnAsyncPlayerChatEvent implements Listener {
+final class SkyGridOnAsyncPlayerChatEvent implements Listener {
 	
 	private static final String f1 = "§6|";
 	private static final String f2 = "%1$s§6|§f %2$s";

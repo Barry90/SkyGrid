@@ -3,8 +3,19 @@ package me.barry1990.skygrid.achievement;
 import java.util.HashMap;
 import java.util.UUID;
 
+import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
+
+import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+
 
 final class SGAGetRichOrDieTryin extends IAchievementNP {
+	
+	static {
+		IAchievement.registerEvent(new SGAListener());
+	}
 	
 	private static final String name = "Get Rich Or Die Tryin";
 
@@ -21,5 +32,15 @@ final class SGAGetRichOrDieTryin extends IAchievementNP {
 	protected String getName() {
 		return SGAGetRichOrDieTryin.name;
 	}
-
+	
+	private static class SGAListener implements Listener {
+		
+		@EventHandler
+		public void SkyGridonBlockBreakEvent(BlockBreakEvent e) {
+			if (e.getBlock().getType() == Material.DIAMOND_ORE) {
+				SkyGridPlayerManager.awardAchievement(e.getPlayer(), SGAIDENTIFIER.GET_RICH_OR_DIE_TRYIN);
+			}
+		}
+	}
+	
 }

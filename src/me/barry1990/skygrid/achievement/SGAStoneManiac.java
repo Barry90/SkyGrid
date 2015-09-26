@@ -10,9 +10,17 @@ import java.util.UUID;
 import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.CraftItemEvent;
 
 
 final class SGAStoneManiac extends IAchievementWP {
+	
+	static {
+		IAchievement.registerEvent(new SGAListener());
+	}
 
 	private static final String name = "Stone Maniac";
 
@@ -63,6 +71,29 @@ final class SGAStoneManiac extends IAchievementWP {
 		if (this.progress.size() == 5) {	
 			SkyGridPlayerManager.awardAchievement(this.getPlayerUUID(), this.getId());
 			this.progress.clear();
+		}
+	}
+	
+	private static class SGAListener implements Listener {
+		
+		@EventHandler
+		public void onCraftItem(CraftItemEvent e) {		
+			switch (e.getRecipe().getResult().getType()) {
+				
+				case STONE_SWORD:
+				case STONE_AXE:
+				case STONE_HOE:
+				case STONE_SPADE:
+				case STONE_PICKAXE: {
+					if (e.getWhoClicked() instanceof Player) {
+						SkyGridPlayerManager.addMaterialForStoneManiac((Player)e.getWhoClicked(), e.getRecipe().getResult().getType());
+					}
+					break;
+				}
+
+				default:
+					break;
+			}
 		}
 	}
 

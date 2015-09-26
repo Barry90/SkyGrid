@@ -10,9 +10,17 @@ import java.util.UUID;
 import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.CraftItemEvent;
 
 
 final class SGADiamondManiac extends IAchievementWP {
+	
+	static {
+		IAchievement.registerEvent(new SGAListener());
+	}
 	
 	private static final String name = "Diamond Maniac";
 
@@ -63,6 +71,33 @@ final class SGADiamondManiac extends IAchievementWP {
 		if (this.progress.size() == 9) {	
 			SkyGridPlayerManager.awardAchievement(this.getPlayerUUID(), this.getId());
 			this.progress.clear();
+		}
+	}
+	
+	private static class SGAListener implements Listener {
+		
+		@EventHandler
+		public void onCraftItem(CraftItemEvent e) {		
+			switch (e.getRecipe().getResult().getType()) {
+				
+				case DIAMOND_SWORD:
+				case DIAMOND_AXE:
+				case DIAMOND_HOE:
+				case DIAMOND_SPADE:
+				case DIAMOND_PICKAXE: 
+				case DIAMOND_HELMET:
+				case DIAMOND_CHESTPLATE:
+				case DIAMOND_LEGGINGS:
+				case DIAMOND_BOOTS: {
+					if (e.getWhoClicked() instanceof Player) {
+						SkyGridPlayerManager.addMaterialForDiamondManiac((Player)e.getWhoClicked(), e.getRecipe().getResult().getType());
+					}
+					break;
+				}
+
+				default:
+					break;
+			}
 		}
 	}
 

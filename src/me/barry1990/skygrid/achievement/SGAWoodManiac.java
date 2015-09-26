@@ -10,9 +10,17 @@ import java.util.UUID;
 import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.CraftItemEvent;
 
 
 final class SGAWoodManiac extends IAchievementWP {
+	
+	static {
+		IAchievement.registerEvent(new SGAListener());
+	}
 	
 	private static final String name = "Wood Maniac";
 
@@ -66,6 +74,27 @@ final class SGAWoodManiac extends IAchievementWP {
 		}
 	}
 
-	
+	private static class SGAListener implements Listener {
+		
+		@EventHandler
+		public void onCraftItem(CraftItemEvent e) {		
+			switch (e.getRecipe().getResult().getType()) {
+				
+				case WOOD_SWORD:
+				case WOOD_AXE:
+				case WOOD_HOE:
+				case WOOD_SPADE:
+				case WOOD_PICKAXE: {
+					if (e.getWhoClicked() instanceof Player) {
+						SkyGridPlayerManager.addMaterialForWoodManiac((Player)e.getWhoClicked(), e.getRecipe().getResult().getType());
+					}
+					break;
+				}
+
+				default:
+					break;
+			}
+		}
+	}
 
 }

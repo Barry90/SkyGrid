@@ -5,9 +5,11 @@ import java.util.UUID;
 
 import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.enchantment.EnchantItemEvent;
+import org.bukkit.inventory.ItemStack;
 
 
 final class SGATimeToEnchant extends IAchievementNP {
@@ -30,6 +32,11 @@ final class SGATimeToEnchant extends IAchievementNP {
 	@Override
 	protected String getName() {
 		return SGATimeToEnchant.name;
+	}
+	
+	@Override
+	protected ItemStack getAchievementItem() {	
+		return new ItemStack(Material.ENCHANTMENT_TABLE, 1);
 	}
 	
 	private static class SGAListener implements Listener {

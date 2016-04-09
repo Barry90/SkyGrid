@@ -6,9 +6,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 import me.barry1990.utils.FileManagement;
@@ -46,6 +49,25 @@ final class SGANetherCleaner extends IAchievementWP {
 	@Override
 	protected String getName() {
 		return SGANetherCleaner.name;
+	}
+	
+	@Override
+	protected ItemStack getAchievementItem() {
+		return new ItemStack(Material.NETHERRACK, 1);
+	}
+	
+	@Override
+	protected boolean hasProgress() {
+		return (this.progress != 0);
+	}
+	
+	@Override
+	protected ItemStack getAchievementProgressItem() {	
+		ItemStack item = new ItemStack(Material.FIREWORK_CHARGE, 1);
+		ItemMeta meta = item.getItemMeta();
+		meta.setDisplayName(String.format(PROGRESS_F, this.getName(), (this.progress * 100 ) / 400));
+		item.setItemMeta(meta);
+		return item;
 	}
 	
 	public void addProgress() {		

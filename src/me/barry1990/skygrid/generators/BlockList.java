@@ -124,7 +124,11 @@ class BlockList {
 		//////////////////////////
 		
 		BlockList.end_common = new Material[] {
-				Material.ENDER_STONE
+				Material.ENDER_STONE,
+				Material.ENDER_STONE,
+				Material.ENDER_STONE,
+				Material.END_BRICKS,
+				Material.PURPUR_BLOCK
 		};	
 		BlockList.end_rare = new Material[] {
 				Material.STATIONARY_LAVA,

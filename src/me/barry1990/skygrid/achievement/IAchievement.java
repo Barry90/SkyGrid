@@ -1,5 +1,6 @@
 package me.barry1990.skygrid.achievement;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -9,10 +10,16 @@ import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 import me.barry1990.utils.BarrysLogger;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 
 abstract class IAchievement {
+	
+	final protected static String AWARDED = "§2 Owned.";
+	final protected static String NOT_OWNED = "§4 Not owned.";
 	
 	private boolean hasAchievement;
 	private UUID playeruuid;
@@ -28,9 +35,36 @@ abstract class IAchievement {
 	
 	abstract protected Byte getId();
 	abstract protected String getName();
+	abstract protected ItemStack getAchievementItem();
 	
 	final static void registerEvent(Listener event) {
 		SkyGrid.registerEvent(event);
+	}
+	
+	protected ItemStack getAchievementInventoryItem() {		
+		if (this.hasAchievement) {
+			ItemStack item = this.getAchievementItem();
+			ItemMeta meta = item.getItemMeta();
+			meta.setDisplayName("§6§l" + this.getName());
+			ArrayList<String> lore = new ArrayList<String>();
+			lore.add(IAchievement.AWARDED);
+			meta.setLore(lore);
+			item.setItemMeta(meta);
+			return item;
+		}
+		else
+			return this.getUnawardedItem();
+	}
+	
+	final ItemStack getUnawardedItem() {
+		ItemStack item = new ItemStack(Material.BARRIER, 1);
+		ItemMeta meta = item.getItemMeta();
+		meta.setDisplayName("§6§l" + this.getName());
+		ArrayList<String> lore = new ArrayList<String>();
+		lore.add(IAchievement.NOT_OWNED);
+		meta.setLore(lore);
+		item.setItemMeta(meta);
+		return item;
 	}
 	
 	final synchronized void award() {

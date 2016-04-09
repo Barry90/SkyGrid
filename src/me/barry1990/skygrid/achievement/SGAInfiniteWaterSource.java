@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -34,6 +35,10 @@ final class SGAInfiniteWaterSource extends IAchievementNP {
 		return SGAInfiniteWaterSource.name;
 	}
 	
+	@Override
+	protected ItemStack getAchievementItem() {	
+		return new ItemStack(Material.WATER_BUCKET, 1);
+	}
 	
 	private static class SGAListener implements Listener {
 	

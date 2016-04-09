@@ -64,6 +64,12 @@ class SkyGridChunkGeneratorOverWorld extends Thread {
 		
 		for (int y = 1; y < this.worldMaxHeight; y=y+4) {
 			
+			// is this chunk part already initialized?
+			if (result.chunk[y >> 4] == null) {
+				// Initialize the chunk part
+				result.chunk[y >> 4] = new short[4096];
+			}
+			
 			if (y <= 45) {
 				
 				//////////////////////////////
@@ -75,8 +81,7 @@ class SkyGridChunkGeneratorOverWorld extends Thread {
 					for (int x = 1; x < 16; x=x+4) {					
 						
 						Material material = BlockList.getRandomMaterialForEnd();
-						this.setBlock(result.chunk, x, y, z, material);
-						
+						result.chunk[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = (short) material.getId();
 						switch (material) {			
 							case MOB_SPAWNER: {
 								ComplexBlock cb = new ComplexBlock(material,null, x, y, z);
@@ -99,9 +104,9 @@ class SkyGridChunkGeneratorOverWorld extends Thread {
 					
 					for (int x = 1; x < 16; x=x+4) {
 						
-						Material material = BlockList.getRandomMaterialForNether();
+						Material material = BlockList.getRandomMaterialForNether();		
 						
-						this.setBlock(result.chunk, x, y, z, material);
+						result.chunk[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = (short) material.getId();
 						MaterialData materialdata = null;
 						switch (material) {
 							case JACK_O_LANTERN:
@@ -144,7 +149,7 @@ class SkyGridChunkGeneratorOverWorld extends Thread {
 						
 						Material material = BlockList.getRandomMaterial();
 						
-						this.setBlock(result.chunk, x, y, z, material);
+						result.chunk[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = (short) material.getId();
 						MaterialData materialdata = null;
 						switch (material) {
 							case WOOL : {				
@@ -176,24 +181,24 @@ class SkyGridChunkGeneratorOverWorld extends Thread {
 							}				
 							case SAND: {
 								if (this.random.nextInt(100) <= 2) {
-									this.setBlock(result.chunk, x, y+1, z, Material.SUGAR_CANE_BLOCK);
+									result.chunk[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = (short) material.getId();
 									switch (this.random.nextInt(4)) {
-										case 0 : {this.setBlock(result.chunk, x+1, y, z, Material.STATIONARY_WATER); break;}
-										case 1 : {this.setBlock(result.chunk, x-1, y, z, Material.STATIONARY_WATER); break;}
-										case 2 : {this.setBlock(result.chunk, x, y, z+1, Material.STATIONARY_WATER); break;}
-										case 3 : {this.setBlock(result.chunk, x, y, z-1, Material.STATIONARY_WATER); break;}
+										case 0 : {result.chunk[y >> 4][((y & 0xF) << 8) | (z << 4) | (x+1)] = (short)  Material.STATIONARY_WATER.getId(); break;}
+										case 1 : {result.chunk[y >> 4][((y & 0xF) << 8) | (z << 4) | (x-1)] = (short)  Material.STATIONARY_WATER.getId(); break;}
+										case 2 : {result.chunk[y >> 4][((y & 0xF) << 8) | ((z+1) << 4) | x] = (short)  Material.STATIONARY_WATER.getId(); break;}
+										case 3 : {result.chunk[y >> 4][((y & 0xF) << 8) | ((z-1) << 4) | x] = (short)  Material.STATIONARY_WATER.getId(); break;}
 									}
 								}
 								break;
 							}
 							case MYCEL: {
 								Material mushroom = this.random.nextBoolean() ? Material.RED_MUSHROOM : Material.BROWN_MUSHROOM;
-								this.setBlock(result.chunk, x, y+1, z, mushroom);							
+								result.chunk[y >> 4][(((y+1) & 0xF) << 8) | (z << 4) | x] = (short) mushroom.getId();
 								break;
 							}
 							case DIRT: {
 								if (this.random.nextInt(100) <= 2) {
-									this.setBlock(result.chunk, x, y+1, z, Material.SAPLING);
+									result.chunk[y >> 4][(((y+1) & 0xF) << 8) | (z << 4) | x] = (short) Material.SAPLING.getId();
 									ComplexBlock cb = new ComplexBlock(material,new Tree(RandomMetaDataGenerator.getTreeSpecies(Material.SAPLING, this.random)), x, y+1, z);
 									result.list.add(cb);								
 								}
@@ -220,16 +225,6 @@ class SkyGridChunkGeneratorOverWorld extends Thread {
 		
 		return result;
 		
-	}
-	
-	void setBlock(short[][] result, int x, int y, int z, Material material) {
-		// is this chunk part already initialized?
-		if (result[y >> 4] == null) {
-			// Initialize the chunk part
-			result[y >> 4] = new short[4096];
-		}
-		// set the block
-		result[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = (short) material.getId();
 	}
 	
 }

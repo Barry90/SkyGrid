@@ -42,6 +42,11 @@ final class SGAAVeryBigEgg extends IAchievementNP {
 		return SGAAVeryBigEgg.name;
 	}
 	
+	@Override
+	protected ItemStack getAchievementItem() {	
+		return new ItemStack(Material.DRAGON_EGG, 1);
+	}
+	
 	private static class SGAListener implements Listener {
 		
 		/*
@@ -173,8 +178,8 @@ final class SGAAVeryBigEgg extends IAchievementNP {
 		}
 		
 		@EventHandler
-		public void SkyGridonBlockDamageEvent(BlockDamageEvent e) {
-			if (e.getBlock().getType() == Material.ENDER_PORTAL_FRAME && e.getPlayer().getItemInHand().getEnchantments().keySet().contains(Enchantment.SILK_TOUCH)) {
+		public void SkyGridonBlockDamageEvent(BlockDamageEvent e) {			
+			if (e.getBlock().getType() == Material.ENDER_PORTAL_FRAME && e.getPlayer().getEquipment().getItemInMainHand().getEnchantments().keySet().contains(Enchantment.SILK_TOUCH)) {
 				e.getBlock().breakNaturally();
 				e.getPlayer().getWorld().dropItem(e.getBlock().getLocation().add(0.5, 0.5, 0.5), new ItemStack(Material.ENDER_PORTAL_FRAME, 1));
 			}

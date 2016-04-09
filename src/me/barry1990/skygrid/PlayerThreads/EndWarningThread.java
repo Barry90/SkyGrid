@@ -42,7 +42,7 @@ final class EndWarningThread extends BukkitRunnable {
 			if (playerY < 48) {	
 				//this.player.getVelocity().
 				TitleManager.sendTitles(player, "§fRROOOOAAAAARRR", "§f§kGet killed by Enderdragon", 5, 30, 5);
-				player.playSound(player.getLocation(), Sound.ENDERDRAGON_GROWL, 1.0f, 0.5f);
+				player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1.0f, 0.5f);
 				player.damage(2000);						
 			}
 		}

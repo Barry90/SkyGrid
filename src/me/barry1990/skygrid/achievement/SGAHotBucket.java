@@ -5,10 +5,12 @@ import java.util.UUID;
 
 import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.inventory.ItemStack;
 
 
 class SGAHotBucket extends IAchievementNP {
@@ -31,6 +33,11 @@ class SGAHotBucket extends IAchievementNP {
 	@Override
 	protected String getName() {
 		return SGAHotBucket.name;
+	}
+	
+	@Override
+	protected ItemStack getAchievementItem() {	
+		return new ItemStack(Material.LAVA_BUCKET, 1);
 	}
 	
 	private static class SGAListener implements Listener {

@@ -8,6 +8,7 @@ import me.barry1990.skygrid.PlayerThreads.SkyGridAFK;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
 
 public final class SkyGridPlayerManager {
@@ -56,6 +57,10 @@ public final class SkyGridPlayerManager {
 	
 	public static int getAchievementCountForPlayer(Player player) {
 		return players.get(player.getUniqueId()).achievements.getAchievementCount();
+	}
+	
+	public static Inventory createAchievementGUIForPlayer(Player player) {
+		return players.get(player.getUniqueId()).achievements.createAchievementGUI();
 	}
 	
 	//////////////////////////////////////////////

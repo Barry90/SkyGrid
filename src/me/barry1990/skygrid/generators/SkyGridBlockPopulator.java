@@ -122,10 +122,11 @@ class SkyGridBlockPopulator extends BlockPopulator {
 	}
 	
 	private static EntityType getEndEntityType(Random random) {
-		switch (random.nextInt(3)) {
+		switch (random.nextInt(4)) {
 			case 0 : return EntityType.ENDERMAN;
 			case 1 : return EntityType.ENDERMITE;
 			case 2 : return EntityType.WITCH;
+			case 3 : return EntityType.SHULKER;
 			default: break;
 		}	
 		

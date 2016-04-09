@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
 
 
 final class SGAGetRichOrDieTryin extends IAchievementNP {
@@ -31,6 +32,11 @@ final class SGAGetRichOrDieTryin extends IAchievementNP {
 	@Override
 	protected String getName() {
 		return SGAGetRichOrDieTryin.name;
+	}
+	
+	@Override
+	protected ItemStack getAchievementItem() {
+		return new ItemStack(Material.DIAMOND, 1);
 	}
 	
 	private static class SGAListener implements Listener {

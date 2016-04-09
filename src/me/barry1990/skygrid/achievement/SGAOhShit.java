@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
@@ -13,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.player.PlayerEggThrowEvent;
+import org.bukkit.inventory.ItemStack;
 
 
 final class SGAOhShit extends IAchievementNP {
@@ -33,6 +35,11 @@ final class SGAOhShit extends IAchievementNP {
 	@Override
 	protected String getName() {
 		return SGAOhShit.name;
+	}
+	
+	@Override
+	protected ItemStack getAchievementItem() {	
+		return new ItemStack(Material.SKULL_ITEM, 1, (short) 4);
 	}
 	
 	private static class SGAListener implements Listener {

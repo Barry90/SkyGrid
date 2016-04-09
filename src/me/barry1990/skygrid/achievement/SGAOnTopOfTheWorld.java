@@ -3,6 +3,9 @@ package me.barry1990.skygrid.achievement;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
 
 final class SGAOnTopOfTheWorld extends IAchievementNP {
 	
@@ -20,6 +23,11 @@ final class SGAOnTopOfTheWorld extends IAchievementNP {
 	@Override
 	protected String getName() {
 		return SGAOnTopOfTheWorld.name;
+	}
+	
+	@Override
+	protected ItemStack getAchievementItem() {	
+		return new ItemStack(Material.AIR, 1);
 	}
 
 }

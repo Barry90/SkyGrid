@@ -1,6 +1,6 @@
 name: SkyGrid
 authors: [Barry1990, Ktesibios]
-version: 1.0.3
+version: 1.0.4
 
 
 load: STARTUP
@@ -31,3 +31,7 @@ commands:
   afk:
     description: Toggle your AFK status
     usage: §4 Usage §6/afk.
+  achievements:
+    description: Shows your Achievements.
+    aliases: [sga, showachievements, a]
+    usage: §4 Usage §6/achievements.

@@ -6,10 +6,12 @@ import java.util.UUID;
 import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemStack;
 
 
 final class SGASoItBegins extends IAchievementNP implements Listener {
@@ -32,6 +34,11 @@ private static final String name = "So it begins";
 	@Override
 	protected String getName() {
 		return SGASoItBegins.name;
+	}
+	
+	@Override
+	protected ItemStack getAchievementItem() {	
+		return new ItemStack(Material.GRASS, 1);
 	}
 	
 	private static class SGAListener implements Listener {

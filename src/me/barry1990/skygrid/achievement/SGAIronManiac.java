@@ -14,6 +14,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 
 final class SGAIronManiac extends IAchievementWP {
@@ -59,6 +61,24 @@ final class SGAIronManiac extends IAchievementWP {
 		return SGAIronManiac.name;
 	}
 	
+	@Override
+	protected ItemStack getAchievementItem() {
+		return new ItemStack(Material.IRON_BLOCK, 1);
+	}
+	
+	@Override
+	protected boolean hasProgress() {
+		return (this.progress.size() != 0);
+	}
+	
+	@Override
+	protected ItemStack getAchievementProgressItem() {	
+		ItemStack item = new ItemStack(Material.FIREWORK_CHARGE, 1);
+		ItemMeta meta = item.getItemMeta();
+		meta.setDisplayName(String.format(PROGRESS_F, this.getName(), (this.progress.size() * 100 ) / 9));
+		item.setItemMeta(meta);
+		return item;
+	}
 	
 	public void addMaterial(Material m) {
 		if (this.hasAchievement()) 

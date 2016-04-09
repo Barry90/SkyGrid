@@ -1,6 +1,7 @@
 package me.barry1990.skygrid;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -14,7 +15,7 @@ public final class TitleManager {
 	public static void sendActionBar(Player p, String text) {
 
 		try {
-			TitleManager.sendPacket(p, "PacketPlayOutChat", new Class[] { getNMSClass("IChatBaseComponent"), byte.class }, TitleManager.chatserial.getMethod("a", String.class).invoke(null, "{\"text\": \"" + text + "\"}"), (byte) 2);
+			TitleManager.sendPacket(p, "PacketPlayOutChat", new Class[] { getNMSClass("IChatBaseComponent"), byte.class }, TitleManager.chatserial.getMethod("a", String.class).invoke(null, "{\"text\":\"" + text + "\"}"), (byte) 2);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -24,8 +25,8 @@ public final class TitleManager {
 
 		try {
 			Object packet = TitleManager.getNMSClass("PacketPlayOutPlayerListHeaderFooter").newInstance();
-			TitleManager.getField(packet.getClass().getDeclaredField("a")).set(packet, TitleManager.chatserial.getMethod("a", String.class).invoke(null, "{'text': '" + header + "'}"));
-			TitleManager.getField(packet.getClass().getDeclaredField("b")).set(packet, TitleManager.chatserial.getMethod("a", String.class).invoke(null, "{'text': '" + footer + "'}"));
+			TitleManager.getField(packet.getClass().getDeclaredField("a")).set(packet, TitleManager.chatserial.getMethod("a", String.class).invoke(null, "{\"text\":\"" + header + "\"}"));
+			TitleManager.getField(packet.getClass().getDeclaredField("b")).set(packet, TitleManager.chatserial.getMethod("a", String.class).invoke(null, "{\"text\":\"" + footer + "\"}"));
 			TitleManager.sendPacket(p, packet);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -55,7 +56,7 @@ public final class TitleManager {
 		try {
 			Object t = TitleManager.title.newInstance();
 			TitleManager.getField(t.getClass().getDeclaredField("a")).set(t, TitleManager.getField(TitleManager.enumtitleaction.getDeclaredField(field)).get(null));
-			TitleManager.getField(t.getClass().getDeclaredField("b")).set(t, TitleManager.chatserial.getMethod("a", String.class).invoke(null, "{'text': '" + text + "'}"));
+			TitleManager.getField(t.getClass().getDeclaredField("b")).set(t, TitleManager.chatserial.getMethod("a", String.class).invoke(null, "{\"text\":\"" + text + "\"}"));		
 			TitleManager.sendPacket(p, t);
 		} catch (Exception e) {
 			e.printStackTrace();

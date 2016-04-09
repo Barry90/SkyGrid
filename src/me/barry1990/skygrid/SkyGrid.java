@@ -1,6 +1,7 @@
 package me.barry1990.skygrid;
 
 //import eventlisteners
+import me.barry1990.skygrid.eventlistener.SkyGridOnInventoryClickEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerBedEnterEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerDeathEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerJoin;
@@ -18,6 +19,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SkyGrid extends JavaPlugin {
@@ -41,6 +43,7 @@ public final class SkyGrid extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerMoveEvent(), this);
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerRespawnEvent(), this);
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnPortalCreateEvent(), this);
+		this.getServer().getPluginManager().registerEvents(new SkyGridOnInventoryClickEvent(), this);
 		
 		
 		//add skygrid recipes
@@ -158,6 +161,19 @@ public final class SkyGrid extends JavaPlugin {
 					//no argument - show all homes
 					case 0 : {
 						SkyGridPlayerManager.toggleAFK(p,p.getLocation());
+						return true;
+					}
+					default:
+						return false;
+				}
+			}
+			
+			if(command.getName().equalsIgnoreCase("achievements")) {
+				switch (args.length) {
+					//no argument - show all homes
+					case 0 : {
+						Inventory inv = SkyGridPlayerManager.createAchievementGUIForPlayer(p);
+						p.openInventory(inv);
 						return true;
 					}
 					default:

@@ -3,6 +3,9 @@ package me.barry1990.skygrid.achievement;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
 
 final class SGAGoEvenDeeper extends IAchievementNP {
 	
@@ -20,6 +23,11 @@ final class SGAGoEvenDeeper extends IAchievementNP {
 	@Override
 	protected String getName() {
 		return SGAGoEvenDeeper.name;
+	}
+	
+	@Override
+	protected ItemStack getAchievementItem() {	
+		return new ItemStack(Material.ENDER_PORTAL, 1);
 	}
 
 }

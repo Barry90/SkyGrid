@@ -10,7 +10,9 @@ import java.util.UUID;
 import me.barry1990.skygrid.SkyGrid;
 import me.barry1990.utils.BarrysLogger;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.inventory.Inventory;
 
 public class SkyGridAchievements {
 	
@@ -20,6 +22,7 @@ public class SkyGridAchievements {
 	
 	private static final String PATH = "plugins/skygrid/achievements/";
 	
+	//TODO: replace HashMap with ArrayList
 	private HashMap<Byte, IAchievement> map = new HashMap<Byte, IAchievement>();
 	private UUID playeruuid;
 	
@@ -59,7 +62,18 @@ public class SkyGridAchievements {
 	// PUBLIC ACHIEVEMENTS OPARATIONS
 	//////////////////////////////////////////////
 	
-	public synchronized boolean hasAchievementWithID(byte SGA_ID) {
+	public synchronized Inventory createAchievementGUI() {
+		Inventory inv = Bukkit.createInventory(null, 18, "ACHIEVEMENTS§3");
+		int i = 0;
+		for (IAchievement a : map.values()) {
+			inv.setItem(i, a.getAchievementInventoryItem());
+			i++;
+		}
+		
+		return inv;
+	}
+	
+ 	public synchronized boolean hasAchievementWithID(byte SGA_ID) {
 		IAchievement achievement = this.map.get(SGA_ID);
 		if (achievement != null ) 
 			return achievement.hasAchievement();

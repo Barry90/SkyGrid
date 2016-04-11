@@ -39,7 +39,7 @@ public final class SGAIDENTIFIER {
 ///////////////////////////////////
 
 class SkyGridConst {
-	public static final byte END = (byte) 0x00;
+	public static final byte END = (byte) 0xEF;
 	public static final byte ACHIEVEMENTS = (byte) 0x01;
 }
 

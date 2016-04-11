@@ -44,7 +44,7 @@ final class SGAStoneManiac extends IAchievementWP {
 	@Override
 	protected void load(FileInputStream in) throws IOException {
 		int input;
-		while (((input = in.read()) != -1) && (input != SkyGridConst.END)) {
+		while (((input = in.read()) != -1) && ((byte)input != SkyGridConst.END)) {
 			Material m = SGAManiacConst.getSGAManiacConstFromByte((byte)input).m;
 			this.progress.add(m);			
 		}
@@ -82,7 +82,7 @@ final class SGAStoneManiac extends IAchievementWP {
 	
 	@Override
 	protected void addProgress(Object... values) {
-		if (this.hasAchievement() || values == null || values.length != 1 || values[0] instanceof Material) 
+		if (this.hasAchievement() || values == null || values.length != 1 || !(values[0] instanceof Material)) 
 			return;
 		
 		Material m = (Material) values[0];

@@ -57,6 +57,7 @@ public final class SkyGrid extends JavaPlugin {
 	@Override
 	public void onDisable() {
 	
+		SkyGridSQL.sharedInstance().close();
 		this.getLogger().info("v" + this.getDescription().getVersion() + " disabled.");
 		
 	}

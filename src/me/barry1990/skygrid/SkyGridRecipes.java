@@ -35,7 +35,7 @@ public final class SkyGridRecipes {
 		);
 		//Lava-Bucket
 		SkyGridRecipes.skygridrecipes.add(
-			new ShapelessRecipe(new ItemStack(Material.LAVA_BUCKET, 1))
+			new ShapelessRecipe(new ItemStack(Material.WATER_BUCKET, 3))
 			.addIngredient(1, Material.OBSIDIAN)
 			.addIngredient(1, Material.BLAZE_ROD)
 			.addIngredient(1, Material.FLINT_AND_STEEL)

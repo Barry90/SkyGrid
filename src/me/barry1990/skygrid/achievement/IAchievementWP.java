@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -34,10 +35,8 @@ abstract class IAchievementWP extends IAchievement {
 		if (this.hasProgress()) {
 			BarrysLogger.info(this, "name", this.getName());
 			ItemStack item = this.getAchievementProgressItem();
-			ArrayList<String> lore = new ArrayList<String>();
-			lore.add(IAchievementWP.TODO);
 			ItemMeta meta = item.getItemMeta();
-			meta.setLore(lore);
+			meta.setLore(Arrays.asList(IAchievementWP.TODO));
 			item.setItemMeta(meta);
 			return item;
 		} else 

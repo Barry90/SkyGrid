@@ -1,6 +1,6 @@
 package me.barry1990.skygrid.achievement;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -46,9 +46,7 @@ abstract class IAchievement {
 			ItemStack item = this.getAchievementItem();
 			ItemMeta meta = item.getItemMeta();
 			meta.setDisplayName("§6§l" + this.getName());
-			ArrayList<String> lore = new ArrayList<String>();
-			lore.add(IAchievement.AWARDED);
-			meta.setLore(lore);
+			meta.setLore(Arrays.asList(IAchievement.AWARDED));
 			item.setItemMeta(meta);
 			return item;
 		}
@@ -60,9 +58,7 @@ abstract class IAchievement {
 		ItemStack item = new ItemStack(Material.BARRIER, 1);
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName("§6§l" + this.getName());
-		ArrayList<String> lore = new ArrayList<String>();
-		lore.add(IAchievement.NOT_OWNED);
-		meta.setLore(lore);
+		meta.setLore(Arrays.asList(IAchievement.NOT_OWNED));
 		item.setItemMeta(meta);
 		return item;
 	}

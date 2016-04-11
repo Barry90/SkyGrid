@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
+import me.barry1990.utils.BarrysLogger;
 import me.barry1990.utils.FileManagement;
 
 import org.bukkit.CropState;
@@ -42,6 +43,10 @@ final class SGAVegetableMaster extends IAchievementWP {
 	@Override
 	protected void load(FileInputStream in) throws IOException {
 		this.progress = FileManagement.readShortFrom(in);
+		int b;
+		if (((byte) (b = in.read())) != SkyGridConst.END) {
+			BarrysLogger.error(this, String.format("unexpected Value: %d", b));
+		}
 	}
 
 	@Override

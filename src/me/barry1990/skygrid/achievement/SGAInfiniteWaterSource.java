@@ -41,6 +41,8 @@ final class SGAInfiniteWaterSource extends IAchievementNP {
 	}
 	
 	private static class SGAListener implements Listener {
+		
+		//private static ItemStack[] = new
 	
 		@EventHandler
 		public void onCraftItem(CraftItemEvent e) {		
@@ -51,8 +53,12 @@ final class SGAInfiniteWaterSource extends IAchievementNP {
 				/////////////////////////////////////////////
 			
 				case WATER_BUCKET: {
-					e.getInventory().setMatrix(new ItemStack[e.getInventory().getMatrix().length]);
+					e.getInventory().setMatrix(new ItemStack[]{
+							new ItemStack(Material.AIR),new ItemStack(Material.AIR),new ItemStack(Material.AIR),
+							new ItemStack(Material.AIR),new ItemStack(Material.AIR),new ItemStack(Material.AIR),
+							new ItemStack(Material.AIR),new ItemStack(Material.AIR),new ItemStack(Material.AIR)});
 					if (e.getWhoClicked() instanceof Player) {
+						e.getWhoClicked().setItemOnCursor(e.getRecipe().getResult());
 						SkyGridPlayerManager.awardAchievement((Player)e.getWhoClicked(), SGAIDENTIFIER.INFINITE_WATER_SOURCE);
 					}
 					break;

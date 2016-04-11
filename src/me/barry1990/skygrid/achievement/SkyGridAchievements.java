@@ -187,12 +187,13 @@ public class SkyGridAchievements {
 						case SGAIDENTIFIER.IRON_MANIAC: 
 						case SGAIDENTIFIER.GOLD_MANIAC: 
 						case SGAIDENTIFIER.DIAMOND_MANIAC: 
+						case SGAIDENTIFIER.VEGETABLE_MASTER: 
 						case SGAIDENTIFIER.NETHER_CLEANER: { ((IAchievementWP) this.map.get((byte)input)).load(in); break; }
 						
 						//unknown header - read until next header or EOF
 						default: {
-							BarrysLogger.error(this, "Unknown Header in File: " + String.valueOf(input));
-							while (((input = in.read()) != -1) && (input != SkyGridConst.END)) {}
+							BarrysLogger.error(this, "Unknown Header in File: 0x" + Integer.toHexString(input));
+							while (((input = in.read()) != -1) && ((byte)input != SkyGridConst.END)) {}
 							break;
 						}
 					}
@@ -220,12 +221,12 @@ public class SkyGridAchievements {
 	
 	private void loadAchievementlist(FileInputStream in) throws IOException {
 		int input;
-		while (((input = in.read()) != -1) && (input != SkyGridConst.END)) {
+		while (((input = in.read()) != -1) && ((byte) input != SkyGridConst.END)) {
 			IAchievement achievement = this.map.get((byte) input);
 			if (achievement != null) 
 				achievement.setAchievementAwarded();
 			else
-				BarrysLogger.error(this, String.format("Could not find Achievement with ID : %d", (byte)input));					
+				BarrysLogger.error(this, String.format("Could not find Achievement with ID : 0x%s", Integer.toHexString(input)));					
 		}
 	}
 	

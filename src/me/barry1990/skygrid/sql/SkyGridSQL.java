@@ -128,27 +128,21 @@ public class SkyGridSQL {
 			throw new RuntimeException(e);
 		}
 		
-		//add shutdownhook to close connection when server stops
-		Runtime.getRuntime().addShutdownHook(new Thread() {
-
-			public void run() {
-
-				try {
-					if (!connection.isClosed() && connection != null) {
-						connection.close();
-						if (connection.isClosed())
-							BarrysLogger.info(this,"Connection to Database closed");
-					}
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			
-		});
-		
 		//prepare database
 		this.createDatabaseTables();
 
+	}
+	
+	public void close() {
+		try {
+			if (!connection.isClosed() && connection != null) {
+				connection.close();
+				if (connection.isClosed())
+					BarrysLogger.info(this,"Connection to Database closed");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	////////////////////////////////////////

@@ -25,6 +25,7 @@ public final class SGAIDENTIFIER {
 	public static final byte OH_SHIT = (byte)0x26;
 	public static final byte NETHER_CLEANER = (byte)0x27;
 	public static final byte A_VERY_BIG_EGG = (byte)0x28;
+	public static final byte VEGETABLE_MASTER = (byte)0x29;
 	
 	/* permissions achievements */
 	public static final byte SO_IT_BEGINS = (byte) 0xF0;

@@ -35,3 +35,5 @@ commands:
     description: Shows your Achievements.
     aliases: [sga, showachievements, a]
     usage: §4 Usage §6/achievements.
+  debug:
+    description: test command.

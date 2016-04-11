@@ -70,7 +70,8 @@ final class SGANetherCleaner extends IAchievementWP {
 		return item;
 	}
 	
-	public void addProgress() {		
+	@Override
+	public void addProgress(Object... values) {		
 		if (this.hasAchievement()) 
 			return;
 		
@@ -93,7 +94,7 @@ final class SGANetherCleaner extends IAchievementWP {
 					case PIG_ZOMBIE:
 					case GHAST:
 					case BLAZE: {
-						SkyGridPlayerManager.addNetherCleanerProgress(e.getEntity().getKiller());
+						SkyGridPlayerManager.addProgressForAchievement(e.getEntity().getKiller(), SGAIDENTIFIER.NETHER_CLEANER);
 						break;
 					}
 					default:

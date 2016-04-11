@@ -73,7 +73,8 @@ class BlockList {
 				Material.MYCEL,
 				Material.SLIME_BLOCK,
 				Material.COAL_BLOCK,
-				Material.PUMPKIN
+				Material.PUMPKIN,
+				Material.WORKBENCH
 		};
 		BlockList.overworld_legend = new Material[] { 
 				Material.SPONGE,

@@ -1,5 +1,6 @@
 package me.barry1990.skygrid.sql;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -115,7 +116,9 @@ public class SkyGridSQL {
 		
 		//create and open connection to the database		
 		try {
-
+			if (new File(DB_PATH).getParentFile().mkdirs())				
+				BarrysLogger.info(this,"Directory created for Database.");
+			
 			BarrysLogger.info(this,"Creating Connection to Database...");
 			connection = DriverManager.getConnection("jdbc:sqlite:" + DB_PATH);
 			if (!connection.isClosed())

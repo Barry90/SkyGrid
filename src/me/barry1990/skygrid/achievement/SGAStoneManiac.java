@@ -80,9 +80,12 @@ final class SGAStoneManiac extends IAchievementWP {
 		return item;
 	}
 	
-	public void addMaterial(Material m) {
-		if (this.hasAchievement()) 
+	@Override
+	protected void addProgress(Object... values) {
+		if (this.hasAchievement() || values == null || values.length != 1 || values[0] instanceof Material) 
 			return;
+		
+		Material m = (Material) values[0];
 		
 		if (!this.progress.contains(m)) {
 			this.progress.add(m);
@@ -106,7 +109,7 @@ final class SGAStoneManiac extends IAchievementWP {
 				case STONE_SPADE:
 				case STONE_PICKAXE: {
 					if (e.getWhoClicked() instanceof Player) {
-						SkyGridPlayerManager.addMaterialForStoneManiac((Player)e.getWhoClicked(), e.getRecipe().getResult().getType());
+						SkyGridPlayerManager.addProgressForAchievement((Player)e.getWhoClicked(),SGAIDENTIFIER.STONE_MANIAC, e.getRecipe().getResult().getType());
 					}
 					break;
 				}

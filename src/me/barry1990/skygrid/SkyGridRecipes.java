@@ -6,10 +6,12 @@ import java.util.List;
 import me.barry1990.utils.BarrysLogger;
 
 import org.bukkit.Material;
+import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.material.MaterialData;
 import org.bukkit.material.SmoothBrick;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -22,6 +24,8 @@ public final class SkyGridRecipes {
 		
 		BarrysLogger.info("start to create SkyGrid recipes");
 		SkyGridRecipes.skygridrecipes = new ArrayList<Recipe>();
+		
+		/** CRAFTING - SHAPELESS */
 		
 		//Water-Bucket
 		SkyGridRecipes.skygridrecipes.add(
@@ -37,6 +41,9 @@ public final class SkyGridRecipes {
 			.addIngredient(1, Material.FLINT_AND_STEEL)
 			.addIngredient(1, Material.BUCKET)
 		);
+		
+		/** CRAFTING - SHAPED */
+		
 		//Obsidian
 		SkyGridRecipes.skygridrecipes.add(
 			new ShapedRecipe(new ItemStack(Material.OBSIDIAN, 1))
@@ -60,6 +67,12 @@ public final class SkyGridRecipes {
 			.setIngredient('C', Material.CAULDRON_ITEM)
 		);
 		
+		/** FURNACE */
+		
+		SkyGridRecipes.skygridrecipes.add(
+			new FurnaceRecipe(new ItemStack(Material.BLAZE_POWDER, 1), new MaterialData(Material.ENDER_STONE), 0.1f)
+		);
+
 		BarrysLogger.info("SkyGrid recipes created");
 	}
 	

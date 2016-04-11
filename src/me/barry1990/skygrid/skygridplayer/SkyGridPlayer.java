@@ -37,6 +37,7 @@ final class SkyGridPlayer {
 	void unload() {
 		this.achievements.saveAchievementAndProgress();
 		this.playerthreads.invalidateThreads();
+		this.afk.dispose();
 	}
 	
 	/////////////////////////

@@ -42,7 +42,7 @@ final class SGAGetRichOrDieTryin extends IAchievementNP {
 	private static class SGAListener implements Listener {
 		
 		@EventHandler
-		public void SkyGridonBlockBreakEvent(BlockBreakEvent e) {
+		public void SGAGetRichOrDieTryinBlockBreakEvent(BlockBreakEvent e) {
 			if (e.getBlock().getType() == Material.DIAMOND_ORE) {
 				SkyGridPlayerManager.awardAchievement(e.getPlayer(), SGAIDENTIFIER.GET_RICH_OR_DIE_TRYIN);
 			}

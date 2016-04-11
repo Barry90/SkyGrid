@@ -11,7 +11,6 @@ import me.barry1990.skygrid.SkyGrid;
 import me.barry1990.utils.BarrysLogger;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 
 public class SkyGridAchievements {
@@ -42,8 +41,9 @@ public class SkyGridAchievements {
 		new SGAInfiniteWaterSource(this.map, playeruuid);	
 		new SGAHotBucket(this.map, playeruuid);	
 		new SGAThatWasClose(this.map, playeruuid);	
-		new SGAGetRichOrDieTryin(this.map, playeruuid);	
-		new SGAOnTopOfTheWorld(this.map, playeruuid);	
+		new SGAGetRichOrDieTryin(this.map, playeruuid);
+		new SGAVegetableMaster(this.map, playeruuid);
+		// TODO: new SGAOnTopOfTheWorld(this.map, playeruuid);	
 		new SGATimeToEnchant(this.map, playeruuid);	
 		new SGAOhShit(this.map, playeruuid);	
 		new SGANetherCleaner(this.map, playeruuid);	
@@ -63,7 +63,8 @@ public class SkyGridAchievements {
 	//////////////////////////////////////////////
 	
 	public synchronized Inventory createAchievementGUI() {
-		Inventory inv = Bukkit.createInventory(null, 18, "ACHIEVEMENTS§3");
+		int slots = (this.map.values().size() / 9 + 1) * 9;
+		Inventory inv = Bukkit.createInventory(null, slots, "ACHIEVEMENTS§3");
 		int i = 0;
 		for (IAchievement a : map.values()) {
 			inv.setItem(i, a.getAchievementInventoryItem());
@@ -241,41 +242,9 @@ public class SkyGridAchievements {
 	//////////////////////////////////////////////
 	// SPECIFIC ACHIEVEMENT HANDLING
 	//////////////////////////////////////////////
-
-
-	/* The Wood-Maniac-Achievements */
-
-	public synchronized void addMaterialForWoodManiac(Material m) {
-		((SGAWoodManiac) this.map.get(SGAIDENTIFIER.WOOD_MANIAC)).addMaterial(m);
+	
+	public synchronized void addProgress(byte id, Object... values) {
+		((IAchievementWP) this.map.get(id)).addProgress(values);
 	}
 
-	/* The Stone-Maniac-Achievements */
-
-	public synchronized void addMaterialForStoneManiac(Material m) {
-		((SGAStoneManiac) this.map.get(SGAIDENTIFIER.STONE_MANIAC)).addMaterial(m);
-	}
-
-	/* The Iron-Maniac-Achievements */
-
-	public synchronized void addMaterialForIronManiac(Material m) {
-		((SGAIronManiac) this.map.get(SGAIDENTIFIER.IRON_MANIAC)).addMaterial(m);
-	}
-
-	/* The Gold-Maniac-Achievements */
-
-	public synchronized void addMaterialForGoldManiac(Material m) {
-		((SGAGoldManiac) this.map.get(SGAIDENTIFIER.GOLD_MANIAC)).addMaterial(m);
-	}
-
-	/* The Diamond-Maniac-Achievements */
-
-	public synchronized void addMaterialForDiamondManiac(Material m) {
-		((SGADiamondManiac) this.map.get(SGAIDENTIFIER.DIAMOND_MANIAC)).addMaterial(m);
-	}
-
-	/* The Nether Cleaner-Achievement */
-
-	public synchronized void addNetherCleanerProgress() {
-		((SGANetherCleaner) this.map.get(SGAIDENTIFIER.NETHER_CLEANER)).addProgress();
-	}
 }

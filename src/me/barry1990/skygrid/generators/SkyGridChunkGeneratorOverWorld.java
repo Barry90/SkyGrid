@@ -8,6 +8,7 @@ import me.barry1990.utils.BarrysLogger;
 
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
+import org.bukkit.material.Sapling;
 import org.bukkit.material.Tree;
 
 
@@ -111,7 +112,7 @@ class SkyGridChunkGeneratorOverWorld extends Thread {
 						switch (material) {
 							case JACK_O_LANTERN:
 							case PUMPKIN : {
-								materialdata = RandomMetaDataGenerator.getPumpkin(this.random);
+								materialdata = RandomMetaDataGenerator.getPumpkin();
 								break;
 							}						
 							case CHEST: {
@@ -153,25 +154,25 @@ class SkyGridChunkGeneratorOverWorld extends Thread {
 						MaterialData materialdata = null;
 						switch (material) {
 							case WOOL : {				
-								materialdata = RandomMetaDataGenerator.getWool(this.random);
+								materialdata = RandomMetaDataGenerator.getWool();
 								break;
 							}
 							case JACK_O_LANTERN:
 							case PUMPKIN : {
-								materialdata = RandomMetaDataGenerator.getPumpkin(this.random);
+								materialdata = RandomMetaDataGenerator.getPumpkin();
 								break;
 							}
 							case LOG :
 							case LOG_2 : {
-								materialdata = RandomMetaDataGenerator.getTree(material, this.random);
+								materialdata = RandomMetaDataGenerator.getTree(material);
 								break;
 							}						
 							case FURNACE: {
-								materialdata = RandomMetaDataGenerator.getDirectionalContainer(material, this.random);
+								materialdata = RandomMetaDataGenerator.getFurnace();
 								break;
 							}
 							case MONSTER_EGGS: {
-								materialdata = RandomMetaDataGenerator.getMonsterEggs(this.random);
+								materialdata = RandomMetaDataGenerator.getMonsterEggs();
 								break;
 							}
 							case CHEST: {
@@ -199,7 +200,7 @@ class SkyGridChunkGeneratorOverWorld extends Thread {
 							case DIRT: {
 								if (this.random.nextInt(100) <= 2) {
 									result.chunk[y >> 4][(((y+1) & 0xF) << 8) | (z << 4) | x] = (short) Material.SAPLING.getId();
-									ComplexBlock cb = new ComplexBlock(material,new Tree(RandomMetaDataGenerator.getTreeSpecies(Material.SAPLING, this.random)), x, y+1, z);
+									ComplexBlock cb = new ComplexBlock(material,new Sapling(RandomMetaDataGenerator.getTreeSpecies(Material.SAPLING)), x, y+1, z);
 									result.list.add(cb);								
 								}
 								break;

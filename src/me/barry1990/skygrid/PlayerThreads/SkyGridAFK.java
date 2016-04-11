@@ -86,6 +86,14 @@ public final class SkyGridAFK {
 			this.setPlayerAFK(loc, true);
 	}
 	
+	public void dispose() {
+		this.cancelTimer();
+		this.afkThread = null;
+		this.playeruuid = null;
+		this.afkLocation = null;
+		this.lastLocation = null;
+	}
+	
 	/////////////////////////
 	// Timer
 	/////////////////////////	

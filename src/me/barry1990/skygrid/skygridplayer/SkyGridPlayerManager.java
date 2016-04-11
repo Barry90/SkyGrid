@@ -6,7 +6,6 @@ import java.util.UUID;
 import me.barry1990.skygrid.PlayerThreads.SkyGridAFK;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -66,43 +65,10 @@ public final class SkyGridPlayerManager {
 	//////////////////////////////////////////////
 	// SPECIFIC ACHIEVEMENT HANDLING
 	//////////////////////////////////////////////
-
-	/* The Wood-Maniac-Achievements */
-
-	public static void addMaterialForWoodManiac(Player player, Material m) {
-		players.get(player.getUniqueId()).achievements.addMaterialForWoodManiac(m);
+	
+	public static void addProgressForAchievement(Player player, byte id, Object... values) {
+		players.get(player.getUniqueId()).achievements.addProgress(id, values);
 	}
-
-	/* The Stone-Maniac-Achievements */
-
-	public static void addMaterialForStoneManiac(Player player, Material m) {
-		players.get(player.getUniqueId()).achievements.addMaterialForStoneManiac(m);
-	}
-
-	/* The Iron-Maniac-Achievements */
-
-	public static void addMaterialForIronManiac(Player player, Material m) {
-		players.get(player.getUniqueId()).achievements.addMaterialForIronManiac(m);
-	}
-
-	/* The Gold-Maniac-Achievements */
-
-	public static void addMaterialForGoldManiac(Player player, Material m) {
-		players.get(player.getUniqueId()).achievements.addMaterialForGoldManiac(m);
-	}
-
-	/* The Diamond-Maniac-Achievements */
-
-	public static void addMaterialForDiamondManiac(Player player, Material m) {
-		players.get(player.getUniqueId()).achievements.addMaterialForDiamondManiac(m);
-	}
-
-	/* The Nether Cleaner-Achievement */
-
-	public static void addNetherCleanerProgress(Player player) {
-		players.get(player.getUniqueId()).achievements.addNetherCleanerProgress();
-	}
-
 	
 	/////////////////////////
 	// AFK

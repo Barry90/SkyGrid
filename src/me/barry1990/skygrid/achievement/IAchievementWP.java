@@ -24,6 +24,7 @@ abstract class IAchievementWP extends IAchievement {
 	
 	abstract protected void save(FileOutputStream out) throws IOException;
 	abstract protected void load(FileInputStream in) throws IOException;
+	abstract protected void addProgress(Object... values);
 	abstract protected boolean hasProgress();
 	abstract protected ItemStack getAchievementProgressItem();
 

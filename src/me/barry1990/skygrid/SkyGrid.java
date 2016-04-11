@@ -16,6 +16,8 @@ import me.barry1990.skygrid.sql.SkyGridSQL;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.EnderCrystal;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.generator.ChunkGenerator;
@@ -168,7 +170,7 @@ public final class SkyGrid extends JavaPlugin {
 				}
 			}
 			
-			if(command.getName().equalsIgnoreCase("achievements")) {
+			if(command.getName().equalsIgnoreCase("achievements")) {		
 				switch (args.length) {
 					//no argument - show all homes
 					case 0 : {
@@ -179,6 +181,13 @@ public final class SkyGrid extends JavaPlugin {
 					default:
 						return false;
 				}
+			}
+			if(command.getName().equalsIgnoreCase("debug")) {	
+				/*
+				EnderCrystal e = (EnderCrystal) p.getWorld().spawnEntity(p.getLocation(), EntityType.ENDER_CRYSTAL);
+				e.setBeamTarget(SkyGridSQL.sharedInstance().getHome(p, SkyGridSQL.SPAWN_POINT));
+				p.setPassenger(e);
+				*/
 			}
 			
 		}

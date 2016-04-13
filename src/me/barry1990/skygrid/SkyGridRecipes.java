@@ -5,12 +5,14 @@ import java.util.List;
 
 import me.barry1990.utils.BarrysLogger;
 
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.material.Dye;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.SmoothBrick;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,11 +37,54 @@ public final class SkyGridRecipes {
 		);
 		//Lava-Bucket
 		SkyGridRecipes.skygridrecipes.add(
-			new ShapelessRecipe(new ItemStack(Material.WATER_BUCKET, 3))
+			new ShapelessRecipe(new ItemStack(Material.LAVA_BUCKET, 1))
 			.addIngredient(1, Material.OBSIDIAN)
 			.addIngredient(1, Material.BLAZE_ROD)
 			.addIngredient(1, Material.FLINT_AND_STEEL)
 			.addIngredient(1, Material.BUCKET)
+		);
+		//Blaze Rod
+		SkyGridRecipes.skygridrecipes.add(
+				new ShapelessRecipe(new ItemStack(Material.BLAZE_ROD, 1))
+				.addIngredient(2, Material.BLAZE_POWDER)
+				.addIngredient(1, Material.STICK)
+		);
+		//Sand
+		SkyGridRecipes.skygridrecipes.add(
+				new ShapelessRecipe(new ItemStack(Material.SAND, 1))
+				.addIngredient(1, new MaterialData(Material.SAND, (byte)1))
+				.addIngredient(1, new Dye(DyeColor.WHITE))
+		);
+		//Red Sand
+		SkyGridRecipes.skygridrecipes.add(
+				new ShapelessRecipe(new ItemStack(Material.SAND, 1, (short)1))
+				.addIngredient(1, new MaterialData(Material.SAND, (byte)0))
+				.addIngredient(1, new Dye(DyeColor.RED))
+		);
+		//Cobble -> Granit
+		SkyGridRecipes.skygridrecipes.add(
+				new ShapelessRecipe(new ItemStack(Material.STONE, 1, (short)1))
+				.addIngredient(1, Material.COBBLESTONE)
+		);
+		//Granit -> Diorit
+		SkyGridRecipes.skygridrecipes.add(
+				new ShapelessRecipe(new ItemStack(Material.STONE, 1, (short)3))
+				.addIngredient(1, new MaterialData(Material.STONE, (byte)1))
+		);
+		//Diorit -> Andesite
+		SkyGridRecipes.skygridrecipes.add(
+				new ShapelessRecipe(new ItemStack(Material.STONE, 1, (short)5))
+				.addIngredient(1, new MaterialData(Material.STONE, (byte)3))
+		);
+		//Andesite -> Cobble
+		SkyGridRecipes.skygridrecipes.add(
+				new ShapelessRecipe(new ItemStack(Material.COBBLESTONE, 1))
+				.addIngredient(1, new MaterialData(Material.STONE, (byte)5))
+		);
+		//Beetrodseeds
+		SkyGridRecipes.skygridrecipes.add(
+				new ShapelessRecipe(new ItemStack(Material.BEETROOT_SEEDS, 2))
+				.addIngredient(1, Material.NETHER_WARTS)
 		);
 		
 		/** CRAFTING - SHAPED */
@@ -69,6 +114,7 @@ public final class SkyGridRecipes {
 		
 		/** FURNACE */
 		
+		//Blaze Powder
 		SkyGridRecipes.skygridrecipes.add(
 			new FurnaceRecipe(new ItemStack(Material.BLAZE_POWDER, 1), new MaterialData(Material.ENDER_STONE), 0.1f)
 		);

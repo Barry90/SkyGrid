@@ -16,8 +16,6 @@ import me.barry1990.skygrid.sql.SkyGridSQL;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.EnderCrystal;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.generator.ChunkGenerator;
@@ -51,6 +49,13 @@ public final class SkyGrid extends JavaPlugin {
 		//add skygrid recipes
 		SkyGridRecipes.addSkyGridRecipes(this);
 		
+		//to fix reload bug
+		for (Player p : this.getServer().getOnlinePlayers()) {
+			SkyGridSQL.sharedInstance().addPlayer(p);
+			SkyGridPlayerManager.load(p);
+			SkyGridPlayerManager.loadAfterPlayerJoin(p);
+		}
+		
 		this.getLogger().info("v" + this.getDescription().getVersion() + " enabled.");		
 	}
 	
@@ -72,7 +77,7 @@ public final class SkyGrid extends JavaPlugin {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command,	String label, String[] args) {
 		if (sender instanceof Player) {
-			Player p = (Player) sender;
+			final Player p = (Player) sender;
 			if(command.getName().equalsIgnoreCase("home")) {
 				
 				switch (args.length) {
@@ -184,6 +189,20 @@ public final class SkyGrid extends JavaPlugin {
 				}
 			}
 			if(command.getName().equalsIgnoreCase("debug")) {	
+				/*
+				RegistrationConversation c = new RegistrationConversation(this, p, "stop", new ConversationAbandonedListener() {
+
+					@Override
+					public void conversationAbandoned(ConversationAbandonedEvent arg0) {
+
+						BarrysLogger.info("conversationAbandoned called");
+						
+					}
+				}) ;
+				
+				c.getConversation().begin();
+				*/
+				
 				/*
 				EnderCrystal e = (EnderCrystal) p.getWorld().spawnEntity(p.getLocation(), EntityType.ENDER_CRYSTAL);
 				e.setBeamTarget(SkyGridSQL.sharedInstance().getHome(p, SkyGridSQL.SPAWN_POINT));

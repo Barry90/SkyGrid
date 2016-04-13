@@ -50,7 +50,8 @@ class ItemList {
 				Material.RAW_BEEF,
 				Material.RAW_CHICKEN,
 				Material.RAW_FISH,
-				Material.CARROT_ITEM
+				Material.CARROT_ITEM,
+				Material.BEETROOT
 		};
 		
 		ItemList.equipment_items = new Material[] { 

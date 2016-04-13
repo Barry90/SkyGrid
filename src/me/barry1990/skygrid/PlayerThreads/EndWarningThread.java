@@ -8,6 +8,7 @@ import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 import me.barry1990.utils.BarrysLogger;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -31,6 +32,9 @@ final class EndWarningThread extends BukkitRunnable {
 			BarrysLogger.info(this,"player not found");
 			return;
 		}
+		
+		if (player.getGameMode() != GameMode.SURVIVAL)
+			return;
 					
 		if (!SkyGridPlayerManager.playerHasAchievementWithID(player, SGAIDENTIFIER.GO_EVEN_DEEPER) && (player.getHealth() > 0)) {
 			

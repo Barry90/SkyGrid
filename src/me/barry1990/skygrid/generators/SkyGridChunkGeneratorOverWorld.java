@@ -9,7 +9,6 @@ import me.barry1990.utils.BarrysLogger;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Sapling;
-import org.bukkit.material.Tree;
 
 
 class SkyGridChunkGeneratorOverWorld extends Thread {
@@ -57,6 +56,7 @@ class SkyGridChunkGeneratorOverWorld extends Thread {
 		return chunkqueue.remove();
 	}
 	
+	@SuppressWarnings("deprecation")
 	private ChunkWithBlockList generateOverworldChunk() {
 		
 		ChunkWithBlockList result = new ChunkWithBlockList(this.worldMaxHeight);
@@ -124,7 +124,12 @@ class SkyGridChunkGeneratorOverWorld extends Thread {
 								ComplexBlock cb = new ComplexBlock(material,null, x, y, z);
 								result.list.add(cb);
 								break;
-							}						
+							}	
+							case SOUL_SAND: {
+								if (this.random.nextInt(100) <= 2) {
+									result.chunk[y+1 >> 4][((y+1 & 0xF) << 8) | (z << 4) | (x)] = (short)  Material.NETHER_WARTS.getId();
+								}
+							}
 							default:
 								break;
 						}
@@ -182,7 +187,7 @@ class SkyGridChunkGeneratorOverWorld extends Thread {
 							}				
 							case SAND: {
 								if (this.random.nextInt(100) <= 2) {
-									result.chunk[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = (short) material.getId();
+									result.chunk[y+1 >> 4][((y+1 & 0xF) << 8) | (z << 4) | x] = (short)  Material.SUGAR_CANE_BLOCK.getId();
 									switch (this.random.nextInt(4)) {
 										case 0 : {result.chunk[y >> 4][((y & 0xF) << 8) | (z << 4) | (x+1)] = (short)  Material.STATIONARY_WATER.getId(); break;}
 										case 1 : {result.chunk[y >> 4][((y & 0xF) << 8) | (z << 4) | (x-1)] = (short)  Material.STATIONARY_WATER.getId(); break;}

@@ -8,6 +8,7 @@ import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 import me.barry1990.utils.BarrysLogger;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -29,6 +30,9 @@ final class NetherWarningThread extends BukkitRunnable {
 			return;
 		}
 		
+		if (player.getGameMode() != GameMode.SURVIVAL)
+			return;
+		
 		if (!SkyGridPlayerManager.playerHasAchievementWithID(player, SGAIDENTIFIER.GO_DEEPER)) {
 		
 			double playerY = player.getLocation().getBlockY();
@@ -40,7 +44,7 @@ final class NetherWarningThread extends BukkitRunnable {
 			if (playerY < 120 && playerY >=  48) {	
 				
 				TitleManager.sendTitles(player, "", "§4Its too hot!", 10, 15, 10);
-				player.damage(2);
+				player.damage(3);
 				
 			}
 		}

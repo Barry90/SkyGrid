@@ -20,6 +20,7 @@ class SkyGridBlockPopulator extends BlockPopulator {
 	static final int chestsize = 27;
 	private SkyGridInventoryGeneratorThread inventoryGenerator;
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public void populate(World world, Random random, Chunk chunk) {
 		

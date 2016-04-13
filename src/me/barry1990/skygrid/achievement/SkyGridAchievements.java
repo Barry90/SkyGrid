@@ -43,7 +43,8 @@ public class SkyGridAchievements {
 		new SGAThatWasClose(this.map, playeruuid);	
 		new SGAGetRichOrDieTryin(this.map, playeruuid);
 		new SGAVegetableMaster(this.map, playeruuid);
-		// TODO: new SGAOnTopOfTheWorld(this.map, playeruuid);	
+		new SGASoupKing(this.map, playeruuid);
+		new SGAOnTopOfTheWorld(this.map, playeruuid);	
 		new SGATimeToEnchant(this.map, playeruuid);	
 		new SGAOhShit(this.map, playeruuid);	
 		new SGANetherCleaner(this.map, playeruuid);	
@@ -175,7 +176,19 @@ public class SkyGridAchievements {
 				int input;	
 				
 				while (((input = in.read()) != -1) && (input != SkyGridConst.END)) {
+					byte binput = (byte)input;
 					
+					if (binput == SkyGridConst.ACHIEVEMENTS)
+						this.loadAchievementlist(in);
+					else {
+						if (this.map.get(binput) instanceof IAchievementWP) 
+							((IAchievementWP) this.map.get(binput)).load(in); 
+						else {						
+							BarrysLogger.error(this, "Unknown Header in File: 0x" + Integer.toHexString(input));
+							while (((input = in.read()) != -1) && ((byte)input != SkyGridConst.END)) {}
+						}
+					}
+					/*
 					//input = header-byte					
 					switch (input) {	
 						//achievements with no progress
@@ -192,12 +205,13 @@ public class SkyGridAchievements {
 						
 						//unknown header - read until next header or EOF
 						default: {
+												
 							BarrysLogger.error(this, "Unknown Header in File: 0x" + Integer.toHexString(input));
 							while (((input = in.read()) != -1) && ((byte)input != SkyGridConst.END)) {}
 							break;
 						}
 					}
-					
+					*/
 				}				
 			    
 			} catch (IOException e) {

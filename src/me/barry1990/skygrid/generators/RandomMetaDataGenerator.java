@@ -6,6 +6,7 @@ import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.TreeSpecies;
 import org.bukkit.block.BlockFace;
+import org.bukkit.material.Chest;
 import org.bukkit.material.DirectionalContainer;
 import org.bukkit.material.Furnace;
 import org.bukkit.material.MonsterEggs;
@@ -27,6 +28,10 @@ class RandomMetaDataGenerator {
 	
 	public static Furnace getFurnace() {
 		return new Furnace(RandomMetaDataGenerator.getBlockFaceNESW());
+	}
+	
+	public static Chest getChest() {
+		return new Chest(RandomMetaDataGenerator.getBlockFaceNESW());
 	}
 	
 	@Deprecated

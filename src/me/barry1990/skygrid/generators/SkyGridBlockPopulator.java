@@ -1,6 +1,5 @@
 package me.barry1990.skygrid.generators;
 
-import java.util.List;
 import java.util.Random;
 
 import me.barry1990.utils.BarrysLogger;
@@ -20,9 +19,11 @@ class SkyGridBlockPopulator extends BlockPopulator {
 	static final int chestsize = 27;
 	private SkyGridInventoryGeneratorThread inventoryGenerator;
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void populate(World world, Random random, Chunk chunk) {
+		
+		if (world.getEnvironment() != Environment.NORMAL) 
+			return;
 		
 		//start the thread for generating Inventorys for the chests
 		if (this.inventoryGenerator == null) {
@@ -31,17 +32,14 @@ class SkyGridBlockPopulator extends BlockPopulator {
 			this.inventoryGenerator.start();
 		}
 				
-		if (world.getEnvironment() == Environment.NORMAL) {
 		
-			// get list
-			String key = chunk.getX()+";"+chunk.getZ();
-			List<ComplexBlock> list = SkyGridGenerator.blockQueue_get(key);
-			
-			if (list != null){
-				for (ComplexBlock cb : list) {
-					Block block = chunk.getBlock(cb.x, cb.y, cb.z);
+		for (int y = 1; y < world.getMaxHeight(); y=y+4) {				
+			for (int z = 1; z < 16; z=z+4) {								
+				for (int x = 1; x < 16; x=x+4) {
 					
-					switch (cb.material) {
+					Block block = chunk.getBlock(x, y, z);
+					
+					switch (block.getType()) {
 						case CHEST: {								
 							Chest chest = (Chest)block.getState();
 							try {
@@ -52,33 +50,26 @@ class SkyGridBlockPopulator extends BlockPopulator {
 							}
 							break;
 						}
-						case MOB_SPAWNER: {
+						case MOB_SPAWNER: {							
 							
-							if (cb.y <= 45) {
+							if (y <= 45) {
 								((CreatureSpawner) block.getState()).setSpawnedType(SkyGridBlockPopulator.getEndEntityType(random));
-								break;
-							}							
-							if (cb.y <= 117) {
+							} else if (y <= 117) {
 								((CreatureSpawner) block.getState()).setSpawnedType(SkyGridBlockPopulator.getNetherEntityType(random));
-								break;
-							}							
-							((CreatureSpawner) block.getState()).setSpawnedType(SkyGridBlockPopulator.getOverworldEntityType(random));
+							} else {						
+								((CreatureSpawner) block.getState()).setSpawnedType(SkyGridBlockPopulator.getOverworldEntityType(random));
+							}
+							block.getState().update();
 							break;
 						}
 						default: {
-							block.setData(cb.materialData.getData());
 							break;
 						}
 					}
-				
-							
+					
 				}
-				// delete list
-				list.clear();			
-				SkyGridGenerator.blockQueue_remove(key);
 			}
-			
-		}
+		}	
 
 	}
 	

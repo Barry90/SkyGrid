@@ -9,7 +9,7 @@ import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerMoveEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerRespawnEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPortalCreateEvent;
 //import the generator
-import me.barry1990.skygrid.generators.SkyGridGenerator;
+import me.barry1990.skygrid.generators.SkyGridChunkGenerator;
 import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 import me.barry1990.skygrid.sql.SkyGridSQL;
 
@@ -34,7 +34,7 @@ public final class SkyGrid extends JavaPlugin {
 		SkyGridSQL.sharedInstance();
 		
 		//prepare the generator
-		SkyGridGenerator.sharedInstance();
+		SkyGridChunkGenerator.sharedInstance();
 			
 		//register eventlisteners
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerBedEnterEvent(), this);
@@ -69,7 +69,7 @@ public final class SkyGrid extends JavaPlugin {
 	
 	@Override
 	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
-		return SkyGridGenerator.sharedInstance();
+		return SkyGridChunkGenerator.sharedInstance();
 	}
 	
 	/* test commands */

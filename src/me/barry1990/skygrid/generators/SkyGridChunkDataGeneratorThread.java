@@ -7,24 +7,31 @@ import java.util.Random;
 import me.barry1990.utils.BarrysLogger;
 
 import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.generator.ChunkGenerator.ChunkData;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Sapling;
 
 
-class SkyGridChunkGeneratorOverWorld extends Thread {
+class SkyGridChunkDataGeneratorThread extends Thread {	
+	
+	interface iChunkDataGeneratorThread {
+		ChunkData getChunkData(World world);
+	}
 	
 	static final int MAXQUEUE = 15;
-	private Queue<ChunkWithBlockList> chunkqueue = new LinkedList<ChunkWithBlockList>();
+	private Queue<ChunkData> chunkqueue = new LinkedList<ChunkData>();
 	private Random random;
-	private int worldMaxHeight;
+	private World world;
 	
-	
+	private iChunkDataGeneratorThread _interface;
  
-	public SkyGridChunkGeneratorOverWorld(int worldMaxHeight) {
+	public SkyGridChunkDataGeneratorThread(World world,  iChunkDataGeneratorThread _interface) {
 		super();
 		this.random = new Random();
-		this.worldMaxHeight = worldMaxHeight;
-		BarrysLogger.info(this, "worldMaxHeight", worldMaxHeight);
+		this.world = world;
+		this._interface = _interface;
+		BarrysLogger.info(this, "worldMaxHeight", world.getMaxHeight());
 	}
 
 	@Override
@@ -45,9 +52,9 @@ class SkyGridChunkGeneratorOverWorld extends Thread {
 		notify();
 		//Later, when the necessary event happens, the thread that is running it calls notify() from a block synchronized on the same object.
 	}
- 
+	
 	// Called by Consumer
-	public synchronized ChunkWithBlockList getChunk() throws InterruptedException {
+	public synchronized ChunkData getChunk() throws InterruptedException {
 		notify();
 		while (chunkqueue.size() == 0) {
 			BarrysLogger.info(this, "queue is empty. waiting...");
@@ -56,21 +63,17 @@ class SkyGridChunkGeneratorOverWorld extends Thread {
 		return chunkqueue.remove();
 	}
 	
-	@SuppressWarnings("deprecation")
-	private ChunkWithBlockList generateOverworldChunk() {
+	//@SuppressWarnings("deprecation")
+	private ChunkData generateOverworldChunk() {
 		
-		ChunkWithBlockList result = new ChunkWithBlockList(this.worldMaxHeight);
+		ChunkData result = this._interface.getChunkData(this.world);
+		
+		//ChunkWithBlockList result = new ChunkWithBlockList(this.world.getMaxHeight());
 		
 		/* generate the grid */
 		
-		for (int y = 1; y < this.worldMaxHeight; y=y+4) {
-			
-			// is this chunk part already initialized?
-			if (result.chunk[y >> 4] == null) {
-				// Initialize the chunk part
-				result.chunk[y >> 4] = new short[4096];
-			}
-			
+		for (int y = 1; y < this.world.getMaxHeight(); y=y+4) {
+					
 			if (y <= 45) {
 				
 				//////////////////////////////
@@ -82,11 +85,9 @@ class SkyGridChunkGeneratorOverWorld extends Thread {
 					for (int x = 1; x < 16; x=x+4) {					
 						
 						Material material = BlockList.getRandomMaterialForEnd();
-						result.chunk[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = (short) material.getId();
+						result.setBlock(x, y, z, material);
 						switch (material) {			
 							case MOB_SPAWNER: {
-								ComplexBlock cb = new ComplexBlock(material,null, x, y, z);
-								result.list.add(cb);
 								break;
 							}						
 							default:
@@ -107,7 +108,7 @@ class SkyGridChunkGeneratorOverWorld extends Thread {
 						
 						Material material = BlockList.getRandomMaterialForNether();		
 						
-						result.chunk[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = (short) material.getId();
+						result.setBlock(x, y, z, material);
 						MaterialData materialdata = null;
 						switch (material) {
 							case JACK_O_LANTERN:
@@ -115,28 +116,29 @@ class SkyGridChunkGeneratorOverWorld extends Thread {
 								materialdata = RandomMetaDataGenerator.getPumpkin();
 								break;
 							}						
+							case ENDER_CHEST:
 							case CHEST: {
-								ComplexBlock cb = new ComplexBlock(material,null, x, y, z);
-								result.list.add(cb);
+								materialdata = RandomMetaDataGenerator.getChest();
 								break;
 							}				
 							case MOB_SPAWNER: {
-								ComplexBlock cb = new ComplexBlock(material,null, x, y, z);
-								result.list.add(cb);
+								//TODO
+								//ComplexBlock cb = new ComplexBlock(material,null, x, y, z);
+								//result.list.add(cb);
 								break;
 							}	
 							case SOUL_SAND: {
 								if (this.random.nextInt(100) <= 2) {
-									result.chunk[y+1 >> 4][((y+1 & 0xF) << 8) | (z << 4) | (x)] = (short)  Material.NETHER_WARTS.getId();
+									result.setBlock(x, y, z, Material.NETHER_WARTS);
 								}
+								break;
 							}
 							default:
 								break;
 						}
 						
 						if (materialdata != null) {
-							ComplexBlock cb = new ComplexBlock(material,materialdata, x, y, z);
-							result.list.add(cb);
+							result.setBlock(x, y, z, materialdata);
 						}
 						
 					}  
@@ -155,7 +157,7 @@ class SkyGridChunkGeneratorOverWorld extends Thread {
 						
 						Material material = BlockList.getRandomMaterial();
 						
-						result.chunk[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = (short) material.getId();
+						result.setBlock(x, y, z, material);
 						MaterialData materialdata = null;
 						switch (material) {
 							case WOOL : {				
@@ -180,39 +182,36 @@ class SkyGridChunkGeneratorOverWorld extends Thread {
 								materialdata = RandomMetaDataGenerator.getMonsterEggs();
 								break;
 							}
+							case ENDER_CHEST:
 							case CHEST: {
-								ComplexBlock cb = new ComplexBlock(material,null, x, y, z);
-								result.list.add(cb);
+								materialdata = RandomMetaDataGenerator.getChest();
 								break;
 							}				
 							case SAND: {
 								if (this.random.nextInt(100) <= 2) {
-									result.chunk[y+1 >> 4][((y+1 & 0xF) << 8) | (z << 4) | x] = (short)  Material.SUGAR_CANE_BLOCK.getId();
+									result.setBlock(x, y+1, z, Material.SUGAR_CANE_BLOCK);
 									switch (this.random.nextInt(4)) {
-										case 0 : {result.chunk[y >> 4][((y & 0xF) << 8) | (z << 4) | (x+1)] = (short)  Material.STATIONARY_WATER.getId(); break;}
-										case 1 : {result.chunk[y >> 4][((y & 0xF) << 8) | (z << 4) | (x-1)] = (short)  Material.STATIONARY_WATER.getId(); break;}
-										case 2 : {result.chunk[y >> 4][((y & 0xF) << 8) | ((z+1) << 4) | x] = (short)  Material.STATIONARY_WATER.getId(); break;}
-										case 3 : {result.chunk[y >> 4][((y & 0xF) << 8) | ((z-1) << 4) | x] = (short)  Material.STATIONARY_WATER.getId(); break;}
+										case 0 : {result.setBlock(x+1, y, z, Material.STATIONARY_WATER); break;}
+										case 1 : {result.setBlock(x-1, y, z, Material.STATIONARY_WATER); break;}
+										case 2 : {result.setBlock(x, y, z+1, Material.STATIONARY_WATER); break;}
+										case 3 : {result.setBlock(x, y, z-1, Material.STATIONARY_WATER); break;}
 									}
 								}
 								break;
 							}
 							case MYCEL: {
 								Material mushroom = this.random.nextBoolean() ? Material.RED_MUSHROOM : Material.BROWN_MUSHROOM;
-								result.chunk[y >> 4][(((y+1) & 0xF) << 8) | (z << 4) | x] = (short) mushroom.getId();
+								result.setBlock(x, y+1, z, mushroom);
 								break;
 							}
 							case DIRT: {
 								if (this.random.nextInt(100) <= 2) {
-									result.chunk[y >> 4][(((y+1) & 0xF) << 8) | (z << 4) | x] = (short) Material.SAPLING.getId();
-									ComplexBlock cb = new ComplexBlock(material,new Sapling(RandomMetaDataGenerator.getTreeSpecies(Material.SAPLING)), x, y+1, z);
-									result.list.add(cb);								
+									result.setBlock(x, y+1, z, Material.SAPLING);
+									result.setBlock(x, y+1, z, new Sapling(RandomMetaDataGenerator.getTreeSpecies(Material.SAPLING)));
 								}
 								break;
 							}
 							case MOB_SPAWNER: {
-								ComplexBlock cb = new ComplexBlock(material,null, x, y, z);
-								result.list.add(cb);
 								break;
 							}
 							
@@ -220,8 +219,7 @@ class SkyGridChunkGeneratorOverWorld extends Thread {
 								break;
 						}
 						if (materialdata != null) {
-							ComplexBlock cb = new ComplexBlock(material,materialdata, x, y, z);
-							result.list.add(cb);
+							result.setBlock(x, y, z, materialdata);
 						}
 					}
 					

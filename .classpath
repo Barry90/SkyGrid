@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry excluding="me/barry1990/skygrid/RegistrationConversation.java" kind="src" path="src"/>
 	<classpathentry kind="lib" path="C:/Users/Christian/Documents/eclipse workspace/external_libraries/spigot-1.9.2-R0.1-SNAPSHOT.jar" sourcepath="C:/Users/Christian/Documents/eclipse workspace/external_libraries/spigot-api-1.9.2-R0.1-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Christian/Documents/eclipse workspace/external_libraries/TitleAPI-1.7.3.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -52,6 +52,7 @@ final class SGASoupKing extends IAchievementWPCounter {
 			
 			switch (e.getRecipe().getResult().getType()) {
 				case MUSHROOM_SOUP:
+				case RABBIT_STEW:
 				case BEETROOT_SOUP: {
 					SkyGridPlayerManager.addProgressForAchievement((Player)e.getWhoClicked(), SGAIDENTIFIER.SOUP_KING);
 				}

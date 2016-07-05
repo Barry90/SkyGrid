@@ -1,0 +1,41 @@
+package me.barry1990.skygrid.level;
+
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+
+import org.bukkit.Location;
+import org.bukkit.inventory.Recipe;
+
+import me.barry1990.skygrid.SkyGrid;
+import me.barry1990.skygrid.PlayerThreads.IPlayerThreads;
+import me.barry1990.utils.BarrysLogger;
+
+
+
+public abstract class ISkyGridLevel implements IChunkDataGenerator {
+	
+	protected Random random;	
+	
+	ISkyGridLevel() {
+		this.random = new Random();
+	}
+	
+	void prepareLevel() {
+		List<Recipe> recipes = this.registerRecipes();
+		if (recipes != null) {
+			for (Recipe recipe : recipes) {
+				SkyGrid.sharedInstance().getServer().addRecipe(recipe);
+				BarrysLogger.infoEnum("SkyGrid recipes added for", recipe.getResult().getType());
+			}
+		}
+	}
+	
+	abstract public Location generateSkyGridSpawnLocation();
+	abstract public ISkyGridAlter getSkyGridAltar();
+	abstract public IPlayerThreads getPlayerThreads(UUID playeruuid);
+	abstract List<Recipe> registerRecipes();
+	abstract public boolean isAchievementAvailable(byte sga_id);
+
+
+}

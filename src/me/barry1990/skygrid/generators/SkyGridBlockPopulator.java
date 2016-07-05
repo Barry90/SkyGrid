@@ -74,7 +74,7 @@ class SkyGridBlockPopulator extends BlockPopulator {
 	}
 	
 	private static EntityType getOverworldEntityType(Random random) {
-		switch (random.nextInt(14)) {
+		switch (random.nextInt(15)) {
 			case 0 : return EntityType.CAVE_SPIDER;
 			case 1 : return EntityType.CHICKEN;
 			case 2 : return EntityType.COW;
@@ -89,6 +89,7 @@ class SkyGridBlockPopulator extends BlockPopulator {
 			case 11 : return EntityType.SPIDER;
 			case 12 : return EntityType.WITCH;
 			case 13 : return EntityType.ZOMBIE;
+			case 14 : return EntityType.POLAR_BEAR;
 			default: break;
 		}	
 		

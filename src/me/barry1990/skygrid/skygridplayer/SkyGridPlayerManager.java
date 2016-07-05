@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import me.barry1990.skygrid.PlayerThreads.SkyGridAFK;
+import me.barry1990.utils.BarrysLogger;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -30,6 +31,7 @@ public final class SkyGridPlayerManager {
 	}
 	
 	public static void unload(Player player) {
+		//TODO: player is unloaded when player leaves while recreating world
 		players.get(player.getUniqueId()).unload();
 		players.remove(player.getUniqueId());
 	}
@@ -75,18 +77,31 @@ public final class SkyGridPlayerManager {
 	/////////////////////////
 	
 	public static void toggleAFK(Player player, Location loc) {
-		players.get(player.getUniqueId()).afk.toggleAFK(loc);
+		SkyGridPlayer p = players.get(player.getUniqueId());
+		if (p != null)
+			p.afk.toggleAFK(loc);
+		else
+			BarrysLogger.error("SkyGridPlayerManager:toggleAFK(Player player, Location loc): player not found");
 	}
 	
 	public static SkyGridAFK getSkyGridAFK(UUID playeruuid) {
-		return players.get(playeruuid).afk;
+		SkyGridPlayer p = players.get(playeruuid);
+		return p != null ? p.afk : null;
 	}
 	
 	public static void setPlayerIsBack(UUID playeruuid, Location loc) {
-		players.get(playeruuid).afk.setPlayerIsBack(loc);
+		SkyGridPlayer p = players.get(playeruuid);
+		if (p != null)
+			p.afk.setPlayerIsBack(loc);
+		else
+			BarrysLogger.error("SkyGridPlayerManager:setPlayerIsBack(Player player, Location loc): player not found");
 	}
 	
 	public static void setPlayerAFK(UUID playeruuid, Location loc, boolean fromcommand) {
-		players.get(playeruuid).afk.setPlayerAFK(loc, fromcommand);
+		SkyGridPlayer p = players.get(playeruuid);
+		if (p != null)
+			p.afk.setPlayerAFK(loc, fromcommand);
+		else
+			BarrysLogger.error("SkyGridPlayerManager:setPlayerAFK(UUID playeruuid, Location loc, boolean fromcommand): player not found");
 	}
 }

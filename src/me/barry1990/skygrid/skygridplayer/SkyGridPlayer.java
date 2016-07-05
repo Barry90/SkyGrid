@@ -2,7 +2,8 @@ package me.barry1990.skygrid.skygridplayer;
 
 import java.util.UUID;
 
-import me.barry1990.skygrid.PlayerThreads.PlayerThreads;
+import me.barry1990.skygrid.SkyGrid;
+import me.barry1990.skygrid.PlayerThreads.IPlayerThreads;
 import me.barry1990.skygrid.PlayerThreads.SkyGridAFK;
 import me.barry1990.skygrid.achievement.SkyGridAchievements;
 
@@ -12,8 +13,8 @@ final class SkyGridPlayer {
 	private UUID playeruuid;
 	
 
+	private IPlayerThreads playerthreads;
 	SkyGridAchievements achievements;
-	PlayerThreads playerthreads;
 	SkyGridAFK afk;
 	
 	/////////////////////////
@@ -45,7 +46,7 @@ final class SkyGridPlayer {
 	/////////////////////////
 	
 	void createPlayerThreads() {
-		this.playerthreads = new PlayerThreads(this.playeruuid);
+		this.playerthreads = SkyGrid.getLevelManager().getLevel().getPlayerThreads(this.playeruuid);
 	}
 	
 	/////////////////////////

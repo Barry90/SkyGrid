@@ -1,6 +1,7 @@
 package me.barry1990.skygrid;
 
 //import eventlisteners
+import me.barry1990.skygrid.achievement.SkyGridAchievements;
 import me.barry1990.skygrid.eventlistener.SkyGridOnInventoryClickEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerBedEnterEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerDeathEvent;
@@ -8,12 +9,16 @@ import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerJoin;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerMoveEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerRespawnEvent;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPortalCreateEvent;
+import me.barry1990.skygrid.eventlistener.SkyGridOnWorldLoadedEvent;
 //import the generator
-import me.barry1990.skygrid.generators.SkyGridChunkGenerator;
+import me.barry1990.skygrid.level.SkyGridLevel_Manager;
 import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 import me.barry1990.skygrid.sql.SkyGridSQL;
+import me.barry1990.skygrid.world.SkyGridChunkGeneratorWaitingRoom;
+import me.barry1990.skygrid.world.SkyGridWorld;
 
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -25,18 +30,21 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class SkyGrid extends JavaPlugin {
 	
 	private static SkyGrid sharedinstance;
+	private static SkyGridLevel_Manager levelmanager;
+	private static SkyGridChunkGeneratorWaitingRoom waitingroom;
+	//private boolean doReset = false;
 		
 	@Override
 	public void onEnable() {
 		
 		SkyGrid.sharedinstance = this;
-		
-		SkyGridSQL.sharedInstance();
-		
-		//prepare the generator
-		SkyGridChunkGenerator.sharedInstance();
+		SkyGrid.levelmanager = SkyGridLevel_Manager.sharedInstance();
+		SkyGrid.waitingroom = new SkyGridChunkGeneratorWaitingRoom();
+
+		SkyGridSQL.sharedInstance();		
 			
 		//register eventlisteners
+		this.getServer().getPluginManager().registerEvents(new SkyGridOnWorldLoadedEvent(), this);
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerBedEnterEvent(), this);
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerDeathEvent(), this);
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerJoin(), this);
@@ -44,24 +52,21 @@ public final class SkyGrid extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnPlayerRespawnEvent(), this);
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnPortalCreateEvent(), this);
 		this.getServer().getPluginManager().registerEvents(new SkyGridOnInventoryClickEvent(), this);
-		
-		
-		//add skygrid recipes
-		SkyGridRecipes.addSkyGridRecipes(this);
-		
+				
 		//to fix reload bug
+		
 		for (Player p : this.getServer().getOnlinePlayers()) {
 			SkyGridSQL.sharedInstance().addPlayer(p);
 			SkyGridPlayerManager.load(p);
 			SkyGridPlayerManager.loadAfterPlayerJoin(p);
-		}
+		}		
 		
 		this.getLogger().info("v" + this.getDescription().getVersion() + " enabled.");		
 	}
 	
 	@Override
 	public void onDisable() {
-	
+		
 		SkyGridSQL.sharedInstance().close();
 		this.getLogger().info("v" + this.getDescription().getVersion() + " disabled.");
 		
@@ -69,11 +74,10 @@ public final class SkyGrid extends JavaPlugin {
 	
 	@Override
 	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
-		return SkyGridChunkGenerator.sharedInstance();
+		//return SkyGrid.levelmanager.getGenerator();
+		return SkyGrid.waitingroom;
 	}
-	
-	/* test commands */
-	
+		
 	@Override
 	public boolean onCommand(CommandSender sender, Command command,	String label, String[] args) {
 		if (sender instanceof Player) {
@@ -189,25 +193,31 @@ public final class SkyGrid extends JavaPlugin {
 				}
 			}
 			if(command.getName().equalsIgnoreCase("debug")) {	
-				/*
-				RegistrationConversation c = new RegistrationConversation(this, p, "stop", new ConversationAbandonedListener() {
-
+				// debug command 
+				for (Player player : this.getServer().getOnlinePlayers()) {
+					player.teleport(new Location(this.getServer().getWorld("world"), 7, 129, 7));
+					SkyGridPlayerManager.unload(p);
+				}
+				
+				SkyGridSQL.sharedInstance().resetDatabaseTables();
+				SkyGridAchievements.deleteAllProgress();				
+				SkyGrid.getLevelManager().reload();
+				
+				new SkyGridWorld() {
+							
 					@Override
-					public void conversationAbandoned(ConversationAbandonedEvent arg0) {
-
-						BarrysLogger.info("conversationAbandoned called");
+					protected void worldLoaded(World world) {
+					
+						for (Player player : SkyGrid.this.getServer().getOnlinePlayers()) {
+							SkyGridOnPlayerJoin.registerAndLoadPlayer(player);
+							player.teleport(SkyGrid.getLevelManager().getLevel().generateSkyGridSpawnLocation());
+							SkyGridOnPlayerJoin.loadAfterPlayerJoin(player);
+						}
 						
 					}
-				}) ;
+				}.recreate();
+						
 				
-				c.getConversation().begin();
-				*/
-				
-				/*
-				EnderCrystal e = (EnderCrystal) p.getWorld().spawnEntity(p.getLocation(), EntityType.ENDER_CRYSTAL);
-				e.setBeamTarget(SkyGridSQL.sharedInstance().getHome(p, SkyGridSQL.SPAWN_POINT));
-				p.setPassenger(e);
-				*/
 			}
 			
 		}
@@ -218,9 +228,12 @@ public final class SkyGrid extends JavaPlugin {
 	public static SkyGrid sharedInstance() {
 		return SkyGrid.sharedinstance;
 	}
+	public static SkyGridLevel_Manager getLevelManager() {
+		return SkyGrid.levelmanager;
+	}
 	
 	public static void registerEvent(Listener event) {
 		SkyGrid.sharedinstance.getServer().getPluginManager().registerEvents(event, SkyGrid.sharedinstance);
 	}
-
+		
 }

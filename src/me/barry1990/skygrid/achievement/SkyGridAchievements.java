@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import me.barry1990.skygrid.SkyGrid;
 import me.barry1990.utils.BarrysLogger;
+import me.barry1990.utils.FileManagement;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
@@ -19,7 +20,7 @@ public class SkyGridAchievements {
 		SkyGrid.registerEvent(new SkyGridOnAsyncPlayerChatEvent());
 	}
 	
-	private static final String PATH = "plugins/skygrid/achievements/";
+	private static final String PATH = "achievements";
 	
 	//TODO: replace HashMap with ArrayList
 	private HashMap<Byte, IAchievement> map = new HashMap<Byte, IAchievement>();
@@ -32,33 +33,33 @@ public class SkyGridAchievements {
 	public SkyGridAchievements(UUID playeruuid) {
 		this.playeruuid = playeruuid;
 		
-		new SGAWoodManiac(this.map, playeruuid);	
-		new SGAStoneManiac(this.map, playeruuid);	
-		new SGAIronManiac(this.map, playeruuid);	
-		new SGAGoldManiac(this.map, playeruuid);	
-		new SGADiamondManiac(this.map, playeruuid);	
+		if (SkyGrid.getLevelManager().getLevel().isAchievementAvailable(SGAIDENTIFIER.WOOD_MANIAC)) new SGAWoodManiac(this.map, playeruuid);	
+		if (SkyGrid.getLevelManager().getLevel().isAchievementAvailable(SGAIDENTIFIER.STONE_MANIAC)) new SGAStoneManiac(this.map, playeruuid);	
+		if (SkyGrid.getLevelManager().getLevel().isAchievementAvailable(SGAIDENTIFIER.IRON_MANIAC)) new SGAIronManiac(this.map, playeruuid);	
+		if (SkyGrid.getLevelManager().getLevel().isAchievementAvailable(SGAIDENTIFIER.GOLD_MANIAC)) new SGAGoldManiac(this.map, playeruuid);	
+		if (SkyGrid.getLevelManager().getLevel().isAchievementAvailable(SGAIDENTIFIER.DIAMOND_MANIAC)) new SGADiamondManiac(this.map, playeruuid);	
 		
-		new SGAInfiniteWaterSource(this.map, playeruuid);	
-		new SGAHotBucket(this.map, playeruuid);	
-		new SGAThatWasClose(this.map, playeruuid);	
-		new SGAGetRichOrDieTryin(this.map, playeruuid);
-		new SGAVegetableMaster(this.map, playeruuid);
-		new SGASoupKing(this.map, playeruuid);
-		new SGAOnTopOfTheWorld(this.map, playeruuid);	
-		new SGATimeToEnchant(this.map, playeruuid);	
-		new SGAOhShit(this.map, playeruuid);	
-		new SGANetherCleaner(this.map, playeruuid);	
-		new SGAAVeryBigEgg(this.map, playeruuid);	
+		if (SkyGrid.getLevelManager().getLevel().isAchievementAvailable(SGAIDENTIFIER.INFINITE_WATER_SOURCE)) new SGAInfiniteWaterSource(this.map, playeruuid);	
+		if (SkyGrid.getLevelManager().getLevel().isAchievementAvailable(SGAIDENTIFIER.HOT_BUCKET)) new SGAHotBucket(this.map, playeruuid);	
+		if (SkyGrid.getLevelManager().getLevel().isAchievementAvailable(SGAIDENTIFIER.THAT_WAS_CLOSE)) new SGAThatWasClose(this.map, playeruuid);	
+		if (SkyGrid.getLevelManager().getLevel().isAchievementAvailable(SGAIDENTIFIER.GET_RICH_OR_DIE_TRYIN)) new SGAGetRichOrDieTryin(this.map, playeruuid);
+		if (SkyGrid.getLevelManager().getLevel().isAchievementAvailable(SGAIDENTIFIER.VEGETABLE_MASTER)) new SGAVegetableMaster(this.map, playeruuid);
+		if (SkyGrid.getLevelManager().getLevel().isAchievementAvailable(SGAIDENTIFIER.SOUP_KING)) new SGASoupKing(this.map, playeruuid);
+		if (SkyGrid.getLevelManager().getLevel().isAchievementAvailable(SGAIDENTIFIER.ON_TOP_OF_THE_WORLD)) new SGAOnTopOfTheWorld(this.map, playeruuid);	
+		if (SkyGrid.getLevelManager().getLevel().isAchievementAvailable(SGAIDENTIFIER.TIME_TO_ENCHANT)) new SGATimeToEnchant(this.map, playeruuid);	
+		if (SkyGrid.getLevelManager().getLevel().isAchievementAvailable(SGAIDENTIFIER.OH_SHIT)) new SGAOhShit(this.map, playeruuid);	
+		if (SkyGrid.getLevelManager().getLevel().isAchievementAvailable(SGAIDENTIFIER.NETHER_CLEANER)) new SGANetherCleaner(this.map, playeruuid);	
+		if (SkyGrid.getLevelManager().getLevel().isAchievementAvailable(SGAIDENTIFIER.A_VERY_BIG_EGG)) new SGAAVeryBigEgg(this.map, playeruuid);	
 		
 		
-		new SGASoItBegins(this.map, playeruuid);	
-		new SGAGoDeeper(this.map, playeruuid);	
-		new SGAGoEvenDeeper(this.map, playeruuid);	
+		if (SkyGrid.getLevelManager().getLevel().isAchievementAvailable(SGAIDENTIFIER.SO_IT_BEGINS)) new SGASoItBegins(this.map, playeruuid);	
+		if (SkyGrid.getLevelManager().getLevel().isAchievementAvailable(SGAIDENTIFIER.GO_DEEPER)) new SGAGoDeeper(this.map, playeruuid);	
+		if (SkyGrid.getLevelManager().getLevel().isAchievementAvailable(SGAIDENTIFIER.GO_EVEN_DEEPER)) new SGAGoEvenDeeper(this.map, playeruuid);	
 		
 		this.loadAchievements();
 
 	}
-	
+
 	//////////////////////////////////////////////
 	// PUBLIC ACHIEVEMENTS OPARATIONS
 	//////////////////////////////////////////////
@@ -125,7 +126,7 @@ public class SkyGridAchievements {
 	//////////////////////////////////////////////		
 	
  	private synchronized void saveAchievements() {
-		File file = new File(PATH + this.playeruuid.toString());
+		File file = new File(SkyGrid.sharedInstance().getDataFolder() + File.separator + PATH + File.separator + this.playeruuid.toString());
 		
 		if (!file.exists()) {
 			try {
@@ -164,7 +165,7 @@ public class SkyGridAchievements {
 	
 	private synchronized void loadAchievements() {
 		
-		File file = new File(PATH + this.playeruuid.toString());
+		File file = new File(SkyGrid.sharedInstance().getDataFolder() + File.separator + PATH + File.separator + this.playeruuid.toString());
 		
 		if (file.exists()) {
 			
@@ -188,30 +189,7 @@ public class SkyGridAchievements {
 							while (((input = in.read()) != -1) && ((byte)input != SkyGridConst.END)) {}
 						}
 					}
-					/*
-					//input = header-byte					
-					switch (input) {	
-						//achievements with no progress
-						case SkyGridConst.ACHIEVEMENTS: { this.loadAchievementlist(in); break; }
-						
-						//achievements with progress
-						case SGAIDENTIFIER.WOOD_MANIAC: 						
-						case SGAIDENTIFIER.STONE_MANIAC: 
-						case SGAIDENTIFIER.IRON_MANIAC: 
-						case SGAIDENTIFIER.GOLD_MANIAC: 
-						case SGAIDENTIFIER.DIAMOND_MANIAC: 
-						case SGAIDENTIFIER.VEGETABLE_MASTER: 
-						case SGAIDENTIFIER.NETHER_CLEANER: { ((IAchievementWP) this.map.get((byte)input)).load(in); break; }
-						
-						//unknown header - read until next header or EOF
-						default: {
-												
-							BarrysLogger.error(this, "Unknown Header in File: 0x" + Integer.toHexString(input));
-							while (((input = in.read()) != -1) && ((byte)input != SkyGridConst.END)) {}
-							break;
-						}
-					}
-					*/
+
 				}				
 			    
 			} catch (IOException e) {
@@ -260,6 +238,14 @@ public class SkyGridAchievements {
 	
 	public synchronized void addProgress(byte id, Object... values) {
 		((IAchievementWP) this.map.get(id)).addProgress(values);
+	}
+	
+	/////////////////////////
+	// RESET
+	/////////////////////////
+	
+	public static void deleteAllProgress() {
+		FileManagement.deleteDirectory(new File(SkyGrid.sharedInstance().getDataFolder() + File.separator + PATH));
 	}
 
 }

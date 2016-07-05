@@ -4,14 +4,12 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
-import me.barry1990.utils.BarrysLogger;
 
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
 
 
 final class SGAGetRichOrDieTryin extends IAchievementNP {
@@ -45,8 +43,6 @@ final class SGAGetRichOrDieTryin extends IAchievementNP {
 		
 		@EventHandler
 		public void SGAGetRichOrDieTryinBlockBreakEvent(BlockBreakEvent e) {
-			MaterialData s = e.getBlock().getState().getData();
-			BarrysLogger.info("MaterialData", s.getClass().getName());
 			if (e.getBlock().getType() == Material.DIAMOND_ORE) {
 				SkyGridPlayerManager.awardAchievement(e.getPlayer(), SGAIDENTIFIER.GET_RICH_OR_DIE_TRYIN);
 			}

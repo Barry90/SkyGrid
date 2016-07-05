@@ -370,7 +370,7 @@ public class SkyGridLevelEnd extends ISkyGridLevel {
 
 			try {			
 				
-				JsonObject all = (JsonObject)this.getJsonFromResource("test.data");
+				JsonObject all = (JsonObject)this.getJsonFromResource("SkyGridEndAltarData.data");
 				
 				for (int r = 0; r < 16; r++) {
 					JsonObject reg = all.getAsJsonObject(String.format("%d", r));

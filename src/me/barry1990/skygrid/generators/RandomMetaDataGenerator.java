@@ -15,51 +15,55 @@ import org.bukkit.material.Tree;
 import org.bukkit.material.Wool;
 
 
-class RandomMetaDataGenerator {
+public class RandomMetaDataGenerator {
 	
-	private static Random random = new Random();
+	private Random random = new Random();
+	
+	public RandomMetaDataGenerator() {
+		this.random = new Random();
+	}
 
 	/* Public  */
 	
-	public static Wool getWool() {
-		int x = RandomMetaDataGenerator.random.nextInt(DyeColor.class.getEnumConstants().length);
+	public Wool getWool() {
+		int x = this.random.nextInt(DyeColor.class.getEnumConstants().length);
 		return new Wool (DyeColor.class.getEnumConstants()[x]);
 	}
 	
-	public static Furnace getFurnace() {
-		return new Furnace(RandomMetaDataGenerator.getBlockFaceNESW());
+	public Furnace getFurnace() {
+		return new Furnace(this.getBlockFaceNESW());
 	}
 	
-	public static Chest getChest() {
-		return new Chest(RandomMetaDataGenerator.getBlockFaceNESW());
+	public Chest getChest() {
+		return new Chest(this.getBlockFaceNESW());
 	}
 	
 	@Deprecated
- 	public static DirectionalContainer getDirectionalContainer(Material m) {
+ 	public DirectionalContainer getDirectionalContainer(Material m) {
  		DirectionalContainer dcon = new DirectionalContainer(m);
- 		dcon.setFacingDirection(RandomMetaDataGenerator.getBlockFaceNESW());
+ 		dcon.setFacingDirection(this.getBlockFaceNESW());
  		return dcon;
  	}
  	
- 	public static Pumpkin getPumpkin() {
- 		return new Pumpkin(RandomMetaDataGenerator.getBlockFaceNESW());
+ 	public Pumpkin getPumpkin() {
+ 		return new Pumpkin(this.getBlockFaceNESW());
  	}
  	
- 	public static Tree getTree(Material m) {
- 		return new Tree(RandomMetaDataGenerator.getTreeSpecies(m), RandomMetaDataGenerator.getBlockFaceNESWUD());
+ 	public Tree getTree(Material m) {
+ 		return new Tree(this.getTreeSpecies(m), this.getBlockFaceNESWUD());
  	}
  	
- 	public static MonsterEggs getMonsterEggs() {
+ 	public MonsterEggs getMonsterEggs() {
  		MonsterEggs me = new MonsterEggs();
- 		me.setMaterial(me.getTextures().get(RandomMetaDataGenerator.random.nextInt(me.getTextures().size()))); 		
+ 		me.setMaterial(me.getTextures().get(this.random.nextInt(me.getTextures().size()))); 		
  		return me;
  		//return RandomMetaDataGenerator.random.nextBoolean() ? new MonsterEggs(Material.STONE) : new MonsterEggs(Material.COBBLESTONE);
  	}
 	
 	/* Private */
 	
-	private static BlockFace getBlockFaceNESW() {			
-		switch (RandomMetaDataGenerator.random.nextInt(4)) {
+	private BlockFace getBlockFaceNESW() {			
+		switch (this.random.nextInt(4)) {
 			case 0 : return BlockFace.NORTH;
 			case 1 : return BlockFace.EAST;
 			case 2 : return BlockFace.SOUTH;
@@ -69,8 +73,8 @@ class RandomMetaDataGenerator {
 		return BlockFace.NORTH;
 	}
 	
-	private static BlockFace getBlockFaceNESWUD() {			
-		switch (RandomMetaDataGenerator.random.nextInt(6)) {
+	private BlockFace getBlockFaceNESWUD() {			
+		switch (this.random.nextInt(6)) {
 			case 0 : return BlockFace.NORTH;
 			case 1 : return BlockFace.EAST;
 			case 2 : return BlockFace.SOUTH;
@@ -82,9 +86,9 @@ class RandomMetaDataGenerator {
 		return BlockFace.NORTH;
 	}
 	
-	public static TreeSpecies getTreeSpecies(Material m) {
+	public TreeSpecies getTreeSpecies(Material m) {
 		if (m == Material.LEAVES | m == Material.LOG) {
-			switch (RandomMetaDataGenerator.random.nextInt(4)) {
+			switch (this.random.nextInt(4)) {
 				case 0 : return TreeSpecies.GENERIC;
 				case 1 : return TreeSpecies.BIRCH;
 				case 2 : return TreeSpecies.JUNGLE;
@@ -92,10 +96,10 @@ class RandomMetaDataGenerator {
 			}
 		}
 		if (m == Material.LEAVES_2 | m == Material.LOG_2) {
-			return RandomMetaDataGenerator.random.nextBoolean() ? TreeSpecies.ACACIA : TreeSpecies.REDWOOD;
+			return this.random.nextBoolean() ? TreeSpecies.ACACIA : TreeSpecies.REDWOOD;
 		}
 		if (m == Material.SAPLING) {
-			int x = RandomMetaDataGenerator.random.nextInt(TreeSpecies.class.getEnumConstants().length);
+			int x = this.random.nextInt(TreeSpecies.class.getEnumConstants().length);
 			return TreeSpecies.class.getEnumConstants()[x];
 		}			
 		//we should never get here

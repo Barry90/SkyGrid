@@ -1,13 +1,12 @@
 package me.barry1990.skygrid.eventlistener;
 
-import java.util.Random;
-
+import me.barry1990.skygrid.SkyGrid;
 import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 import me.barry1990.skygrid.sql.SkyGridSQL;
+import me.barry1990.skygrid.world.SkyGridWorld;
 import me.barry1990.utils.BarrysLogger;
 
 import org.bukkit.Location;
-import org.bukkit.World.Environment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,13 +24,11 @@ public final class SkyGridOnPlayerJoin implements Listener {
 	
 	@EventHandler (ignoreCancelled=true)
 	public void onPlayerLoginEvent(PlayerLoginEvent e) {
-		BarrysLogger.info(this, "OnPlayerLoginEvent called");
-		
+		BarrysLogger.info(this, "OnPlayerLoginEvent called");		
 		
 		
 		if (e.getResult() == Result.ALLOWED) {	
-			SkyGridSQL.sharedInstance().addPlayer(e.getPlayer());
-			SkyGridPlayerManager.load(e.getPlayer());
+			SkyGridOnPlayerJoin.registerAndLoadPlayer(e.getPlayer());
 		}
 	}
 	
@@ -40,25 +37,17 @@ public final class SkyGridOnPlayerJoin implements Listener {
 		BarrysLogger.info(this, "PlayerSpawnLocationEvent called");
 		Player player = e.getPlayer();
 		
-		if (SkyGridSQL.sharedInstance().getHome(player, SkyGridSQL.SPAWN_POINT) == null) {
-		//if (!SkyGridPlayerManager.playerHasAchievementWithID(player, SGAIDENTIFIER.SO_IT_BEGINS)) {
-						
-			Random random = new Random();
-			double x,y,z;
-			x = (random.nextInt(1500)-750) * 4 + 1.5;
-			z = (random.nextInt(1500)-750) * 4 + 1.5;
-			y = player.getWorld().getEnvironment() == Environment.NORMAL ? random.nextInt(8) * 4 + 174 : 255;
-			
-			BarrysLogger.info(this,"x",x);
-			BarrysLogger.info(this,"y",y);
-			BarrysLogger.info(this,"z",z);
-			
-			Location loc = new Location(player.getWorld(), x, y, z);
-			SkyGridSQL.sharedInstance().addHome(player, loc, SkyGridSQL.SPAWN_POINT);
-			e.setSpawnLocation(loc);
-			
-
-		} 
+		if (SkyGridWorld.isReady()) {
+			if (SkyGridSQL.sharedInstance().getHome(player, SkyGridSQL.SPAWN_POINT) == null) {
+												
+				Location loc = SkyGrid.getLevelManager().getLevel().generateSkyGridSpawnLocation();				
+				SkyGridSQL.sharedInstance().addHome(player, loc, SkyGridSQL.SPAWN_POINT);
+				e.setSpawnLocation(loc);
+			}
+		} else {
+			e.setSpawnLocation(SkyGridWorld.getWaitingRoom());
+		}
+		
 	}
 	
 	@EventHandler (ignoreCancelled=true)
@@ -66,13 +55,21 @@ public final class SkyGridOnPlayerJoin implements Listener {
 		BarrysLogger.info(this, "PlayerJoinEvent called");
 		Player player = event.getPlayer();		
 		
-		SkyGridPlayerManager.loadAfterPlayerJoin(player.getPlayer());
-
+		SkyGridPlayerManager.loadAfterPlayerJoin(player);
 	}
 	
 	@EventHandler (ignoreCancelled=true)
 	public void onPlayerQuitEvent(PlayerQuitEvent e) {
 		SkyGridPlayerManager.unload(e.getPlayer());
+	}
+	
+	public static void registerAndLoadPlayer(Player p) {
+		SkyGridSQL.sharedInstance().addPlayer(p);
+		SkyGridPlayerManager.load(p);
+	}
+	
+	public static void loadAfterPlayerJoin(Player p) {
+		SkyGridPlayerManager.loadAfterPlayerJoin(p);
 	}
 
 }

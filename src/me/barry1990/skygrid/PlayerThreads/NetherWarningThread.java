@@ -12,7 +12,7 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-final class NetherWarningThread extends BukkitRunnable {
+public final class NetherWarningThread extends BukkitRunnable {
 	
 	private UUID playeruuid;
 	

@@ -1,5 +1,9 @@
 package me.barry1990.utils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @SuppressWarnings("unused")
 public class BarrysLogger {
 	
@@ -22,6 +26,8 @@ public class BarrysLogger {
 	private static final String CYAN = 			"\u001B[36;1m";
 	private static final String GRAY = 			"\u001B[37m";
 	private static final String WHITE = 		"\u001B[37;1m";
+	
+	private static final DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss.SSSS");
 	
 	
 	/////////////////////////////////
@@ -170,12 +176,12 @@ public class BarrysLogger {
 	
 	public static void error(Object this_, String errorMessage) {
 		if (!PRINT_LOGS) return;
-		System.out.print(String.format(RED + "#E %s :" + WHITE + " %s" + RESET, this_.getClass().getName(),errorMessage));
+		System.out.print(String.format(RED + "#E %s : " + WHITE + " %s" + RESET, this_.getClass().getName(),errorMessage));
 	}
 	
 	public static void error(String errorMessage) {
 		if (!PRINT_LOGS) return;
-		System.out.print(String.format(RED + "#E :" + WHITE + " %s" + RESET, errorMessage));
+		System.out.print(String.format(RED + "#E : " + WHITE + " %s" + RESET, errorMessage));
 	}
 	
 	/////////////////////////////////
@@ -184,12 +190,39 @@ public class BarrysLogger {
 	
 	public static void warn(Object this_, String errorMessage) {
 		if (!PRINT_LOGS) return;
-		System.out.print(String.format(DARKYELLOW + "#E %s :" + WHITE + " %s" + RESET, this_.getClass().getName(),errorMessage));
+		System.out.print(String.format(DARKYELLOW + "#E %s : " + WHITE + " %s" + RESET, this_.getClass().getName(),errorMessage));
 	}
 	
 	public static void warn(String errorMessage) {
 		if (!PRINT_LOGS) return;
-		System.out.print(String.format(DARKYELLOW + "#E :" + WHITE + " %s" + RESET, errorMessage));
+		System.out.print(String.format(DARKYELLOW + "#E : " + WHITE + " %s" + RESET, errorMessage));
+	}
+	
+	
+	/////////////////////////////////
+	// 		TIMINGS 
+	/////////////////////////////////
+	
+	public static long timing(Object this_, String message) {
+		if (!PRINT_LOGS) return -1;
+		Date d = new Date();
+		System.out.print(String.format(PURPLE + "#T %s : " + CYAN + "%s" + WHITE + " %s" + RESET, dateFormat.format(d), this_.getClass().getName(),message));
+		return d.getTime();
+	}
+	
+	public static long timing(String message) {
+		if (!PRINT_LOGS) return 0;
+		Date d = new Date();
+		System.out.print(String.format(PURPLE + "#T %s : " + WHITE + " %s" + RESET, dateFormat.format(d), message));
+		return d.getTime();
+	}
+	
+	public static long timing(long timing, Object this_, String message) {
+		if (!PRINT_LOGS) return -1;
+		Date d = new Date();
+		Date d2 = new Date(d.getTime() - timing);
+		System.out.print(String.format(PURPLE + "#T %s [%s]: " + CYAN + "%s" + WHITE + " %s" + RESET, dateFormat.format(d), dateFormat.format(d2), this_.getClass().getName(),message));
+		return d.getTime();
 	}
 
 }

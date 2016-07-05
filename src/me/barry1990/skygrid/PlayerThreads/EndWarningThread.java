@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 
-final class EndWarningThread extends BukkitRunnable {
+public final class EndWarningThread extends BukkitRunnable {
 	
 	private UUID playeruuid;
 

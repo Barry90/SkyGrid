@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Locale;
 
+import me.barry1990.skygrid.SkyGrid;
 import me.barry1990.utils.BarrysLogger;
 
 import org.bukkit.Bukkit;
@@ -22,7 +23,7 @@ public class SkyGridSQL {
 	
 	private static SkyGridSQL sharedinstance;
 	private static Connection connection;
-	private static final String DB_PATH = "plugins/skygrid/skygrid.db";
+	private static final String DB_NAME = "skygrid.db";
 	
 	
 	////////////////////////////////////////
@@ -30,19 +31,19 @@ public class SkyGridSQL {
 	////////////////////////////////////////
 	
 	private static final String HOMENAME_TOO_LONG = "§4Your homename is too long.";
-	private static final String HOME_NOT_FOUND = "§4You have no home named %s.";
-	private static final String PLAYER_HOME_NOT_FOUND = "§4%s has no home named %s.";
-	private static final String WELCOME = "§6Welcome to your new home %s.";
-	private static final String MOVED_HOME = "§6You have moved your home %s.";
+	private static final String HOME_NOT_FOUND = "§4You have no home named §f%s§6.";
+	private static final String PLAYER_HOME_NOT_FOUND = "§4%s has no home named §f%s§6.";
+	private static final String WELCOME = "§6Welcome to your new home §f%s.";
+	private static final String MOVED_HOME = "§6You have moved your home §f%s§6.";
 	private static final String MOVED_SPAWN = "§6You have moved your spawn point.";
 	private static final String TOO_MANY_HOMES = "§4You cannot have more than 3 homes.";
-	private static final String DELETED_HOME = "§6You §4deleted §6your home %s.";
+	private static final String DELETED_HOME = "§6You §4deleted §6your home §f%s§6.";
 	private static final String NO_HOMES = "§6You dont have any homes yet. Use /sethome to set a home.";
-	private static final String HOMES_LIST = "§6Your homes are: %s.";
+	private static final String HOMES_LIST = "§6Your homes are: %s§6.";
 	private static final String PLAYER_NOT_FOUND = "§4The player %s doesn't play SkyGrid yet.";
-	private static final String ALREADY_INVITED = "§6The player %s is already invited to your home %s.";
-	private static final String INVITED = "§6You invited %s to your home %s.";
-	private static final String WAS_INVITED = "§6You have been invited to %s's home %s.";
+	private static final String ALREADY_INVITED = "§6The player §f%s§6 is already invited to your home §f%s§6.";
+	private static final String INVITED = "§6You invited §f%s§6 to your home §f%s§6.";
+	private static final String WAS_INVITED = "§6You have been invited to §f%s§6's home §f%s§6.";
 	private static final String NOT_INVITED = "§4You are not invited to this home.";
 	
 	
@@ -53,6 +54,7 @@ public class SkyGridSQL {
 	//query	
 	
 	private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS ";
+	private static final String DROP_TABLE = "DROP TABLE ";
 	private static final String INSERT_INTO = "INSERT INTO ";
 	private static final String DELETE_FROM = "DELETE FROM ";
 	private static final String GET_ALL = "SELECT * FROM ";
@@ -116,11 +118,12 @@ public class SkyGridSQL {
 		
 		//create and open connection to the database		
 		try {
-			if (new File(DB_PATH).getParentFile().mkdirs())				
+			String dbpath = SkyGrid.sharedInstance().getDataFolder() + File.separator + DB_NAME;
+			if (new File(dbpath).getParentFile().mkdirs())				
 				BarrysLogger.info(this,"Directory created for Database.");
 			
 			BarrysLogger.info(this,"Creating Connection to Database...");
-			connection = DriverManager.getConnection("jdbc:sqlite:" + DB_PATH);
+			connection = DriverManager.getConnection("jdbc:sqlite:" + dbpath);
 			if (!connection.isClosed())
 				BarrysLogger.info(this,"...Connection established");
 			
@@ -187,6 +190,29 @@ public class SkyGridSQL {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void resetDatabaseTables() {
+		try {
+			Statement stmt = connection.createStatement();
+			
+			// player table
+			stmt.executeUpdate(DROP_TABLE + PLAYER_TABLE);
+			BarrysLogger.info(this, PLAYER_TABLE + "-table dropped.");
+			
+			// homes table
+			stmt.executeUpdate(DROP_TABLE + HOMES_TABLE);
+			BarrysLogger.info(this, HOMES_TABLE + "-table dropped.");
+			
+			// invite table			
+			stmt.executeUpdate(DROP_TABLE + INVITE_TABLE);
+			BarrysLogger.info(this, INVITE_TABLE + "-table dropped.");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		this.createDatabaseTables();
 	}
 	
 	////////////////////////////////////////
@@ -380,12 +406,12 @@ public class SkyGridSQL {
 			ResultSet rs = this.executeQuery(SELECT + H_NAME + FROM + HOMES_TABLE + WHERE + H_PLAYER_PID + IS + this.getPID(p) + ";");
 			
 			int count = 0;
-			String homes = "";
+			String homes = "§f";
 			
 			while (rs.next()) {
 				if (!rs.getString(H_NAME).equals(SPAWN_POINT)) {
 					if (count != 0) {
-						homes = homes +", ";
+						homes = homes +"§6, §f";
 					}
 					homes = homes + rs.getString(H_NAME);
 					count++;

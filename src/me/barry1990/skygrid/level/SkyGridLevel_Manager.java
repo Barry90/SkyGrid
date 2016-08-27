@@ -136,7 +136,9 @@ public final class SkyGridLevel_Manager implements Listener {
 	}
 	
 	public ChunkData getAltarChunkData(World world, ChunkData chunkdata) {
-		return this.level.getSkyGridAltar().getChunkData(world, chunkdata);
+		if (this.level.getSkyGridAltar() != null)
+			return this.level.getSkyGridAltar().getChunkData(world, chunkdata);
+		else return chunkdata;
 	}
 	
 	public boolean isAltarChunk(int x, int z) {
@@ -167,7 +169,8 @@ public final class SkyGridLevel_Manager implements Listener {
 		if (!this.isAltarChunk(e.getBlock().getChunk().getX(), e.getBlock().getChunk().getZ()))
 			return;
 	
-		this.level.getSkyGridAltar().alterChunkBlockPlaceEvent(e);
+		if (this.level.getSkyGridAltar() != null)
+			this.level.getSkyGridAltar().alterChunkBlockPlaceEvent(e);
 		 
 	}
 

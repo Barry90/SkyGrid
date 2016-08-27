@@ -47,6 +47,9 @@ final class SkyGridPlayer {
 	
 	void createPlayerThreads() {
 		this.playerthreads = SkyGrid.getLevelManager().getLevel().getPlayerThreads(this.playeruuid);
+		if (this.playerthreads == null) {
+			this.playerthreads = IPlayerThreads.EMPTY;
+		}
 	}
 	
 	/////////////////////////

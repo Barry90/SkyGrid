@@ -53,6 +53,10 @@ public class RandomMetaDataGenerator {
  		return new Tree(this.getTreeSpecies(m), this.getBlockFaceNESWUD());
  	}
  	
+ 	public Tree getTreeFullTexture(Material m) {
+ 		return new Tree(this.getTreeSpecies(m), BlockFace.SELF);
+ 	}
+ 	
  	public MonsterEggs getMonsterEggs() {
  		MonsterEggs me = new MonsterEggs();
  		me.setMaterial(me.getTextures().get(this.random.nextInt(me.getTextures().size()))); 		
@@ -92,11 +96,11 @@ public class RandomMetaDataGenerator {
 				case 0 : return TreeSpecies.GENERIC;
 				case 1 : return TreeSpecies.BIRCH;
 				case 2 : return TreeSpecies.JUNGLE;
-				case 3 : return TreeSpecies.DARK_OAK;
+				case 3 : return TreeSpecies.REDWOOD;
 			}
 		}
 		if (m == Material.LEAVES_2 | m == Material.LOG_2) {
-			return this.random.nextBoolean() ? TreeSpecies.ACACIA : TreeSpecies.REDWOOD;
+			return this.random.nextBoolean() ? TreeSpecies.ACACIA : TreeSpecies.DARK_OAK;
 		}
 		if (m == Material.SAPLING) {
 			int x = this.random.nextInt(TreeSpecies.class.getEnumConstants().length);

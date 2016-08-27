@@ -22,7 +22,6 @@ public class SkyGridAchievements {
 	
 	private static final String PATH = "achievements";
 	
-	//TODO: replace HashMap with ArrayList
 	private HashMap<Byte, IAchievement> map = new HashMap<Byte, IAchievement>();
 	private UUID playeruuid;
 	

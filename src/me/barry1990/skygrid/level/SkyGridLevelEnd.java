@@ -13,7 +13,6 @@ import me.barry1990.skygrid.PlayerThreads.EndWarningThread;
 import me.barry1990.skygrid.PlayerThreads.IPlayerThreads;
 import me.barry1990.skygrid.PlayerThreads.NetherWarningThread;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerJoin;
-import me.barry1990.skygrid.generators.RandomMetaDataGenerator;
 import me.barry1990.skygrid.world.SkyGridWorld;
 import me.barry1990.utils.BarrysLogger;
 import me.barry1990.utils.Converter;
@@ -54,12 +53,10 @@ import com.google.gson.JsonObject;
 public class SkyGridLevelEnd extends ISkyGridLevel {
 	
 	private ISkyGridAlter altar;
-	private RandomMetaDataGenerator randomMetaData;
 	private BlockList blocklist;
 	
 	public SkyGridLevelEnd() {
 		this.altar = new SkyGridEndAltar();
-		this.randomMetaData = new RandomMetaDataGenerator();
 		this.blocklist = new BlockList();
 	}
 

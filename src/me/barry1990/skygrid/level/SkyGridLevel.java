@@ -6,7 +6,8 @@ public enum SkyGridLevel {
 	
 	
 	END_LEVEL(SkyGridLevelEnd.class, 1),	
-	STONE_LEVEL(SkyGridLevelStone.class, 2);	
+	STONE_LEVEL(SkyGridLevelStone.class, 2),	
+	WOOD_LEVEL(SkyGridLevelWood.class, 3);	
 	
 	public final Class<? extends ISkyGridLevel> c;
 	public final int id;

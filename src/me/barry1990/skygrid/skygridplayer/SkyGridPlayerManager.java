@@ -31,7 +31,11 @@ public final class SkyGridPlayerManager {
 	}
 	
 	public static void unload(Player player) {
-		//TODO: player is unloaded when player leaves while recreating world
+		
+		// player is already unloaded when player leaves while recreating world
+		if (players.get(player.getUniqueId()) == null)
+			return;
+		
 		players.get(player.getUniqueId()).unload();
 		players.remove(player.getUniqueId());
 	}

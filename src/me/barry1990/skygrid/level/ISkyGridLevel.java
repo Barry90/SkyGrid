@@ -9,16 +9,19 @@ import org.bukkit.inventory.Recipe;
 
 import me.barry1990.skygrid.SkyGrid;
 import me.barry1990.skygrid.PlayerThreads.IPlayerThreads;
+import me.barry1990.skygrid.generators.RandomMetaDataGenerator;
 import me.barry1990.utils.BarrysLogger;
 
 
 
 public abstract class ISkyGridLevel implements IChunkDataGenerator {
 	
-	protected Random random;	
+	protected Random random;
+	protected RandomMetaDataGenerator randomMetaData;
 	
 	ISkyGridLevel() {
 		this.random = new Random();
+		this.randomMetaData = new RandomMetaDataGenerator();
 	}
 	
 	void prepareLevel() {

@@ -15,9 +15,9 @@ public class SkyGridChunkGeneratorWaitingRoom extends ChunkGenerator {
 		ChunkData data = this.createChunkData(world);
 		if (x == 0 && z == 0) {
 			data.setRegion(0, 0, 0, 1, 255, 16, Material.BARRIER);
+			data.setRegion(0, 0, 0, 16, 256, 1, Material.BARRIER);
 			data.setRegion(0, 0, 15, 16, 256, 16, Material.BARRIER);
-			data.setRegion(15, 0, 15, 16, 256, 1, Material.BARRIER);
-			data.setRegion(15, 0, 0, 1, 256, 1, Material.BARRIER);
+			data.setRegion(15, 0, 0, 16, 256, 16, Material.BARRIER);			
 			data.setRegion(0, 127, 0, 16, 128, 16, Material.BEDROCK);
 		}
 		return data;

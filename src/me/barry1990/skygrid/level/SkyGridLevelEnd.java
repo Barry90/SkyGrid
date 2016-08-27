@@ -657,7 +657,7 @@ public class SkyGridLevelEnd extends ISkyGridLevel {
 		@EventHandler
 		private void skyGridEndAlterBlockExplodeEvent(EntityExplodeEvent e) {
 			
-			if (e.getEntityType() == EntityType.ENDER_CRYSTAL && SkyGridLevel_Manager.sharedInstance().isAltarChunk(e.getEntity().getLocation().getChunk())) {
+			if (e.getEntityType() == EntityType.ENDER_CRYSTAL && SkyGrid.getLevelManager().isAltarChunk(e.getEntity().getLocation().getChunk())) {
 				e.setCancelled(true);
 				return;
 			}
@@ -666,7 +666,7 @@ public class SkyGridLevelEnd extends ISkyGridLevel {
 				
 				@Override
 				public boolean test(Block b) {
-					return SkyGridLevel_Manager.sharedInstance().isAltarChunk(b.getChunk());
+					return SkyGrid.getLevelManager().isAltarChunk(b.getChunk());
 				}
 			});
 			

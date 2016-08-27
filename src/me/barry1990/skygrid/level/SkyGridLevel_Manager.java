@@ -29,21 +29,16 @@ public final class SkyGridLevel_Manager implements Listener {
 	private int z;
 	private int id;
 	
-	private static SkyGridLevel_Manager sharedinstance; 
 	private SkyGridChunkGenerator chunkGenerator; 
 	private ISkyGridLevel level;
 	private String PATH = "data.dat";
 	
-	private SkyGridLevel_Manager() {
-		SkyGridLevel_Manager.sharedinstance = this;
+	public SkyGridLevel_Manager() {
 		SkyGrid.registerEvent(this);
 		this.loadLevelInfos();
 		this.loadLevel(this.id);
 	}
 	
-	public static SkyGridLevel_Manager sharedInstance() {
-		return (sharedinstance != null) ? sharedinstance : (sharedinstance = new SkyGridLevel_Manager());
-	}
 	// ////////////////////////////////////////////////////
 	// LOAD INFOS
 	// ////////////////////////////////////////////////////

@@ -20,12 +20,12 @@ final class SGAOnTopOfTheWorld extends IAchievementNP {
 	
 	private static final String name = "On Top Of The World";
 
-	public SGAOnTopOfTheWorld(HashMap<Byte, IAchievement> map, UUID playeruuid) {
+	public SGAOnTopOfTheWorld(HashMap<SGAIDENTIFIER, IAchievement> map, UUID playeruuid) {
 		super(map, playeruuid);
 	}
 
 	@Override
-	protected Byte getId() {
+	protected SGAIDENTIFIER getId() {
 		return SGAIDENTIFIER.ON_TOP_OF_THE_WORLD;
 	}
 

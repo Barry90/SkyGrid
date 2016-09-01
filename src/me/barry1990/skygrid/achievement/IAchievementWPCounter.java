@@ -20,7 +20,7 @@ abstract class IAchievementWPCounter extends IAchievementWP {
 	protected short progress;
 	abstract protected short getProgressTarget();
 
-	public IAchievementWPCounter(HashMap<Byte, IAchievement> map, UUID playeruuid) {
+	public IAchievementWPCounter(HashMap<SGAIDENTIFIER, IAchievement> map, UUID playeruuid) {
 		super(map, playeruuid);
 	}
 

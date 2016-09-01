@@ -7,31 +7,47 @@ import org.bukkit.Material;
 //ACHIEVEMENT-IDENTIFIER
 ///////////////////////////////////
 
-public final class SGAIDENTIFIER {
+public enum SGAIDENTIFIER {
 	/* Maniac */
-	public static final byte WOOD_MANIAC = (byte) 0x10;
-	public static final byte STONE_MANIAC = (byte) 0x11;
-	public static final byte IRON_MANIAC = (byte) 0x12;
-	public static final byte GOLD_MANIAC = (byte) 0x13;
-	public static final byte DIAMOND_MANIAC = (byte) 0x14;	
+	WOOD_MANIAC((byte) 0x10),
+	STONE_MANIAC((byte) 0x11),
+	IRON_MANIAC((byte) 0x12),
+	GOLD_MANIAC((byte) 0x13),
+	DIAMOND_MANIAC((byte) 0x14),
 	
 	/* No progress */
-	public static final byte INFINITE_WATER_SOURCE = (byte)0x20;
-	public static final byte HOT_BUCKET = (byte)0x21;
-	public static final byte THAT_WAS_CLOSE = (byte)0x22;
-	public static final byte GET_RICH_OR_DIE_TRYIN = (byte)0x23;
-	public static final byte ON_TOP_OF_THE_WORLD = (byte)0x24;
-	public static final byte TIME_TO_ENCHANT = (byte)0x25;
-	public static final byte OH_SHIT = (byte)0x26;
-	public static final byte NETHER_CLEANER = (byte)0x27;
-	public static final byte A_VERY_BIG_EGG = (byte)0x28;
-	public static final byte VEGETABLE_MASTER = (byte)0x29;
-	public static final byte SOUP_KING = (byte)0x2A;
+	INFINITE_WATER_SOURCE((byte)0x20),
+	HOT_BUCKET((byte)0x21),
+	THAT_WAS_CLOSE((byte)0x22),
+	GET_RICH_OR_DIE_TRYIN((byte)0x23),
+	ON_TOP_OF_THE_WORLD((byte)0x24),
+	TIME_TO_ENCHANT((byte)0x25),
+	OH_SHIT((byte)0x26),
+	NETHER_CLEANER((byte)0x27),
+	A_VERY_BIG_EGG((byte)0x28),
+	VEGETABLE_MASTER((byte)0x29),
+	SOUP_KING((byte)0x2A),
 	
 	/* permissions achievements */
-	public static final byte SO_IT_BEGINS = (byte) 0xF0;
-	public static final byte GO_DEEPER = (byte)0xF1;
-	public static final byte GO_EVEN_DEEPER = (byte)0xF2;	
+	SO_IT_BEGINS((byte) 0xF0),
+	GO_DEEPER((byte)0xF1),
+	GO_EVEN_DEEPER((byte)0xF2);	
+	
+	public final byte		id;
+
+	private SGAIDENTIFIER(byte id) {
+		this.id = id;
+	}
+	
+	public static SGAIDENTIFIER getSGAIDENTIFIERFromId(byte b) {
+
+		int count = SGAIDENTIFIER.class.getEnumConstants().length;
+		for (int i = 0; i < count; i++) {
+			if (b == SGAIDENTIFIER.class.getEnumConstants()[i].id)
+				return SGAIDENTIFIER.class.getEnumConstants()[i];
+		}
+		throw new IllegalArgumentException();
+	}
 
 }
 

@@ -4,36 +4,46 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.function.Predicate;
 
 import me.barry1990.skygrid.SkyGrid;
 
 import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 
-abstract class ISkyGridAlter {
+abstract class ISkyGridAlter implements Listener {
 	
-	// Chunk	
-	abstract public ChunkData getChunkData(World world, ChunkData chunkdata);	
 	
-	// Data
-	abstract protected void loadAltarChunkData();	
-	public void loadAltar() {
-		this.loadAltarChunkData();
+	ISkyGridAlter() {
+		SkyGrid.registerEvent(this);
 	}
 	
-	abstract boolean isMaterialAllowed(Material material);
+	// Chunk	
+	abstract public ChunkData getChunkData(World world, ChunkData chunkdata);		
+	// Data
+	abstract void loadAltar();	
+	
+	abstract boolean isBlockallowed(Block block);
 	abstract boolean canBuildonLocation(Location location);
-	abstract void buildOnLocationEvent(Location location);
+	abstract void buildOnLocationEvent(Location location);	
+	abstract protected boolean isAltarComplete(Chunk chunk);
+	abstract protected void doEndAnimation(Chunk chunk);		
+	abstract void preprareNextAltar();
+		
 	public void alterChunkBlockPlaceEvent(BlockPlaceEvent e) {
-		if (!this.isMaterialAllowed(e.getBlock().getType())) {
+		if (!this.isBlockallowed(e.getBlock())) {
 			e.setCancelled(true);
 			return;
 		}
@@ -48,22 +58,11 @@ abstract class ISkyGridAlter {
 		}
 		
 		this.buildOnLocationEvent(e.getBlock().getLocation());
-		this.testIfAlterIsComplete(e.getBlock().getChunk());
-	}
-	
-	
-	// Cinematic
-	abstract protected boolean isAltarComplete(Chunk chunk);
-	abstract protected void doEndAnimation(Chunk chunk);	
-	void testIfAlterIsComplete(Chunk chunk) {
-		if (this.isAltarComplete(chunk)) {
-			this.doEndAnimation(chunk);
+		
+		if (this.isAltarComplete(e.getBlock().getChunk())) {
+			this.doEndAnimation(e.getBlock().getChunk());
 		}
-	}	
-	
-	//abstract void cleanup();
-	
-	abstract void preprareNextAltar();
+	}
 	
 	protected JsonElement getJsonFromResource(final String res) {
 		JsonElement ret = null;
@@ -82,7 +81,26 @@ abstract class ISkyGridAlter {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		return ret;
+	}
+	
+	@EventHandler
+	public void skyGridAlterBlockExplodeEvent(EntityExplodeEvent e) {
+		
+		if (e.getEntityType() == EntityType.ENDER_CRYSTAL && SkyGrid.getLevelManager().isAltarChunk(e.getEntity().getLocation().getChunk())) {
+			e.setCancelled(true);
+			return;
+		}
+				
+		e.blockList().removeIf(new Predicate<Block>() {
+			
+			@Override
+			public boolean test(Block b) {
+				return SkyGrid.getLevelManager().isAltarChunk(b.getChunk());
+			}
+		});
+		
 	}
 
 }

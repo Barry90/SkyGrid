@@ -21,12 +21,12 @@ class SGAHotBucket extends IAchievementNP {
 	
 	private static final String name = "Hot Bucket";
 
-	public SGAHotBucket(HashMap<Byte, IAchievement> map, UUID playeruuid) {
+	public SGAHotBucket(HashMap<SGAIDENTIFIER, IAchievement> map, UUID playeruuid) {
 		super(map, playeruuid);
 	}
 
 	@Override
-	protected Byte getId() {
+	protected SGAIDENTIFIER getId() {
 		return SGAIDENTIFIER.HOT_BUCKET;
 	}
 

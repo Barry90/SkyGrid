@@ -6,7 +6,7 @@ import java.util.UUID;
 
 abstract class IAchievementNP extends IAchievement {
 
-	public IAchievementNP(HashMap<Byte, IAchievement> map, UUID playeruuid) {
+	public IAchievementNP(HashMap<SGAIDENTIFIER, IAchievement> map, UUID playeruuid) {
 		super(map, playeruuid);
 	}
 	

@@ -24,7 +24,7 @@ abstract class IAchievement {
 	private boolean hasAchievement;
 	private UUID playeruuid;
 	
-	public IAchievement(HashMap<Byte, IAchievement> map, UUID playeruuid) {
+	public IAchievement(HashMap<SGAIDENTIFIER, IAchievement> map, UUID playeruuid) {
 		if (map.containsKey(this.getId())) {
 			BarrysLogger.warn(this, String.format("duplicated keys for IAchievement : %d", this.getId()));
 		}
@@ -33,7 +33,7 @@ abstract class IAchievement {
 		this.playeruuid = playeruuid;
 	}
 	
-	abstract protected Byte getId();
+	abstract protected SGAIDENTIFIER getId();
 	abstract protected String getName();
 	abstract protected ItemStack getAchievementItem();
 	

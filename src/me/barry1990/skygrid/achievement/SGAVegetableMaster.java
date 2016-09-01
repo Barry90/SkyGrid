@@ -23,12 +23,12 @@ final class SGAVegetableMaster extends IAchievementWPCounter {
 	
 	private static final String name = "Vegetable Master";
 	
-	public SGAVegetableMaster(HashMap<Byte, IAchievement> map, UUID playeruuid) {
+	public SGAVegetableMaster(HashMap<SGAIDENTIFIER, IAchievement> map, UUID playeruuid) {
 		super(map, playeruuid);
 	}
 
 	@Override
-	protected Byte getId() {
+	protected SGAIDENTIFIER getId() {
 		return SGAIDENTIFIER.VEGETABLE_MASTER;
 	}
 

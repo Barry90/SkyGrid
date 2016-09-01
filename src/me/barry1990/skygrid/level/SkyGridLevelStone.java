@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.UUID;
 
 import me.barry1990.skygrid.PlayerThreads.IPlayerThreads;
+import me.barry1990.skygrid.achievement.SGAIDENTIFIER;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerJoin;
 import me.barry1990.skygrid.world.SkyGridWorld;
 import me.barry1990.utils.BarrysLogger;
@@ -13,6 +14,7 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
 import org.bukkit.inventory.Recipe;
 
@@ -73,7 +75,7 @@ public class SkyGridLevelStone extends ISkyGridLevel {
 	}
 
 	@Override
-	public boolean isAchievementAvailable(byte sga) {
+	public boolean isAchievementAvailable(SGAIDENTIFIER sga) {
 		return false;
 	}
 	
@@ -87,11 +89,11 @@ public class SkyGridLevelStone extends ISkyGridLevel {
 		}
 
 		@Override
-		protected void loadAltarChunkData() {}
+		protected void loadAltar() {}
 
 		@Override
-		boolean isMaterialAllowed(Material material) {
-			return (material == Material.GOLD_BLOCK);
+		boolean isBlockallowed(Block block) {
+			return (block.getType() == Material.GOLD_BLOCK);
 		}
 
 		@Override

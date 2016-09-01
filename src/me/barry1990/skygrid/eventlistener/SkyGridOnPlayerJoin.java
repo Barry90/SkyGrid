@@ -15,7 +15,6 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.spigotmc.event.player.PlayerSpawnLocationEvent;
-//import me.barry1990.skygrid.achievement.SGAchievement;
 
 
 public final class SkyGridOnPlayerJoin implements Listener {
@@ -55,7 +54,7 @@ public final class SkyGridOnPlayerJoin implements Listener {
 		BarrysLogger.info(this, "PlayerJoinEvent called");
 		Player player = event.getPlayer();		
 		
-		SkyGridPlayerManager.loadAfterPlayerJoin(player);
+		SkyGridOnPlayerJoin.loadAfterPlayerJoin(player);
 	}
 	
 	@EventHandler (ignoreCancelled=true)
@@ -68,7 +67,18 @@ public final class SkyGridOnPlayerJoin implements Listener {
 		SkyGridPlayerManager.load(p);
 	}
 	
-	public static void loadAfterPlayerJoin(Player p) {
+	public static void loadAfterPlayerJoin(Player p) {		
+		if (!p.getLocation().getWorld().getName().equals(SkyGridWorld.getSkyGridWorld().getName())) {
+			Location loc = SkyGridSQL.sharedInstance().getHome(p, SkyGridSQL.SPAWN_POINT);
+			if (loc == null) {
+				loc = SkyGridSQL.sharedInstance().getHome(p, SkyGridSQL.SPAWN_POINT);
+				SkyGridSQL.sharedInstance().addHome(p, loc, SkyGridSQL.SPAWN_POINT);
+			}
+			//TODO: save where the player logged out
+			loc.setWorld(SkyGridWorld.getSkyGridWorld());
+			p.teleport(loc);
+		}
+		
 		SkyGridPlayerManager.loadAfterPlayerJoin(p);
 	}
 

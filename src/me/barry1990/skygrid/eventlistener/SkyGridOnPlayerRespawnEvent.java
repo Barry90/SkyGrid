@@ -2,6 +2,7 @@ package me.barry1990.skygrid.eventlistener;
 
 import me.barry1990.skygrid.SkyGrid;
 import me.barry1990.skygrid.sql.SkyGridSQL;
+import me.barry1990.skygrid.world.SkyGridWorld;
 
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
@@ -20,6 +21,7 @@ public final class SkyGridOnPlayerRespawnEvent implements Listener {
 		Location loc = SkyGridSQL.sharedInstance().getHome(e.getPlayer(), SkyGridSQL.SPAWN_POINT);
 		
 		if (loc != null) {
+			loc.setWorld(SkyGridWorld.getSkyGridWorld());
 			e.setRespawnLocation(loc);
 		} else {
 			

@@ -9,6 +9,7 @@ import org.bukkit.inventory.Recipe;
 
 import me.barry1990.skygrid.SkyGrid;
 import me.barry1990.skygrid.PlayerThreads.IPlayerThreads;
+import me.barry1990.skygrid.achievement.SGAIDENTIFIER;
 import me.barry1990.skygrid.generators.RandomMetaDataGenerator;
 import me.barry1990.utils.BarrysLogger;
 
@@ -38,7 +39,7 @@ public abstract class ISkyGridLevel implements IChunkDataGenerator {
 	abstract public ISkyGridAlter getSkyGridAltar();
 	abstract public IPlayerThreads getPlayerThreads(UUID playeruuid);
 	abstract List<Recipe> registerRecipes();
-	abstract public boolean isAchievementAvailable(byte sga_id);
+	abstract public boolean isAchievementAvailable(SGAIDENTIFIER sga_id);
 
 
 }

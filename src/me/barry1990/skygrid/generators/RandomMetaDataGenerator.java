@@ -12,6 +12,7 @@ import org.bukkit.material.Furnace;
 import org.bukkit.material.MonsterEggs;
 import org.bukkit.material.Pumpkin;
 import org.bukkit.material.Tree;
+import org.bukkit.material.Wood;
 import org.bukkit.material.Wool;
 
 
@@ -47,6 +48,10 @@ public class RandomMetaDataGenerator {
  	
  	public Pumpkin getPumpkin() {
  		return new Pumpkin(this.getBlockFaceNESW());
+ 	}
+ 	
+ 	public Wood getWood(Material m) {
+ 		return new Wood(this.getTreeSpecies(m));
  	}
  	
  	public Tree getTree(Material m) {

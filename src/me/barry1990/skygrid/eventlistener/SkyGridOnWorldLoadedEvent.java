@@ -42,7 +42,7 @@ public class SkyGridOnWorldLoadedEvent implements Listener {
 					}.create();
 					
 				}
-			}.runTaskLater(SkyGrid.sharedInstance(), 20);
+			}.runTaskLater(SkyGrid.sharedInstance(), 0);
 			
 		}
 	}

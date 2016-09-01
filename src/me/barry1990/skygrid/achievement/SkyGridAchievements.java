@@ -22,7 +22,7 @@ public class SkyGridAchievements {
 	
 	private static final String PATH = "achievements";
 	
-	private HashMap<Byte, IAchievement> map = new HashMap<Byte, IAchievement>();
+	private HashMap<SGAIDENTIFIER, IAchievement> map = new HashMap<SGAIDENTIFIER, IAchievement>();
 	private UUID playeruuid;
 	
 	/////////////////////////
@@ -75,7 +75,7 @@ public class SkyGridAchievements {
 		return inv;
 	}
 	
- 	public synchronized boolean hasAchievementWithID(byte SGA_ID) {
+ 	public synchronized boolean hasAchievementWithID(SGAIDENTIFIER SGA_ID) {
 		IAchievement achievement = this.map.get(SGA_ID);
 		if (achievement != null ) 
 			return achievement.hasAchievement();
@@ -85,7 +85,7 @@ public class SkyGridAchievements {
 		}
 	}
 	
-	public synchronized void award(byte SGA_ID) {
+	public synchronized void award(SGAIDENTIFIER SGA_ID) {
 		IAchievement achievement = this.map.get(SGA_ID);
 		if (achievement != null ) {
 			if (!achievement.hasAchievement()) {
@@ -125,6 +125,9 @@ public class SkyGridAchievements {
 	//////////////////////////////////////////////		
 	
  	private synchronized void saveAchievements() {
+ 		if (this.map.isEmpty())
+ 			return;
+ 		
 		File file = new File(SkyGrid.sharedInstance().getDataFolder() + File.separator + PATH + File.separator + this.playeruuid.toString());
 		
 		if (!file.exists()) {
@@ -146,7 +149,7 @@ public class SkyGridAchievements {
 			for (IAchievement achievement : this.map.values()) {
 				if (achievement instanceof IAchievementWP) {
 					if (!achievement.hasAchievement()) {
-						out.write(achievement.getId());
+						out.write(achievement.getId().id);
 						((IAchievementWP) achievement).save(out);
 						out.write(SkyGridConst.END);
 					}
@@ -181,8 +184,9 @@ public class SkyGridAchievements {
 					if (binput == SkyGridConst.ACHIEVEMENTS)
 						this.loadAchievementlist(in);
 					else {
-						if (this.map.get(binput) instanceof IAchievementWP) 
-							((IAchievementWP) this.map.get(binput)).load(in); 
+						Object object = this.map.get(SGAIDENTIFIER.getSGAIDENTIFIERFromId(binput));
+						if (object instanceof IAchievementWP) 
+							((IAchievementWP) object).load(in); 
 						else {						
 							BarrysLogger.error(this, "Unknown Header in File: 0x" + Integer.toHexString(input));
 							while (((input = in.read()) != -1) && ((byte)input != SkyGridConst.END)) {}
@@ -213,7 +217,7 @@ public class SkyGridAchievements {
 	private void loadAchievementlist(FileInputStream in) throws IOException {
 		int input;
 		while (((input = in.read()) != -1) && ((byte) input != SkyGridConst.END)) {
-			IAchievement achievement = this.map.get((byte) input);
+			IAchievement achievement = this.map.get(SGAIDENTIFIER.getSGAIDENTIFIERFromId((byte)input));
 			if (achievement != null) 
 				achievement.setAchievementAwarded();
 			else
@@ -225,7 +229,7 @@ public class SkyGridAchievements {
 		out.write(SkyGridConst.ACHIEVEMENTS);
 		for (IAchievement achievement : map.values()) {
 			if (achievement.hasAchievement()) {
-				out.write(achievement.getId());
+				out.write(achievement.getId().id);
 			}
 		}
 		out.write(SkyGridConst.END);
@@ -235,7 +239,7 @@ public class SkyGridAchievements {
 	// SPECIFIC ACHIEVEMENT HANDLING
 	//////////////////////////////////////////////
 	
-	public synchronized void addProgress(byte id, Object... values) {
+	public synchronized void addProgress(SGAIDENTIFIER id, Object... values) {
 		((IAchievementWP) this.map.get(id)).addProgress(values);
 	}
 	

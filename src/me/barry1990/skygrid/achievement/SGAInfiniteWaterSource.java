@@ -21,12 +21,12 @@ final class SGAInfiniteWaterSource extends IAchievementNP {
 	
 	private static final String name = "Infinite Water Source?";
 	
-	public SGAInfiniteWaterSource(HashMap<Byte, IAchievement> map, UUID playeruuid) {
+	public SGAInfiniteWaterSource(HashMap<SGAIDENTIFIER, IAchievement> map, UUID playeruuid) {
 		super(map, playeruuid);
 	}
 	
 	@Override
-	public Byte getId() {
+	public SGAIDENTIFIER getId() {
 		return SGAIDENTIFIER.INFINITE_WATER_SOURCE;
 	}
 	

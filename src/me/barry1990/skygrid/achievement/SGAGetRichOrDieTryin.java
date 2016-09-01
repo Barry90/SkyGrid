@@ -20,12 +20,12 @@ final class SGAGetRichOrDieTryin extends IAchievementNP {
 	
 	private static final String name = "Get Rich Or Die Tryin";
 
-	public SGAGetRichOrDieTryin(HashMap<Byte, IAchievement> map, UUID playeruuid) {
+	public SGAGetRichOrDieTryin(HashMap<SGAIDENTIFIER, IAchievement> map, UUID playeruuid) {
 		super(map, playeruuid);
 	}
 
 	@Override
-	protected Byte getId() {
+	protected SGAIDENTIFIER getId() {
 		return SGAIDENTIFIER.GET_RICH_OR_DIE_TRYIN;
 	}
 

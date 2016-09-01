@@ -22,12 +22,12 @@ private static final String name = "So it begins";
 		IAchievement.registerEvent(new SGAListener());
 	}
 	
-	public SGASoItBegins(HashMap<Byte, IAchievement> map, UUID playeruuid) {
+	public SGASoItBegins(HashMap<SGAIDENTIFIER, IAchievement> map, UUID playeruuid) {
 		super(map, playeruuid);
 	}
 
 	@Override
-	public Byte getId() {
+	public SGAIDENTIFIER getId() {
 		return SGAIDENTIFIER.SO_IT_BEGINS;
 	}
 	

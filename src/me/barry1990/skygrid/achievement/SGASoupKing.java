@@ -21,7 +21,7 @@ final class SGASoupKing extends IAchievementWPCounter {
 	
 	private static final String name = "Soup King";
 
-	public SGASoupKing(HashMap<Byte, IAchievement> map, UUID playeruuid) {
+	public SGASoupKing(HashMap<SGAIDENTIFIER, IAchievement> map, UUID playeruuid) {
 		super(map, playeruuid);
 	}
 
@@ -31,7 +31,7 @@ final class SGASoupKing extends IAchievementWPCounter {
 	}
 
 	@Override
-	protected Byte getId() {
+	protected SGAIDENTIFIER getId() {
 		return SGAIDENTIFIER.SOUP_KING;
 	}
 

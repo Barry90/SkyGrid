@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import me.barry1990.skygrid.PlayerThreads.SkyGridAFK;
+import me.barry1990.skygrid.achievement.SGAIDENTIFIER;
 import me.barry1990.utils.BarrysLogger;
 
 import org.bukkit.Location;
@@ -44,15 +45,15 @@ public final class SkyGridPlayerManager {
 	// ACHIEVEMENTS
 	/////////////////////////
 	
-	public static void awardAchievement(Player player, byte SGA_ID) {
+	public static void awardAchievement(Player player, SGAIDENTIFIER SGA_ID) {
 		SkyGridPlayerManager.awardAchievement(player.getUniqueId(), SGA_ID);
 	}
 	
-	public static void awardAchievement(UUID playeruuid, byte SGA_ID) {
+	public static void awardAchievement(UUID playeruuid, SGAIDENTIFIER SGA_ID) {
 		players.get(playeruuid).achievements.award(SGA_ID);
 	}
 	
-	public static boolean playerHasAchievementWithID(Player player, byte SGA_ID) {
+	public static boolean playerHasAchievementWithID(Player player, SGAIDENTIFIER SGA_ID) {
 		return players.get(player.getUniqueId()).achievements.hasAchievementWithID(SGA_ID);
 	}
 	
@@ -72,7 +73,7 @@ public final class SkyGridPlayerManager {
 	// SPECIFIC ACHIEVEMENT HANDLING
 	//////////////////////////////////////////////
 	
-	public static void addProgressForAchievement(Player player, byte id, Object... values) {
+	public static void addProgressForAchievement(Player player, SGAIDENTIFIER id, Object... values) {
 		players.get(player.getUniqueId()).achievements.addProgress(id, values);
 	}
 	

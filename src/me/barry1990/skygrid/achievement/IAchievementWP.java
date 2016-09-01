@@ -18,7 +18,7 @@ abstract class IAchievementWP extends IAchievement {
 	final protected static String PROGRESS_F = "§6§l%s§r - §f%d%%";
 	final protected static String TODO = "You are on the rigth track.";
 
-	public IAchievementWP(HashMap<Byte, IAchievement> map, UUID playeruuid) {
+	public IAchievementWP(HashMap<SGAIDENTIFIER, IAchievement> map, UUID playeruuid) {
 		super(map, playeruuid);
 	}
 	

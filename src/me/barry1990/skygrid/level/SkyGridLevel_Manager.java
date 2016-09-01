@@ -100,6 +100,7 @@ public final class SkyGridLevel_Manager implements Listener {
 		
 		try {
 			this.level = SkyGridLevel.getClassFromID(id).newInstance();
+			this.level.prepareLevel();
 			BarrysLogger.info(this, "level class created" + this.level.getClass().getName());
 		} catch (Exception e) {
 			e.printStackTrace();

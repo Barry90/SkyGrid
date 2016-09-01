@@ -5,13 +5,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
-import java.util.function.Predicate;
 
 import me.barry1990.skygrid.SkyGrid;
 import me.barry1990.skygrid.TitleManager;
 import me.barry1990.skygrid.PlayerThreads.EndWarningThread;
 import me.barry1990.skygrid.PlayerThreads.IPlayerThreads;
 import me.barry1990.skygrid.PlayerThreads.NetherWarningThread;
+import me.barry1990.skygrid.achievement.SGAIDENTIFIER;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerJoin;
 import me.barry1990.skygrid.world.SkyGridWorld;
 import me.barry1990.utils.BarrysLogger;
@@ -29,9 +29,7 @@ import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.EnderDragon.Phase;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
@@ -56,8 +54,8 @@ public class SkyGridLevelEnd extends ISkyGridLevel {
 	private BlockList blocklist;
 	
 	public SkyGridLevelEnd() {
-		this.altar = new SkyGridEndAltar();
-		this.blocklist = new BlockList();
+		this.altar = new SkyGridLevelEnd.SkyGridEndAltar();
+		this.blocklist = new SkyGridLevelEnd.BlockList();
 	}
 
 	@Override
@@ -332,7 +330,7 @@ public class SkyGridLevelEnd extends ISkyGridLevel {
 	}
 	
 	@Override
-	public boolean isAchievementAvailable(byte sga) {
+	public boolean isAchievementAvailable(SGAIDENTIFIER sga) {
 		return true;
 	}
 	
@@ -351,12 +349,11 @@ public class SkyGridLevelEnd extends ISkyGridLevel {
 		
 		SkyGridEndAltar() {
 			BarrysLogger.info("SkyGridAltarEnd Contructor called");
-			this.blockSetAllowed = new ArrayList<Vector>();
-			
+			this.blockSetAllowed = new ArrayList<Vector>();			
 			this.crystalposition = new ArrayList<Vector>();
 			this.laserposition = new ArrayList<Vector>();
 			this.endAnimation = new ArrayList<ISkyGridRunnableWithDelay>();
-			
+			this.loadAltar();			
 		}
 			
 
@@ -400,7 +397,7 @@ public class SkyGridLevelEnd extends ISkyGridLevel {
 		}
 
 		@Override
-		protected void loadAltarChunkData() {
+		protected void loadAltar() {
 			
 			BarrysLogger.info(this, "loading data...");
 
@@ -455,18 +452,13 @@ public class SkyGridLevelEnd extends ISkyGridLevel {
 			this.soundsource = new Vector(x, y, z);
 			
 			this.allowedBlockMaterial = Material.getMaterial(all.get("material").getAsString());
-			
-			
-			//add listener
-			SkyGrid.registerEvent(this);
-			
-			BarrysLogger.info(this, "Done");
-			
+					
+			BarrysLogger.info(this, "Done");			
 		}
 
 		@Override
-		boolean isMaterialAllowed(Material material) {
-			return (material == this.allowedBlockMaterial);	
+		boolean isBlockallowed(Block block) {
+			return (block.getType() == this.allowedBlockMaterial);	
 		}
 		
 		@Override
@@ -651,27 +643,7 @@ public class SkyGridLevelEnd extends ISkyGridLevel {
 			//SkyGridLevel_Manager.sharedInstance().createDefault();
 			//SkyGrid.resetEverything();
 			
-		}
-		
-		
-		@EventHandler
-		private void skyGridEndAlterBlockExplodeEvent(EntityExplodeEvent e) {
-			
-			if (e.getEntityType() == EntityType.ENDER_CRYSTAL && SkyGrid.getLevelManager().isAltarChunk(e.getEntity().getLocation().getChunk())) {
-				e.setCancelled(true);
-				return;
-			}
-					
-			e.blockList().removeIf(new Predicate<Block>() {
-				
-				@Override
-				public boolean test(Block b) {
-					return SkyGrid.getLevelManager().isAltarChunk(b.getChunk());
-				}
-			});
-			
-		}
-		
+		}		
 	}
 	
 	private class BlockList {

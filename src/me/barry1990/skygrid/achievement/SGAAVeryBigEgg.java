@@ -28,12 +28,12 @@ final class SGAAVeryBigEgg extends IAchievementNP {
 	
 	private static final String name = "A Very Big Egg";
 
-	public SGAAVeryBigEgg(HashMap<Byte, IAchievement> map, UUID playeruuid) {
+	public SGAAVeryBigEgg(HashMap<SGAIDENTIFIER, IAchievement> map, UUID playeruuid) {
 		super(map, playeruuid);
 	}
 
 	@Override
-	protected Byte getId() {
+	protected SGAIDENTIFIER getId() {
 		return SGAIDENTIFIER.A_VERY_BIG_EGG;
 	}
 

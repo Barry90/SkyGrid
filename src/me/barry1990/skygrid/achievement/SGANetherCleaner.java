@@ -20,12 +20,12 @@ final class SGANetherCleaner extends IAchievementWPCounter {
 	
 	private static final String name = "Nether Cleaner";
 
-	public SGANetherCleaner(HashMap<Byte, IAchievement> map, UUID playeruuid) {
+	public SGANetherCleaner(HashMap<SGAIDENTIFIER, IAchievement> map, UUID playeruuid) {
 		super(map, playeruuid);
 	}
 
 	@Override
-	protected Byte getId() {
+	protected SGAIDENTIFIER getId() {
 		return SGAIDENTIFIER.NETHER_CLEANER;
 	}
 

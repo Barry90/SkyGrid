@@ -11,12 +11,12 @@ public class SGAGoDeeper extends IAchievementNP {
 	
 	private static final String name = "Go Deeper";
 
-	public SGAGoDeeper(HashMap<Byte, IAchievement> map, UUID playeruuid) {
+	public SGAGoDeeper(HashMap<SGAIDENTIFIER, IAchievement> map, UUID playeruuid) {
 		super(map, playeruuid);
 	}
 
 	@Override
-	protected Byte getId() {
+	protected SGAIDENTIFIER getId() {
 		return SGAIDENTIFIER.GO_DEEPER;
 	}
 

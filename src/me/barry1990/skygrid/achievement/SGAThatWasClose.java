@@ -22,12 +22,12 @@ final class SGAThatWasClose extends IAchievementNP {
 	
 	private static final String name = "That was close";
 
-	public SGAThatWasClose(HashMap<Byte, IAchievement> map, UUID playeruuid) {
+	public SGAThatWasClose(HashMap<SGAIDENTIFIER, IAchievement> map, UUID playeruuid) {
 		super(map, playeruuid);
 	}
 
 	@Override
-	protected Byte getId() {
+	protected SGAIDENTIFIER getId() {
 		return SGAIDENTIFIER.THAT_WAS_CLOSE;
 	}
 

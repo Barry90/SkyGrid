@@ -25,11 +25,11 @@ final class SGAOhShit extends IAchievementNP {
 	
 	private static final String name = "Oh Sh**!";
 
-	public SGAOhShit(HashMap<Byte, IAchievement> map, UUID playeruuid) {
+	public SGAOhShit(HashMap<SGAIDENTIFIER, IAchievement> map, UUID playeruuid) {
 		super(map, playeruuid);
 	}
 	@Override
-	protected Byte getId() {
+	protected SGAIDENTIFIER getId() {
 		return SGAIDENTIFIER.OH_SHIT;
 	}
 	@Override

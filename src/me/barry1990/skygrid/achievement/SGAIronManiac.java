@@ -28,7 +28,7 @@ final class SGAIronManiac extends IAchievementWP {
 
 	private ArrayList<Material> progress;
 	
-	public SGAIronManiac(HashMap<Byte, IAchievement> map, UUID playeruuid) {
+	public SGAIronManiac(HashMap<SGAIDENTIFIER, IAchievement> map, UUID playeruuid) {
 		super(map, playeruuid);
 		this.progress = new ArrayList<Material>();
 	}
@@ -52,7 +52,7 @@ final class SGAIronManiac extends IAchievementWP {
 	}
 
 	@Override
-	public Byte getId() {
+	public SGAIDENTIFIER getId() {
 		return SGAIDENTIFIER.IRON_MANIAC;
 	}
 	

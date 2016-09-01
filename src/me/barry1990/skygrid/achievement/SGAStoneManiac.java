@@ -28,7 +28,7 @@ final class SGAStoneManiac extends IAchievementWP {
 
 	private ArrayList<Material> progress;
 	
-	public SGAStoneManiac(HashMap<Byte, IAchievement> map, UUID playeruuid) {
+	public SGAStoneManiac(HashMap<SGAIDENTIFIER, IAchievement> map, UUID playeruuid) {
 		super(map, playeruuid);
 		this.progress = new ArrayList<Material>();
 	}
@@ -52,7 +52,7 @@ final class SGAStoneManiac extends IAchievementWP {
 	}
 
 	@Override
-	public Byte getId() {
+	public SGAIDENTIFIER getId() {
 		return SGAIDENTIFIER.STONE_MANIAC;
 	}
 	

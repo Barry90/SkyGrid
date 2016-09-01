@@ -28,7 +28,7 @@ final class SGADiamondManiac extends IAchievementWP {
 
 	private ArrayList<Material> progress;
 	
-	public SGADiamondManiac(HashMap<Byte, IAchievement> map, UUID playeruuid) {
+	public SGADiamondManiac(HashMap<SGAIDENTIFIER, IAchievement> map, UUID playeruuid) {
 		super(map, playeruuid);
 		this.progress = new ArrayList<Material>();
 	}
@@ -52,7 +52,7 @@ final class SGADiamondManiac extends IAchievementWP {
 	}
 
 	@Override
-	public Byte getId() {
+	public SGAIDENTIFIER getId() {
 		return SGAIDENTIFIER.DIAMOND_MANIAC;
 	}
 	

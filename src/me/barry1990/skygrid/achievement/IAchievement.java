@@ -1,7 +1,8 @@
 package me.barry1990.skygrid.achievement;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import me.barry1990.skygrid.SkyGrid;
@@ -36,6 +37,7 @@ abstract class IAchievement {
 	abstract protected SGAIDENTIFIER getId();
 	abstract protected String getName();
 	abstract protected ItemStack getAchievementItem();
+	abstract protected List<String> getDescription();
 	
 	final static void registerEvent(Listener event) {
 		SkyGrid.registerEvent(event);
@@ -46,7 +48,7 @@ abstract class IAchievement {
 			ItemStack item = this.getAchievementItem();
 			ItemMeta meta = item.getItemMeta();
 			meta.setDisplayName("§6§l" + this.getName());
-			meta.setLore(Arrays.asList(IAchievement.AWARDED));
+			meta.setLore(this.createDescription());
 			item.setItemMeta(meta);
 			return item;
 		}
@@ -58,9 +60,20 @@ abstract class IAchievement {
 		ItemStack item = new ItemStack(Material.BARRIER, 1);
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName("§6§l" + this.getName());
-		meta.setLore(Arrays.asList(IAchievement.NOT_OWNED));
+		meta.setLore(this.createDescription());
 		item.setItemMeta(meta);
 		return item;
+	}
+	
+	protected List<String> createDescription() {
+		ArrayList<String> lore = new ArrayList<String>();
+		lore.add(this.hasAchievement() ? AWARDED : NOT_OWNED);
+		List<String> des = this.getDescription();
+		
+		if (des != null)
+			lore.addAll(des);
+		
+		return lore;
 	}
 	
 	final synchronized void award() {
@@ -68,7 +81,7 @@ abstract class IAchievement {
 		this.saveEverything();
 		BarrysLogger.info(this,String.format("%s got achievement: %s", Bukkit.getPlayer(this.playeruuid).getName(),this.getName()));
 		TitleManager.sendActionBar(Bukkit.getPlayer(this.playeruuid), "Achievement get: §4" + this.getName());
-		Bukkit.getPlayer(this.playeruuid).sendMessage("Achievement get: §4" + this.getName());
+		//Bukkit.getPlayer(this.playeruuid).sendMessage("Achievement get: §4" + this.getName());
 		Bukkit.getServer().broadcastMessage(String.format("§f%s §agot the achiement: §4%s",Bukkit.getPlayer(this.playeruuid).getName(), this.getName()));
 	}
 	

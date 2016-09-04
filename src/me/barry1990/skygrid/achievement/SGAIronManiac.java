@@ -4,7 +4,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
@@ -64,6 +66,12 @@ final class SGAIronManiac extends IAchievementWP {
 	@Override
 	protected ItemStack getAchievementItem() {
 		return new ItemStack(Material.IRON_BLOCK, 1);
+	}
+	
+	@Override
+	protected List<String> getDescription() {
+		
+		return Arrays.asList("Be Ironmans little brother","or sister.");
 	}
 	
 	@Override

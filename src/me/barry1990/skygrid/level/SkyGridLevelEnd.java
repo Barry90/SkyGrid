@@ -401,7 +401,7 @@ public class SkyGridLevelEnd extends ISkyGridLevel {
 			
 			BarrysLogger.info(this, "loading data...");
 
-			JsonObject all = (JsonObject)this.getJsonFromResource("test.data");
+			JsonObject all = (JsonObject)this.getJsonFromResource("SkyGridEndAltarData.data");
 			
 			// get positions where blockplace is allowed
 			JsonArray blockPos = all.getAsJsonArray("blockPos");

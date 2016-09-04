@@ -1,6 +1,8 @@
 package me.barry1990.skygrid.achievement;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Material;
@@ -30,4 +32,11 @@ final class SGAGoEvenDeeper extends IAchievementNP {
 		return new ItemStack(Material.ENDER_PORTAL, 1);
 	}
 
+	@Override
+	protected List<String> getDescription() {
+		if (this.hasAchievement())
+			return Arrays.asList("This achievement allows you", "to go into the end layer.");
+		else
+			return Arrays.asList("Get at least 10", "SkyGridAchievements");
+	}
 }

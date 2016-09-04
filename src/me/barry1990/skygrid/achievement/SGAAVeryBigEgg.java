@@ -1,6 +1,8 @@
 package me.barry1990.skygrid.achievement;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
@@ -45,6 +47,12 @@ final class SGAAVeryBigEgg extends IAchievementNP {
 	@Override
 	protected ItemStack getAchievementItem() {	
 		return new ItemStack(Material.DRAGON_EGG, 1);
+	}
+	
+	@Override
+	protected List<String> getDescription() {
+		
+		return Arrays.asList("Build your own endportal.");
 	}
 	
 	private static class SGAListener implements Listener {

@@ -1,6 +1,8 @@
 package me.barry1990.skygrid.achievement;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -40,6 +42,12 @@ final class SGAOhShit extends IAchievementNP {
 	@Override
 	protected ItemStack getAchievementItem() {	
 		return new ItemStack(Material.SKULL_ITEM, 1, (short) 4);
+	}
+	
+	@Override
+	protected List<String> getDescription() {
+		
+		return Arrays.asList("You will need a lot", "of eggs for this...");
 	}
 	
 	private static class SGAListener implements Listener {

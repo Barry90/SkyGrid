@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.util.Locale;
 
 import me.barry1990.skygrid.SkyGrid;
+import me.barry1990.skygrid.world.SkyGridWorld;
 import me.barry1990.utils.BarrysLogger;
 
 import org.bukkit.Bukkit;
@@ -42,6 +43,7 @@ public class SkyGridSQL {
 	private static final String HOMES_LIST = "§6Your homes are: %s§6.";
 	private static final String PLAYER_NOT_FOUND = "§4The player %s doesn't play SkyGrid yet.";
 	private static final String ALREADY_INVITED = "§6The player §f%s§6 is already invited to your home §f%s§6.";
+	private static final String CAN_NOT_INVITE_YOURSELF = "§6You can not invite yourself to your own home";
 	private static final String INVITED = "§6You invited §f%s§6 to your home §f%s§6.";
 	private static final String WAS_INVITED = "§6You have been invited to §f%s§6's home §f%s§6.";
 	private static final String NOT_INVITED = "§4You are not invited to this home.";
@@ -332,7 +334,7 @@ public class SkyGridSQL {
 			ResultSet rs = this.getResultSetForHome(this.getPID(p), name);
 			
 			if (rs.next()) {				
-				ret = new Location(Bukkit.getWorld("world") /*p.getWorld()*/, rs.getDouble(H_X), rs.getDouble(H_Y), rs.getDouble(H_Z), rs.getFloat(H_YAW), rs.getFloat(H_PITCH));
+				ret = new Location(SkyGridWorld.getSkyGridWorld(), rs.getDouble(H_X), rs.getDouble(H_Y), rs.getDouble(H_Z), rs.getFloat(H_YAW), rs.getFloat(H_PITCH));
 				rs.close();
 			} else {
 				rs.close();
@@ -531,6 +533,12 @@ public class SkyGridSQL {
 			// check if the playername exists
 			if (this.getPIDasInt(playername) == 0) {
 				p.sendMessage(String.format(PLAYER_NOT_FOUND, playername));
+				return;
+			}
+			
+			//check if have a different player
+			if (p.getName().equals(playername)) {
+				p.sendMessage(CAN_NOT_INVITE_YOURSELF);
 				return;
 			}
 

@@ -1,6 +1,8 @@
 package me.barry1990.skygrid.achievement;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Material;
@@ -23,6 +25,14 @@ public class SGAGoDeeper extends IAchievementNP {
 	@Override
 	protected String getName() {
 		return SGAGoDeeper.name;
+	}
+	
+	@Override
+	protected List<String> getDescription() {
+		if (this.hasAchievement())
+			return Arrays.asList("This achievement allows you", "to go into the nether layer.");
+		else
+			return Arrays.asList("Get at least 6", "SkyGridAchievements");
 	}
 	
 	@Override

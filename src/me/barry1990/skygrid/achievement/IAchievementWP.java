@@ -3,7 +3,6 @@ package me.barry1990.skygrid.achievement;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -16,7 +15,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 abstract class IAchievementWP extends IAchievement {
 	
 	final protected static String PROGRESS_F = "§6§l%s§r - §f%d%%";
-	final protected static String TODO = "You are on the rigth track.";
 
 	public IAchievementWP(HashMap<SGAIDENTIFIER, IAchievement> map, UUID playeruuid) {
 		super(map, playeruuid);
@@ -35,7 +33,7 @@ abstract class IAchievementWP extends IAchievement {
 			BarrysLogger.info(this, "name", this.getName());
 			ItemStack item = this.getAchievementProgressItem();
 			ItemMeta meta = item.getItemMeta();
-			meta.setLore(Arrays.asList(IAchievementWP.TODO));
+			meta.setLore(this.createDescription());
 			item.setItemMeta(meta);
 			return item;
 		} else 
@@ -43,6 +41,4 @@ abstract class IAchievementWP extends IAchievement {
 		
 	}
 	
-	
-
 }

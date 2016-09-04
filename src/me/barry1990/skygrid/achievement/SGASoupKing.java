@@ -1,6 +1,8 @@
 package me.barry1990.skygrid.achievement;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
@@ -45,10 +47,16 @@ final class SGASoupKing extends IAchievementWPCounter {
 		return new ItemStack(Material.MUSHROOM_SOUP);
 	}
 	
+	@Override
+	protected List<String> getDescription() {
+		
+		return Arrays.asList("Who loves soups?");
+	}
+	
 	private static class SGAListener implements Listener {
 		
 		@EventHandler
-		public void onSGAVegetableMasterBlockBreakEvent(CraftItemEvent e) {
+		public void onSGAListenerCraftItemEvent(CraftItemEvent e) {
 			
 			switch (e.getRecipe().getResult().getType()) {
 				case MUSHROOM_SOUP:

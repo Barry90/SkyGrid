@@ -1,6 +1,8 @@
 package me.barry1990.skygrid.achievement;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
@@ -38,6 +40,12 @@ final class SGAInfiniteWaterSource extends IAchievementNP {
 	@Override
 	protected ItemStack getAchievementItem() {	
 		return new ItemStack(Material.WATER_BUCKET, 1);
+	}
+	
+	@Override
+	protected List<String> getDescription() {
+		
+		return Arrays.asList("Craft Water.");
 	}
 	
 	private static class SGAListener implements Listener {

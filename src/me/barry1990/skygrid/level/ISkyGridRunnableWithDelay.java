@@ -1,11 +1,21 @@
 package me.barry1990.skygrid.level;
 
 
-abstract class ISkyGridRunnableWithDelay implements Runnable {
+abstract public class ISkyGridRunnableWithDelay implements Runnable {
 
-	long delay;
+	private long delay;
 	
-	ISkyGridRunnableWithDelay(long delay) {
+	public ISkyGridRunnableWithDelay(long delay) {
+		this.setDelay(delay);
+	}
+
+	public long getDelay() {
+
+		return delay;
+	}
+
+	public void setDelay(long delay) {
+
 		this.delay = delay;
 	}
 }

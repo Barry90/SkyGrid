@@ -11,47 +11,47 @@ import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-
 public class SkyGridOnWorldLoadedEvent implements Listener {
-
 
 	@EventHandler
 	public void OnWorldLoad(WorldLoadEvent e) {
-		BarrysLogger.info("World loaded: "+e.getWorld().getName());
-		
+
+		BarrysLogger.info("World loaded: " + e.getWorld().getName());
+
 		if (e.getWorld().getName().equals("world")) {
-			
+
 			// After the default world (the waitingroom) has loaded, we can load/create the skygridworld.
 			// We havee to do this in a new BukkitRunnanble, otherwise we get an inconsistence exception:
 			// (WorldLoadEventHandler causes a new WorldLoadEvent)
-			
+
 			new BukkitRunnable() {
-				
+
 				@Override
 				public void run() {
-				
+
 					BarrysLogger.info(this, "Create SkyGridWorld...");
 					new SkyGridWorld() {
+
 						@Override
 						protected void worldLoaded(World world) {
-							
-							//do nothing
-							BarrysLogger.info(this, "World created..." + world.getName());				
+
+							// do nothing
+							BarrysLogger.info(this, "World created..." + world.getName());
 						}
-						
+
 					}.create();
-					
+
 				}
 			}.runTaskLater(SkyGrid.sharedInstance(), 0);
-			
+
 		}
 	}
-	
+
 	@EventHandler
-	public void onWorldInit(WorldInitEvent e){
-		
+	public void onWorldInit(WorldInitEvent e) {
+
 		// avoid preloading chunks on generation, this saves a lot of time during startup
-	    e.getWorld().setKeepSpawnInMemory(false);
+		e.getWorld().setKeepSpawnInMemory(false);
 	}
-	
+
 }

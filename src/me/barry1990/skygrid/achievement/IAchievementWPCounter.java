@@ -3,7 +3,6 @@ package me.barry1990.skygrid.achievement;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.UUID;
 
 import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
@@ -15,13 +14,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 
-abstract class IAchievementWPCounter extends IAchievementWP {
+abstract public class IAchievementWPCounter extends IAchievementWP {
 	
 	protected short progress;
 	abstract protected short getProgressTarget();
 
-	public IAchievementWPCounter(HashMap<SGAIDENTIFIER, IAchievement> map, UUID playeruuid) {
-		super(map, playeruuid);
+	public IAchievementWPCounter(UUID playeruuid) {
+		super(playeruuid);
 	}
 
 	@Override
@@ -48,7 +47,7 @@ abstract class IAchievementWPCounter extends IAchievementWP {
 		
 		this.progress++;
 		if (this.progress == this.getProgressTarget()) {
-			SkyGridPlayerManager.awardAchievement(this.getPlayerUUID(), this.getId());
+			SkyGridPlayerManager.awardAchievement(this.getPlayerUUID(), this.getUniqueId());
 		} else {
 			this.saveEverything();
 		}

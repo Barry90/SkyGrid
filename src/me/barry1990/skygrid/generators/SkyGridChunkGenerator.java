@@ -11,15 +11,16 @@ import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 
-
 public final class SkyGridChunkGenerator extends ChunkGenerator implements SkyGridChunkDataGeneratorThread.IChunkDataProvider {
-	
-	private SkyGridChunkDataGeneratorThread chunkGenerator;	
-	private static boolean asyncGeneration = true; // default true
-			
+
+	private SkyGridChunkDataGeneratorThread	chunkGenerator;
+	private SkyGridBlockPopulator			blockPopulator;
+	private static boolean					asyncGeneration	= true; // default true
+
 	public SkyGridChunkGenerator() {
-		//Nothing to do here
+
 		BarrysLogger.info(this, "new instance");
+		this.blockPopulator = new SkyGridBlockPopulator(SkyGrid.sharedInstance().getLevelManager().getLevel());
 	}
 
 	@Override
@@ -27,21 +28,21 @@ public final class SkyGridChunkGenerator extends ChunkGenerator implements SkyGr
 
 		// start the thread
 		if (asyncGeneration && this.chunkGenerator == null) {
-			this.chunkGenerator = new SkyGridChunkDataGeneratorThread(world, this, SkyGrid.getLevelManager().getLevel());
+			this.chunkGenerator = new SkyGridChunkDataGeneratorThread(world, this);
 			BarrysLogger.info(this, "Start the SkyGridChunkGenerator-Thread");
 			this.chunkGenerator.start();
 		}
-		
+
 		ChunkData data;
-		
+
 		try {
-			if (SkyGrid.getLevelManager().isAltarChunk(x, z))
-				data = SkyGrid.getLevelManager().getAltarChunkData(world, this.createChunkData(world));
+			if (SkyGrid.sharedInstance().getLevelManager().isAltarChunk(x, z))
+				data = SkyGrid.sharedInstance().getLevelManager().getAltarChunkData(world, this.createChunkData(world));
 			else {
 				if (asyncGeneration)
 					data = chunkGenerator.getChunk();
 				else
-					data = SkyGrid.getLevelManager().getLevel().fillChunkData(this.createChunkData(world));
+					data = SkyGrid.sharedInstance().getLevelManager().getLevel().fillChunkData(this.createChunkData(world));
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -53,18 +54,29 @@ public final class SkyGridChunkGenerator extends ChunkGenerator implements SkyGr
 
 	@Override
 	public List<BlockPopulator> getDefaultPopulators(World world) {
-		return Arrays.asList((BlockPopulator)new SkyGridBlockPopulator());
+
+		return Arrays.asList((BlockPopulator) this.blockPopulator);
 	}
-	
+
 	@Override
 	public ChunkData getChunkData(World world) {
+
 		return this.createChunkData(world);
 	}
-	
+
 	public void dispose() {
-		if (this.chunkGenerator != null)
+
+		if (this.chunkGenerator != null) {
 			this.chunkGenerator.softstop();
+			try {
+				this.chunkGenerator.getChunk();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			this.chunkGenerator = null;
+		}
+		if (this.blockPopulator != null)
+			this.blockPopulator.dispose();
 	}
-		
 
 }

@@ -1,13 +1,13 @@
 package me.barry1990.skygrid.level;
 
-import java.util.List;
+/*import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
 import me.barry1990.skygrid.PlayerThreads.IPlayerThreads;
-import me.barry1990.skygrid.achievement.SGAIDENTIFIER;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerJoin;
 import me.barry1990.skygrid.world.SkyGridWorld;
+import me.barry1990.skygridlevel.achievements.SGAIDENTIFIER;
 import me.barry1990.utils.BarrysLogger;
 
 import org.bukkit.Chunk;
@@ -17,11 +17,11 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
 import org.bukkit.inventory.Recipe;
+*/
 
-
-public class SkyGridLevelStone extends ISkyGridLevel {
+public class SkyGridLevelStone /*extends ISkyGridLevel*/ {
 	
-	private ISkyGridAlter altar; 
+	/*private ISkyGridAlter altar; 
 	
 	public SkyGridLevelStone() {
 
@@ -92,17 +92,17 @@ public class SkyGridLevelStone extends ISkyGridLevel {
 		protected void loadAltar() {}
 
 		@Override
-		boolean isBlockallowed(Block block) {
+		protected boolean isBlockallowed(Block block) {
 			return (block.getType() == Material.GOLD_BLOCK);
 		}
 
 		@Override
-		boolean canBuildonLocation(Location location) {
+		protected boolean canBuildonLocation(Location location) {
 			return (location.getBlockY() < 30);
 		}
 
 		@Override
-		void buildOnLocationEvent(Location location) {
+		protected void buildOnLocationEvent(Location location) {
 		}
 
 		@Override
@@ -119,6 +119,6 @@ public class SkyGridLevelStone extends ISkyGridLevel {
 		}
 		
 	}
-
+*/
 
 }

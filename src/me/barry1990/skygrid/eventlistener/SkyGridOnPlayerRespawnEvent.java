@@ -25,7 +25,7 @@ public final class SkyGridOnPlayerRespawnEvent implements Listener {
 			e.setRespawnLocation(loc);
 		} else {
 			
-			loc = SkyGrid.getLevelManager().getLevel().generateSkyGridSpawnLocation();				
+			loc = SkyGrid.sharedInstance().getLevelManager().getLevel().generateSkyGridSpawnLocation(SkyGridWorld.getSkyGridWorld());				
 			SkyGridSQL.sharedInstance().addHome(e.getPlayer(), loc, SkyGridSQL.SPAWN_POINT);
 			
 			e.setRespawnLocation(loc);

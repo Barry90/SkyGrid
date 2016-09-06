@@ -1,6 +1,6 @@
 package me.barry1990.skygrid.level;
 
-import java.util.ArrayList;
+/*import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -10,8 +10,8 @@ import me.barry1990.skygrid.SkyGrid;
 import me.barry1990.skygrid.TitleManager;
 import me.barry1990.skygrid.PlayerThreads.IPlayerThreads;
 import me.barry1990.skygrid.PlayerThreads.NoHungerThread;
-import me.barry1990.skygrid.achievement.SGAIDENTIFIER;
 import me.barry1990.skygrid.world.SkyGridWorld;
+import me.barry1990.skygridlevel.achievements.SGAIDENTIFIER;
 import me.barry1990.utils.BarrysLogger;
 import me.barry1990.utils.Converter;
 
@@ -54,10 +54,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-
-public final class SkyGridLevelWood extends ISkyGridLevel {
+*/
+public final class SkyGridLevelWood /*extends ISkyGridLevel*/ {
 	
-	private ISkyGridAlter altar;
+	/*private ISkyGridAlter altar;
 	private Random random;
 	
 	private ItemStack magicGrass;
@@ -668,7 +668,7 @@ public final class SkyGridLevelWood extends ISkyGridLevel {
 			
 			long delay = 0;
 			for (ISkyGridRunnableWithDelay r : this.altarAnimation) {
-				delay += r.delay;
+				delay += r.getDelay();
 				SkyGrid.sharedInstance().getServer().getScheduler().runTaskLater(SkyGrid.sharedInstance(), r, delay);
 			}
 			
@@ -713,6 +713,6 @@ public final class SkyGridLevelWood extends ISkyGridLevel {
 		}
 		
 		
-	}
+	}*/
 
 }

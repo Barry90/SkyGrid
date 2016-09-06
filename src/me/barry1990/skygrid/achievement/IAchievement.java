@@ -1,7 +1,6 @@
 package me.barry1990.skygrid.achievement;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 
-abstract class IAchievement {
+abstract public class IAchievement {
 	
 	final protected static String AWARDED = "§2 Owned.";
 	final protected static String NOT_OWNED = "§4 Not owned.";
@@ -25,21 +24,17 @@ abstract class IAchievement {
 	private boolean hasAchievement;
 	private UUID playeruuid;
 	
-	public IAchievement(HashMap<SGAIDENTIFIER, IAchievement> map, UUID playeruuid) {
-		if (map.containsKey(this.getId())) {
-			BarrysLogger.warn(this, String.format("duplicated keys for IAchievement : %d", this.getId()));
-		}
-		map.put(this.getId(), this);
+	public IAchievement(UUID playeruuid) {
 		this.hasAchievement = false;
 		this.playeruuid = playeruuid;
 	}
 	
-	abstract protected SGAIDENTIFIER getId();
+	abstract protected byte getUniqueId();
 	abstract protected String getName();
 	abstract protected ItemStack getAchievementItem();
 	abstract protected List<String> getDescription();
 	
-	final static void registerEvent(Listener event) {
+	final static protected void registerEvent(Listener event) {
 		SkyGrid.registerEvent(event);
 	}
 	
@@ -85,7 +80,7 @@ abstract class IAchievement {
 		Bukkit.getServer().broadcastMessage(String.format("§f%s §agot the achiement: §4%s",Bukkit.getPlayer(this.playeruuid).getName(), this.getName()));
 	}
 	
-	final boolean hasAchievement() {
+	final protected boolean hasAchievement() {
 		return hasAchievement;
 	}
 	
@@ -93,11 +88,11 @@ abstract class IAchievement {
 		this.hasAchievement = true;
 	}
 	
-	final void saveEverything() {
+	final protected void saveEverything() {
 		SkyGridPlayerManager.saveAchievementsForPlayer(playeruuid);
 	}
 	
-	final UUID getPlayerUUID() {
+	final protected UUID getPlayerUUID() {
 		return this.playeruuid;
 	}
 

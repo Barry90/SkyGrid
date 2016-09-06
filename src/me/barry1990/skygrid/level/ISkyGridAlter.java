@@ -23,24 +23,24 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 
-abstract class ISkyGridAlter implements Listener {
+abstract public class ISkyGridAlter implements Listener {
 	
 	
-	ISkyGridAlter() {
+	public ISkyGridAlter() {
 		SkyGrid.registerEvent(this);
 	}
 	
 	// Chunk	
 	abstract public ChunkData getChunkData(World world, ChunkData chunkdata);		
 	// Data
-	abstract void loadAltar();	
+	abstract protected void loadAltar();	
 	
-	abstract boolean isBlockallowed(Block block);
-	abstract boolean canBuildonLocation(Location location);
-	abstract void buildOnLocationEvent(Location location);	
+	abstract protected boolean isBlockallowed(Block block);
+	abstract protected boolean canBuildonLocation(Location location);
+	abstract protected void buildOnLocationEvent(Location location);	
 	abstract protected boolean isAltarComplete(Chunk chunk);
 	abstract protected void doEndAnimation(Chunk chunk);		
-	abstract void preprareNextAltar();
+	abstract protected void preprareNextAltar();
 		
 	public void alterChunkBlockPlaceEvent(BlockPlaceEvent e) {
 		if (!this.isBlockallowed(e.getBlock())) {
@@ -64,15 +64,15 @@ abstract class ISkyGridAlter implements Listener {
 		}
 	}
 	
-	protected JsonElement getJsonFromResource(final String res) {
+	protected JsonElement getJsonFromResource(final InputStream resourceinputstream) {
 		JsonElement ret = null;
 		try {
-			InputStream resource_is = SkyGrid.sharedInstance().getResource(res);
+			//InputStream resource_is = SkyGrid.sharedInstance().getResource(res);
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
 	
 			int readed;
 			byte[] buffer = new byte[1024];	
-			while ((readed = resource_is.read(buffer, 0, 1024)) != -1) 
+			while ((readed = resourceinputstream.read(buffer, 0, 1024)) != -1) 
 				bos.write(buffer, 0, readed);			
 			bos.flush();	
 			String json = bos.toString(StandardCharsets.UTF_8.name());		
@@ -88,7 +88,7 @@ abstract class ISkyGridAlter implements Listener {
 	@EventHandler
 	public void skyGridAlterBlockExplodeEvent(EntityExplodeEvent e) {
 		
-		if (e.getEntityType() == EntityType.ENDER_CRYSTAL && SkyGrid.getLevelManager().isAltarChunk(e.getEntity().getLocation().getChunk())) {
+		if (e.getEntityType() == EntityType.ENDER_CRYSTAL && SkyGrid.sharedInstance().getLevelManager().isAltarChunk(e.getEntity().getLocation().getChunk())) {
 			e.setCancelled(true);
 			return;
 		}
@@ -97,7 +97,7 @@ abstract class ISkyGridAlter implements Listener {
 			
 			@Override
 			public boolean test(Block b) {
-				return SkyGrid.getLevelManager().isAltarChunk(b.getChunk());
+				return SkyGrid.sharedInstance().getLevelManager().isAltarChunk(b.getChunk());
 			}
 		});
 		

@@ -1,15 +1,15 @@
 package me.barry1990.skygrid.achievement;
 
-import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
+/*import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;*/
 
-final class SkyGridOnAsyncPlayerChatEvent implements Listener {
+final class SkyGridOnAsyncPlayerChatEvent /*implements Listener*/ {
 	
-	private static final String f1 = "§6|";
+	/*private static final String f1 = "§6|";
 	private static final String f2 = "%1$s§6|§f %2$s";
 	private static final String c1 = "§f";	//begin
 	private static final String c2 = "§a";	//3 achievements
@@ -42,5 +42,5 @@ final class SkyGridOnAsyncPlayerChatEvent implements Listener {
 		} else 
 			e.setFormat(f1 + c1 + f2);
 		
-	}
+	}*/
 }

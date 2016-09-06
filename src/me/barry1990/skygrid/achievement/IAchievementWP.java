@@ -3,7 +3,6 @@ package me.barry1990.skygrid.achievement;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.UUID;
 
 import me.barry1990.utils.BarrysLogger;
@@ -12,12 +11,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 
-abstract class IAchievementWP extends IAchievement {
+abstract public class IAchievementWP extends IAchievement {
 	
 	final protected static String PROGRESS_F = "§6§l%s§r - §f%d%%";
 
-	public IAchievementWP(HashMap<SGAIDENTIFIER, IAchievement> map, UUID playeruuid) {
-		super(map, playeruuid);
+	public IAchievementWP(UUID playeruuid) {
+		super(playeruuid);
 	}
 	
 	abstract protected void save(FileOutputStream out) throws IOException;

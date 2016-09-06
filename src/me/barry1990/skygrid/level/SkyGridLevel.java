@@ -1,11 +1,11 @@
 package me.barry1990.skygrid.level;
 
 
-
+@Deprecated
 public enum SkyGridLevel {
 	
 	
-	END_LEVEL(SkyGridLevelEnd.class, 1),	
+	/*END_LEVEL(SkyGridLevelEnd.class, 1),	
 	STONE_LEVEL(SkyGridLevelStone.class, 2),	
 	WOOD_LEVEL(SkyGridLevelWood.class, 3);	
 	
@@ -24,7 +24,7 @@ public enum SkyGridLevel {
 				return SkyGridLevel.class.getEnumConstants()[i].c;
 		}
 		throw new IllegalArgumentException("No level found for id : " + id);
-	}
+	}*/
 	
 
 }

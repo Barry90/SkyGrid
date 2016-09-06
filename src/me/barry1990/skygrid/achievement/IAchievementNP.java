@@ -1,13 +1,12 @@
 package me.barry1990.skygrid.achievement;
 
-import java.util.HashMap;
 import java.util.UUID;
 
+@Deprecated
+abstract public class IAchievementNP extends IAchievement {
 
-abstract class IAchievementNP extends IAchievement {
-
-	public IAchievementNP(HashMap<SGAIDENTIFIER, IAchievement> map, UUID playeruuid) {
-		super(map, playeruuid);
+	public IAchievementNP(UUID playeruuid) {
+		super(playeruuid);
 	}
 	
 }

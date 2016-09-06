@@ -14,37 +14,35 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-
 public class SkyGridDebugCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
 		if (sender instanceof Player) {
-			final Player p = (Player) sender;
-			// debug command 
+			// debug command
 			for (Player player : SkyGrid.sharedInstance().getServer().getOnlinePlayers()) {
 				player.teleport(new Location(SkyGrid.sharedInstance().getServer().getWorld("world"), 7, 129, 7));
-				SkyGridPlayerManager.unload(p);
+				SkyGridPlayerManager.unload(player);
 			}
-			
+
 			SkyGridSQL.sharedInstance().resetDatabaseTables();
-			SkyGridAchievements.deleteAllProgress();				
-			SkyGrid.getLevelManager().reload();
-			
+			SkyGridAchievements.deleteAllProgress();
+			SkyGrid.sharedInstance().getLevelManager().reload();
+
 			new SkyGridWorld() {
-						
+
 				@Override
 				protected void worldLoaded(World world) {
-				
+
 					for (Player player : SkyGrid.sharedInstance().getServer().getOnlinePlayers()) {
 						SkyGridOnPlayerJoin.registerAndLoadPlayer(player);
-						player.teleport(SkyGrid.getLevelManager().getLevel().generateSkyGridSpawnLocation());
+						player.teleport(SkyGrid.sharedInstance().getLevelManager().getLevel().generateSkyGridSpawnLocation(SkyGridWorld.getSkyGridWorld()));
 						SkyGridOnPlayerJoin.loadAfterPlayerJoin(player);
 					}
-					
+
 				}
-			}.recreate();
+			}.reload(true);
 		}
 		return true;
 	}

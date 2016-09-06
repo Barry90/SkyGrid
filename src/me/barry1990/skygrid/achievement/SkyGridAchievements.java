@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import me.barry1990.skygrid.SkyGrid;
@@ -17,12 +18,12 @@ import org.bukkit.inventory.Inventory;
 public class SkyGridAchievements {
 	
 	static {
-		SkyGrid.registerEvent(new SkyGridOnAsyncPlayerChatEvent());
+		//SkyGrid.registerEvent(new SkyGridOnAsyncPlayerChatEvent());
 	}
 	
 	private static final String PATH = "achievements";
 	
-	private HashMap<SGAIDENTIFIER, IAchievement> map = new HashMap<SGAIDENTIFIER, IAchievement>();
+	private HashMap<Byte, IAchievement> map = new HashMap<Byte, IAchievement>();
 	private UUID playeruuid;
 	
 	/////////////////////////
@@ -32,6 +33,16 @@ public class SkyGridAchievements {
 	public SkyGridAchievements(UUID playeruuid) {
 		this.playeruuid = playeruuid;
 		
+		List<IAchievement> achievments = SkyGrid.sharedInstance().getLevelManager().getLevel().getAchievements(playeruuid);
+		
+		for (IAchievement achievment : achievments) {
+			if (map.containsKey(achievment.getUniqueId())) {
+				BarrysLogger.warn(achievment, String.format("duplicated keys for IAchievement : %d", achievment.getUniqueId()));
+			}
+			map.put(achievment.getUniqueId(), achievment);
+		}
+		
+		/*		
 		if (SkyGrid.getLevelManager().getLevel().isAchievementAvailable(SGAIDENTIFIER.WOOD_MANIAC)) new SGAWoodManiac(this.map, playeruuid);	
 		if (SkyGrid.getLevelManager().getLevel().isAchievementAvailable(SGAIDENTIFIER.STONE_MANIAC)) new SGAStoneManiac(this.map, playeruuid);	
 		if (SkyGrid.getLevelManager().getLevel().isAchievementAvailable(SGAIDENTIFIER.IRON_MANIAC)) new SGAIronManiac(this.map, playeruuid);	
@@ -54,7 +65,7 @@ public class SkyGridAchievements {
 		if (SkyGrid.getLevelManager().getLevel().isAchievementAvailable(SGAIDENTIFIER.SO_IT_BEGINS)) new SGASoItBegins(this.map, playeruuid);	
 		if (SkyGrid.getLevelManager().getLevel().isAchievementAvailable(SGAIDENTIFIER.GO_DEEPER)) new SGAGoDeeper(this.map, playeruuid);	
 		if (SkyGrid.getLevelManager().getLevel().isAchievementAvailable(SGAIDENTIFIER.GO_EVEN_DEEPER)) new SGAGoEvenDeeper(this.map, playeruuid);	
-		
+		*/
 		this.loadAchievements();
 
 	}
@@ -75,7 +86,7 @@ public class SkyGridAchievements {
 		return inv;
 	}
 	
- 	public synchronized boolean hasAchievementWithID(SGAIDENTIFIER SGA_ID) {
+ 	public synchronized boolean hasAchievementWithID(byte SGA_ID) {
 		IAchievement achievement = this.map.get(SGA_ID);
 		if (achievement != null ) 
 			return achievement.hasAchievement();
@@ -85,13 +96,13 @@ public class SkyGridAchievements {
 		}
 	}
 	
-	public synchronized void award(SGAIDENTIFIER SGA_ID) {
+	public synchronized void award(byte SGA_ID) {
 		IAchievement achievement = this.map.get(SGA_ID);
 		if (achievement != null ) {
 			if (!achievement.hasAchievement()) {
 				achievement.award();			
 				this.saveAchievements();
-				this.testForLayerAchievement();
+				SkyGrid.sharedInstance().getLevelManager().getLevel().onAchievementAwardedEvent(achievement, achievement.getPlayerUUID());
 			}
 		} else
 			BarrysLogger.error(this, String.format("Could not award Achievement with ID : %d", SGA_ID));
@@ -109,6 +120,7 @@ public class SkyGridAchievements {
 		return achievementcount;
 	}
 	
+	/*@Deprecated
 	synchronized void testForLayerAchievement() {
 		int achievementcount = this.getAchievementCount();
 		if (achievementcount > 5) {
@@ -118,7 +130,7 @@ public class SkyGridAchievements {
 			this.award(SGAIDENTIFIER.GO_EVEN_DEEPER);
 		}
 		
-	}
+	}*/
 	
 	//////////////////////////////////////////////
 	// LOAD/SAVE
@@ -149,7 +161,7 @@ public class SkyGridAchievements {
 			for (IAchievement achievement : this.map.values()) {
 				if (achievement instanceof IAchievementWP) {
 					if (!achievement.hasAchievement()) {
-						out.write(achievement.getId().id);
+						out.write(achievement.getUniqueId());
 						((IAchievementWP) achievement).save(out);
 						out.write(SkyGridConst.END);
 					}
@@ -184,7 +196,7 @@ public class SkyGridAchievements {
 					if (binput == SkyGridConst.ACHIEVEMENTS)
 						this.loadAchievementlist(in);
 					else {
-						Object object = this.map.get(SGAIDENTIFIER.getSGAIDENTIFIERFromId(binput));
+						Object object = this.map.get(binput);
 						if (object instanceof IAchievementWP) 
 							((IAchievementWP) object).load(in); 
 						else {						
@@ -217,7 +229,7 @@ public class SkyGridAchievements {
 	private void loadAchievementlist(FileInputStream in) throws IOException {
 		int input;
 		while (((input = in.read()) != -1) && ((byte) input != SkyGridConst.END)) {
-			IAchievement achievement = this.map.get(SGAIDENTIFIER.getSGAIDENTIFIERFromId((byte)input));
+			IAchievement achievement = this.map.get((byte)input);
 			if (achievement != null) 
 				achievement.setAchievementAwarded();
 			else
@@ -229,7 +241,7 @@ public class SkyGridAchievements {
 		out.write(SkyGridConst.ACHIEVEMENTS);
 		for (IAchievement achievement : map.values()) {
 			if (achievement.hasAchievement()) {
-				out.write(achievement.getId().id);
+				out.write(achievement.getUniqueId());
 			}
 		}
 		out.write(SkyGridConst.END);
@@ -239,7 +251,7 @@ public class SkyGridAchievements {
 	// SPECIFIC ACHIEVEMENT HANDLING
 	//////////////////////////////////////////////
 	
-	public synchronized void addProgress(SGAIDENTIFIER id, Object... values) {
+	public synchronized void addProgress(byte id, Object... values) {
 		((IAchievementWP) this.map.get(id)).addProgress(values);
 	}
 	

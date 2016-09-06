@@ -39,7 +39,7 @@ public final class SkyGridOnPlayerJoin implements Listener {
 		if (SkyGridWorld.isReady()) {
 			if (SkyGridSQL.sharedInstance().getHome(player, SkyGridSQL.SPAWN_POINT) == null) {
 												
-				Location loc = SkyGrid.getLevelManager().getLevel().generateSkyGridSpawnLocation();				
+				Location loc = SkyGrid.sharedInstance().getLevelManager().getLevel().generateSkyGridSpawnLocation(SkyGridWorld.getSkyGridWorld());				
 				SkyGridSQL.sharedInstance().addHome(player, loc, SkyGridSQL.SPAWN_POINT);
 				e.setSpawnLocation(loc);
 			}
@@ -71,7 +71,7 @@ public final class SkyGridOnPlayerJoin implements Listener {
 		if (!p.getLocation().getWorld().getName().equals(SkyGridWorld.getSkyGridWorld().getName())) {
 			Location loc = SkyGridSQL.sharedInstance().getHome(p, SkyGridSQL.SPAWN_POINT);
 			if (loc == null) {
-				loc = SkyGridSQL.sharedInstance().getHome(p, SkyGridSQL.SPAWN_POINT);
+				loc = SkyGrid.sharedInstance().getLevelManager().getLevel().generateSkyGridSpawnLocation(SkyGridWorld.getSkyGridWorld());
 				SkyGridSQL.sharedInstance().addHome(p, loc, SkyGridSQL.SPAWN_POINT);
 			}
 			//TODO: save where the player logged out

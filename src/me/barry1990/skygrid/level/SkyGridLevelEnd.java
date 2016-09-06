@@ -1,6 +1,6 @@
 package me.barry1990.skygrid.level;
 
-import java.util.ArrayList;
+/*import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -8,12 +8,10 @@ import java.util.UUID;
 
 import me.barry1990.skygrid.SkyGrid;
 import me.barry1990.skygrid.TitleManager;
-import me.barry1990.skygrid.PlayerThreads.EndWarningThread;
 import me.barry1990.skygrid.PlayerThreads.IPlayerThreads;
-import me.barry1990.skygrid.PlayerThreads.NetherWarningThread;
-import me.barry1990.skygrid.achievement.SGAIDENTIFIER;
 import me.barry1990.skygrid.eventlistener.SkyGridOnPlayerJoin;
 import me.barry1990.skygrid.world.SkyGridWorld;
+import me.barry1990.skygridlevel.achievements.SGAIDENTIFIER;
 import me.barry1990.utils.BarrysLogger;
 import me.barry1990.utils.Converter;
 
@@ -47,10 +45,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-
-public class SkyGridLevelEnd extends ISkyGridLevel {
+*/
+public class SkyGridLevelEnd/* extends ISkyGridLevel */{
 	
-	private ISkyGridAlter altar;
+	/*private ISkyGridAlter altar;
 	private BlockList blocklist;
 	
 	public SkyGridLevelEnd() {
@@ -225,108 +223,13 @@ public class SkyGridLevelEnd extends ISkyGridLevel {
 	
 	@Override
 	public IPlayerThreads getPlayerThreads(UUID playeruuid) {
-		return new PlayerThreads(playeruuid);
+		return null; //new PlayerThreads(playeruuid);
 	}
 	
 	@Override
 	List<Recipe> registerRecipes() {
 		
-		BarrysLogger.info("start to create SkyGrid recipes");
-		ArrayList<Recipe> recipes = new ArrayList<Recipe>();
-		
-		/** CRAFTING - SHAPELESS */
-		
-		//Water-Bucket
-		recipes.add(
-			new ShapelessRecipe(new ItemStack(Material.WATER_BUCKET, 3))
-			.addIngredient(2, Material.WATER_BUCKET)
-			.addIngredient(1, Material.BUCKET)
-		);
-		//Lava-Bucket
-		recipes.add(
-			new ShapelessRecipe(new ItemStack(Material.LAVA_BUCKET, 1))
-			.addIngredient(1, Material.OBSIDIAN)
-			.addIngredient(1, Material.BLAZE_ROD)
-			.addIngredient(1, Material.FLINT_AND_STEEL)
-			.addIngredient(1, Material.BUCKET)
-		);
-		//Blaze Rod
-		recipes.add(
-				new ShapelessRecipe(new ItemStack(Material.BLAZE_ROD, 1))
-				.addIngredient(2, Material.BLAZE_POWDER)
-				.addIngredient(1, Material.STICK)
-		);
-		//Sand
-		recipes.add(
-				new ShapelessRecipe(new ItemStack(Material.SAND, 1))
-				.addIngredient(1, new MaterialData(Material.SAND, (byte)1))
-				.addIngredient(1, new Dye(DyeColor.WHITE))
-		);
-		//Red Sand
-		recipes.add(
-				new ShapelessRecipe(new ItemStack(Material.SAND, 1, (short)1))
-				.addIngredient(1, new MaterialData(Material.SAND, (byte)0))
-				.addIngredient(1, new Dye(DyeColor.RED))
-		);
-		//Cobble -> Granit
-		recipes.add(
-				new ShapelessRecipe(new ItemStack(Material.STONE, 1, (short)1))
-				.addIngredient(1, Material.COBBLESTONE)
-		);
-		//Granit -> Diorit
-		recipes.add(
-				new ShapelessRecipe(new ItemStack(Material.STONE, 1, (short)3))
-				.addIngredient(1, new MaterialData(Material.STONE, (byte)1))
-		);
-		//Diorit -> Andesite
-		recipes.add(
-				new ShapelessRecipe(new ItemStack(Material.STONE, 1, (short)5))
-				.addIngredient(1, new MaterialData(Material.STONE, (byte)3))
-		);
-		//Andesite -> Cobble
-		recipes.add(
-				new ShapelessRecipe(new ItemStack(Material.COBBLESTONE, 1))
-				.addIngredient(1, new MaterialData(Material.STONE, (byte)5))
-		);
-		//Beetrodseeds
-		recipes.add(
-				new ShapelessRecipe(new ItemStack(Material.BEETROOT_SEEDS, 2))
-				.addIngredient(1, Material.NETHER_WARTS)
-		);
-		
-		/** CRAFTING - SHAPED */
-		
-		//Obsidian
-		recipes.add(
-			new ShapedRecipe(new ItemStack(Material.OBSIDIAN, 1))
-			.shape(" S ","SBS"," S ")
-			.setIngredient('S', Material.SMOOTH_BRICK).setIngredient('S', new SmoothBrick(Material.COBBLESTONE))
-			.setIngredient('B', Material.BLAZE_POWDER)
-		);
-		//Cobweb
-		recipes.add(
-			new ShapedRecipe(new ItemStack(Material.WEB, 1))
-			.shape("W W"," W ","W W")
-			.setIngredient('W', Material.STRING)
-		);
-		//Netherportalframe
-		recipes.add(
-			new ShapedRecipe(new ItemStack(Material.ENDER_PORTAL_FRAME, 1))
-			.shape("BIB","ECE","EEE")
-			.setIngredient('B', Material.BLAZE_ROD)
-			.setIngredient('I', Material.ENDER_PEARL)
-			.setIngredient('E', Material.ENDER_STONE)
-			.setIngredient('C', Material.CAULDRON_ITEM)
-		);
-		
-		/** FURNACE */
-		
-		//Blaze Powder
-		recipes.add(
-			new FurnaceRecipe(new ItemStack(Material.BLAZE_POWDER, 1), new MaterialData(Material.ENDER_STONE), 0.1f)
-		);
-		
-		return recipes;	
+		return null;
 	}
 	
 	@Override
@@ -457,12 +360,12 @@ public class SkyGridLevelEnd extends ISkyGridLevel {
 		}
 
 		@Override
-		boolean isBlockallowed(Block block) {
+		protected boolean isBlockallowed(Block block) {
 			return (block.getType() == this.allowedBlockMaterial);	
 		}
 		
 		@Override
-		boolean canBuildonLocation(Location loc) {
+		protected boolean canBuildonLocation(Location loc) {
 
 			boolean allowedLocation = false;		
 			for (Vector allowed : this.blockSetAllowed) {
@@ -475,7 +378,7 @@ public class SkyGridLevelEnd extends ISkyGridLevel {
 		}
 
 		@Override
-		void buildOnLocationEvent(Location loc) {
+		protected void buildOnLocationEvent(Location loc) {
 
 			if (loc.getBlockY() >= 2) {
 				
@@ -621,14 +524,14 @@ public class SkyGridLevelEnd extends ISkyGridLevel {
 			
 			long delay = 0;
 			for (ISkyGridRunnableWithDelay r : this.endAnimation) {
-				delay += r.delay;
+				delay += r.getDelay();
 				SkyGrid.sharedInstance().getServer().getScheduler().runTaskLater(SkyGrid.sharedInstance(), r, delay);
 			}
 			
 		}
 
 		@Override
-		void preprareNextAltar() {
+		protected void preprareNextAltar() {
 
 			BarrysLogger.info("SKYGRID COMPLETED - WILL RESET SERVER NOW");
 			for (Player p :  SkyGrid.sharedInstance().getServer().getOnlinePlayers()) {
@@ -834,7 +737,7 @@ public class SkyGridLevelEnd extends ISkyGridLevel {
 		}
 	}
 
-	private class PlayerThreads extends IPlayerThreads {
+	/*private class PlayerThreads extends IPlayerThreads {
 		
 		private NetherWarningThread netherwarning;
 		private EndWarningThread endwarning;
@@ -854,6 +757,6 @@ public class SkyGridLevelEnd extends ISkyGridLevel {
 			this.endwarning.cancel();
 			
 		}
-	}
+	}*/
 	
 }

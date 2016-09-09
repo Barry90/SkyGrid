@@ -2,7 +2,7 @@ package me.barry1990.skygrid.PlayerThreads;
 
 import java.util.UUID;
 
-import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
+import me.barry1990.skygrid.SkyGrid;
 import me.barry1990.utils.BarrysLogger;
 
 import org.bukkit.Bukkit;
@@ -10,12 +10,19 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-
+/**
+ * SkyGridAFKThread - This class is used to detect if a player if afk
+ * 
+ * @author Barry1990
+ */
 final class SkyGridAFKThread extends BukkitRunnable {
 	
 	private UUID playeruuid;
 	
-	 
+	/**
+	 * Creates a new instance of SkyGridAFKThread
+	 * @param playeruuid The UUID of the player
+	 */
 	public SkyGridAFKThread(UUID playeruuid) {
 
 		this.playeruuid = playeruuid;
@@ -30,7 +37,7 @@ final class SkyGridAFKThread extends BukkitRunnable {
 		
 		BarrysLogger.info(this,"checkAFK called");
 		//get AFK-status		
-		SkyGridAFK afk = SkyGridPlayerManager.getSkyGridAFK(this.playeruuid);
+		SkyGridAFK afk = SkyGrid.getPlayerManager().getSkyGridAFK(this.playeruuid);
 		
 		if (!afk.isAFK()) {
 		
@@ -40,7 +47,7 @@ final class SkyGridAFKThread extends BukkitRunnable {
 			
 			//check location
 			if (lastposition == null) {
-				SkyGridPlayerManager.setPlayerIsBack(this.playeruuid, newposition);
+				SkyGrid.getPlayerManager().setPlayerIsBack(this.playeruuid, newposition);
 				return;
 			}
 			
@@ -49,13 +56,13 @@ final class SkyGridAFKThread extends BukkitRunnable {
 	
 				// check distance			
 				if (lastposition.distanceSquared(newposition) < 9) {
-					SkyGridPlayerManager.setPlayerAFK(this.playeruuid, newposition, false);				
+					SkyGrid.getPlayerManager().setPlayerAFK(player);				
 				}
 				
 			} else {
 				
 				//player changed world
-				SkyGridPlayerManager.setPlayerIsBack(this.playeruuid, newposition);
+				SkyGrid.getPlayerManager().setPlayerIsBack(this.playeruuid, newposition);
 				return;
 			}
 		

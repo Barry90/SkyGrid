@@ -11,6 +11,7 @@ import java.net.URLClassLoader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import java.util.ServiceLoader;
 
@@ -25,10 +26,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
+import org.bukkit.inventory.Recipe;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+/**
+ * SkyGridLevel_Manager - This class manages the SykGrid level
+ * 
+ * @author Barry1990
+ */
 public final class SkyGridLevel_Manager implements Listener {
 
 	private int						x;
@@ -39,6 +46,9 @@ public final class SkyGridLevel_Manager implements Listener {
 	private ISkyGridLevelInterface	level;
 	private String					PATH	= "data.dat";
 
+	/**
+	 * Creates a new instance of SkyGridLevel_Manager
+	 */
 	public SkyGridLevel_Manager() {
 
 		SkyGrid.registerEvent(this);
@@ -50,6 +60,9 @@ public final class SkyGridLevel_Manager implements Listener {
 	// LOAD INFOS
 	// ////////////////////////////////////////////////////
 
+	/**
+	 * load level information from file
+	 */
 	private void loadLevelInfos() {
 
 		// TODO maybe read from SQL DB?
@@ -76,7 +89,10 @@ public final class SkyGridLevel_Manager implements Listener {
 
 	}
 
-	public void createDefault() {
+	/**
+	 * Creates the default level file
+	 */
+	private void createDefault() {
 
 		File file = new File(SkyGrid.sharedInstance().getDataFolder() + File.separator + PATH);
 
@@ -84,9 +100,6 @@ public final class SkyGridLevel_Manager implements Listener {
 		this.id = 1;
 		this.x = r.nextInt(5000) - 2500;
 		this.z = r.nextInt(5000) - 2500;
-		// TODO
-		this.x = 0;
-		this.z = 0;
 
 		String json = String.format("{\"id\":%d,\"chunk_x\":%d,\"chunk_z\":%d}", this.id, this.x, this.z);
 		file.getParentFile().mkdirs();
@@ -103,6 +116,11 @@ public final class SkyGridLevel_Manager implements Listener {
 	// SKYGRID LEVEL
 	// ////////////////////////////////////////////////////
 
+	/**
+	 * This methods load the SkyGridLevelInterface with the given unique level id from the external ressource
+	 * 
+	 * @param id The unique id of the level
+	 */
 	private void loadLevel(int id) {
 
 		try {
@@ -113,7 +131,6 @@ public final class SkyGridLevel_Manager implements Listener {
 			}
 
 			ArrayList<URL> levelList = new ArrayList<URL>();
-
 			File[] flist = levelDir.listFiles(new FileFilter() {
 
 				public boolean accept(File file) {
@@ -131,12 +148,12 @@ public final class SkyGridLevel_Manager implements Listener {
 			}
 
 			URLClassLoader classloader = new URLClassLoader(levelList.toArray(new URL[0]), getClass().getClassLoader());
-
 			ServiceLoader<ISkyGridLevelInterface> loader = ServiceLoader.load(ISkyGridLevelInterface.class, classloader);
-
 			Iterator<ISkyGridLevelInterface> levels = loader.iterator();
+
 			while (levels.hasNext()) {
 				ISkyGridLevelInterface level = levels.next();
+
 				if (id == level.getUniqueId()) {
 					this.level = level;
 					BarrysLogger.info(this, "level found: " + level.getClass().getName());
@@ -151,14 +168,36 @@ public final class SkyGridLevel_Manager implements Listener {
 			throw new RuntimeException("No level was found in the SkyGridLevels directory with id " + id);
 		}
 
+		this.prepareLevel();
+	}
+
+	/**
+	 * Prepare the level after loading
+	 */
+	private void prepareLevel() {
+
+		List<Recipe> recipes = this.level.registerRecipes();
+		if (recipes != null) {
+			for (Recipe recipe : recipes) {
+				SkyGrid.sharedInstance().getServer().addRecipe(recipe);
+				BarrysLogger.infoEnum(this.level.getLevelName() + ": Recipes added for", recipe.getResult().getType());
+			}
+		}
+
 		this.level.onEnabled();
 	}
 
+	/**
+	 * @return The skygrid level
+	 */
 	public ISkyGridLevelInterface getLevel() {
 
 		return this.level;
 	}
 
+	/**
+	 * Reload the level.
+	 */
 	public void reload() {
 
 		BarrysLogger.info(this, "Reloading...");
@@ -170,6 +209,9 @@ public final class SkyGridLevel_Manager implements Listener {
 
 	}
 
+	/**
+	 * This method releases all loaded resources of this manager
+	 */
 	public void dispose() {
 
 		BarrysLogger.info(this, "Disposing...");
@@ -183,24 +225,47 @@ public final class SkyGridLevel_Manager implements Listener {
 	// CHUNK GENERATION
 	// ////////////////////////////////////////////////////
 
+	/**
+	 * @return A singleton instance of the SkyGridChunkGenerator
+	 */
 	public SkyGridChunkGenerator getGenerator() {
 
 		return (this.chunkGenerator != null) ? this.chunkGenerator : (this.chunkGenerator = new SkyGridChunkGenerator());
 	}
 
+	/**
+	 * Get the ChunkData of the Altar of this level
+	 * 
+	 * @param world The skygrid world
+	 * @param chunkdata The prepared ChunkData for the Chunk
+	 * @return ChunkData of the Altar or chunkdata if there is no altar
+	 */
 	public ChunkData getAltarChunkData(World world, ChunkData chunkdata) {
 
-		if (this.level.getSkyGridAltar() != null)
+		if (this.level.haveSkyGridAltar() && this.level.getSkyGridAltar() != null)
 			return this.level.getSkyGridAltar().getChunkData(world, chunkdata);
 		else
 			return chunkdata;
 	}
 
+	/**
+	 * Test if the chunk on the given position is the altar chunk
+	 * 
+	 * @param x x-coordinate of the chunk
+	 * @param z z-coordinate of the chunk
+	 * @return True if the chunk coordinates match the coordinates of the altar chunk
+	 */
 	public boolean isAltarChunk(int x, int z) {
 
 		return ((this.x == x) && (this.z == z));
 	}
 
+	/**
+	 * Test if the chunk is the altar chunk
+	 * 
+	 * @param chunk The Chunk to test
+	 * @return True if the chunk coordinates match the coordinates of the altar chunk
+	 */
 	public boolean isAltarChunk(Chunk chunk) {
 
 		return ((this.x == chunk.getX()) && (this.z == chunk.getZ()));

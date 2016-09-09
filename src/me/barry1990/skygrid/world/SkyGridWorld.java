@@ -23,7 +23,7 @@ public abstract class SkyGridWorld {
 
 		WorldCreator wc = null;
 		wc = new WorldCreator(SkyGridWorld.NAME);
-		wc.generator(SkyGrid.sharedInstance().getLevelManager().getGenerator());
+		wc.generator(SkyGrid.getLevelManager().getGenerator());
 		wc.environment(Environment.NORMAL);
 		wc.generateStructures(false);
 		World w = wc.createWorld();

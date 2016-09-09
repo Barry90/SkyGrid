@@ -88,7 +88,7 @@ abstract public class ISkyGridAlter implements Listener {
 	@EventHandler
 	public void skyGridAlterBlockExplodeEvent(EntityExplodeEvent e) {
 		
-		if (e.getEntityType() == EntityType.ENDER_CRYSTAL && SkyGrid.sharedInstance().getLevelManager().isAltarChunk(e.getEntity().getLocation().getChunk())) {
+		if (e.getEntityType() == EntityType.ENDER_CRYSTAL && SkyGrid.getLevelManager().isAltarChunk(e.getEntity().getLocation().getChunk())) {
 			e.setCancelled(true);
 			return;
 		}
@@ -97,7 +97,7 @@ abstract public class ISkyGridAlter implements Listener {
 			
 			@Override
 			public boolean test(Block b) {
-				return SkyGrid.sharedInstance().getLevelManager().isAltarChunk(b.getChunk());
+				return SkyGrid.getLevelManager().isAltarChunk(b.getChunk());
 			}
 		});
 		

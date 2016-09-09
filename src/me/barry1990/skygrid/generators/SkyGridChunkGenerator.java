@@ -11,16 +11,26 @@ import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 
+/**
+ * SkyGridChunkGenerator - The chunk generator for the skygrid world
+ * 
+ * @author Barry1990
+ */
 public final class SkyGridChunkGenerator extends ChunkGenerator implements SkyGridChunkDataGeneratorThread.IChunkDataProvider {
 
 	private SkyGridChunkDataGeneratorThread	chunkGenerator;
 	private SkyGridBlockPopulator			blockPopulator;
 	private static boolean					asyncGeneration	= true; // default true
+	private boolean 						haveAltar;
 
+	/**
+	 * Creates a new instance of SkyGridChunkGenerator
+	 */
 	public SkyGridChunkGenerator() {
 
 		BarrysLogger.info(this, "new instance");
-		this.blockPopulator = new SkyGridBlockPopulator(SkyGrid.sharedInstance().getLevelManager().getLevel());
+		this.haveAltar = SkyGrid.getLevelManager().getLevel().haveSkyGridAltar();
+		this.blockPopulator = new SkyGridBlockPopulator(SkyGrid.getLevelManager().getLevel());
 	}
 
 	@Override
@@ -36,13 +46,13 @@ public final class SkyGridChunkGenerator extends ChunkGenerator implements SkyGr
 		ChunkData data;
 
 		try {
-			if (SkyGrid.sharedInstance().getLevelManager().isAltarChunk(x, z))
-				data = SkyGrid.sharedInstance().getLevelManager().getAltarChunkData(world, this.createChunkData(world));
+			if (this.haveAltar && SkyGrid.getLevelManager().isAltarChunk(x, z))
+				data = SkyGrid.getLevelManager().getAltarChunkData(world, this.createChunkData(world));
 			else {
 				if (asyncGeneration)
 					data = chunkGenerator.getChunk();
 				else
-					data = SkyGrid.sharedInstance().getLevelManager().getLevel().fillChunkData(this.createChunkData(world));
+					data = SkyGrid.getLevelManager().getLevel().fillChunkData(this.createChunkData(world));
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -64,15 +74,13 @@ public final class SkyGridChunkGenerator extends ChunkGenerator implements SkyGr
 		return this.createChunkData(world);
 	}
 
+	/**
+	 * This method releases all resources of this generator
+	 */
 	public void dispose() {
 
 		if (this.chunkGenerator != null) {
 			this.chunkGenerator.softstop();
-			try {
-				this.chunkGenerator.getChunk();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 			this.chunkGenerator = null;
 		}
 		if (this.blockPopulator != null)

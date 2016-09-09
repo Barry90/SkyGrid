@@ -5,6 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @SuppressWarnings("unused")
+/**
+ * BarrysLogger
+ * 
+ * @author Barry1990
+ */
 public class BarrysLogger {
 	
 	public static boolean PRINT_LOGS = true;

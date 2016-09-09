@@ -11,6 +11,11 @@ import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+/**
+ * SkyGridOnWorldLoadedEvent - This class handles the world loading.
+ * 
+ * @author Barry1990
+ */
 public class SkyGridOnWorldLoadedEvent implements Listener {
 
 	@EventHandler
@@ -21,7 +26,7 @@ public class SkyGridOnWorldLoadedEvent implements Listener {
 		if (e.getWorld().getName().equals("world")) {
 
 			// After the default world (the waitingroom) has loaded, we can load/create the skygridworld.
-			// We havee to do this in a new BukkitRunnanble, otherwise we get an inconsistence exception:
+			// We have to do this in a new BukkitRunnanble, otherwise we get an inconsistence exception:
 			// (WorldLoadEventHandler causes a new WorldLoadEvent)
 
 			new BukkitRunnable() {

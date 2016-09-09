@@ -5,7 +5,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 
-
+/**
+ * SkyGridOnInventoryClickEvent - This class disables interaction with the achievement GUI
+ * 
+ * @author Barry1990
+ */
 public final class SkyGridOnInventoryClickEvent implements Listener {
 	
 	@EventHandler

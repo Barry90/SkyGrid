@@ -8,10 +8,20 @@ import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 
+/**
+ * SkyGridBlockPopulator - This class is populator for the skygrid world
+ * 
+ * @author Barry1990
+ */
 class SkyGridBlockPopulator extends BlockPopulator {
 
 	private ISkyGridBlockPopulator	iPopulator;
 
+	/**
+	 * Creates a new instance of SkyGridBlockPopulator
+	 * 
+	 * @param iPopulator
+	 */
 	public SkyGridBlockPopulator(ISkyGridBlockPopulator iPopulator) {
 
 		this.iPopulator = iPopulator;
@@ -23,6 +33,9 @@ class SkyGridBlockPopulator extends BlockPopulator {
 		this.iPopulator.populate(world, random, chunk);
 	}
 
+	/**
+	 * This method disposes all resources
+	 */
 	public void dispose() {
 
 		this.iPopulator = null;

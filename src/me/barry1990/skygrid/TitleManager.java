@@ -11,6 +11,11 @@ public final class TitleManager {
 	private static Class<?>	enumtitleaction	= TitleManager.title.getDeclaredClasses()[0];
 	private static Class<?>	chatserial		= getNMSClass("IChatBaseComponent").getDeclaredClasses()[0];
 
+	/**
+	 * Shows the given text on the action bar for the player
+	 * @param p The Player that should get the message
+	 * @param text The text that will be displayed
+	 */
 	public static void sendActionBar(Player p, String text) {
 
 		try {
@@ -32,6 +37,15 @@ public final class TitleManager {
 		}
 	}
 
+	/**
+	 * Shows a defined title to a player
+	 * @param p The player
+	 * @param title The title the should be displayed
+	 * @param subtitle The subtitle
+	 * @param fadeIn Time in ticks for the title to fade in
+	 * @param stay Time in ticks for the title
+	 * @param fadeOut Time in ticks for the title to fade out
+	 */
 	public static void sendTitles(Player p, String title, String subtitle, int fadeIn, int stay, int fadeOut) {
 
 		TitleManager.clear(p);

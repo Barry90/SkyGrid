@@ -7,7 +7,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-
+/**
+ * SkyGridSetHomeCommand - This class handles the sethome command
+ * 
+ * @author Barry1990
+ */
 public final class SkyGridSetHomeCommand implements CommandExecutor {
 
 	@Override
@@ -16,13 +20,13 @@ public final class SkyGridSetHomeCommand implements CommandExecutor {
 		if (sender instanceof Player) {
 			final Player p = (Player) sender;
 			switch (args.length) {
-				//no argument - set default home "home"
-				case 0 : {
+			// no argument - set default home "home"
+				case 0: {
 					SkyGridSQL.sharedInstance().addHome(p, p.getLocation(), "home");
 					return true;
 				}
-				//one argument - set home
-				case 1 : {
+				// one argument - set home
+				case 1: {
 					SkyGridSQL.sharedInstance().addHome(p, p.getLocation(), args[0]);
 					return true;
 				}
@@ -30,7 +34,7 @@ public final class SkyGridSetHomeCommand implements CommandExecutor {
 					return false;
 			}
 		}
-		
+
 		return true;
 	}
 

@@ -7,7 +7,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-
+/**
+ * SkyGridListHomesCommand - This class handles listhomes command
+ * 
+ * @author Barry1990
+ */
 public class SkyGridListHomesCommand implements CommandExecutor {
 
 	@Override
@@ -16,8 +20,8 @@ public class SkyGridListHomesCommand implements CommandExecutor {
 		if (sender instanceof Player) {
 			final Player p = (Player) sender;
 			switch (args.length) {
-				//no argument - show all homes
-				case 0 : {
+			// no argument - show all homes
+				case 0: {
 					SkyGridSQL.sharedInstance().getHomesList(p);
 					return true;
 				}

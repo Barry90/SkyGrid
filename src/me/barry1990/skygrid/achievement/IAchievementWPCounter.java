@@ -5,7 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.UUID;
 
-import me.barry1990.skygrid.skygridplayer.SkyGridPlayerManager;
+import me.barry1990.skygrid.SkyGrid;
 import me.barry1990.utils.BarrysLogger;
 import me.barry1990.utils.FileManagement;
 
@@ -13,12 +13,23 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-
+/**
+ * IAchievementWPCounter - Implement this class to create a new achievement that requirs a counter.
+ * @author Barry1990
+ */
 abstract public class IAchievementWPCounter extends IAchievementWP {
 	
 	protected short progress;
+	
+	/**
+	 * @return The counter to reach to award this achievement. If the progress reaches this counter this achievement will be awarded automaticaly.
+	 */
 	abstract protected short getProgressTarget();
 
+	/**
+	 * Creates a new instance of IAchievementWPCounter
+	 * @param playeruuid
+	 */
 	public IAchievementWPCounter(UUID playeruuid) {
 		super(playeruuid);
 	}
@@ -47,7 +58,7 @@ abstract public class IAchievementWPCounter extends IAchievementWP {
 		
 		this.progress++;
 		if (this.progress == this.getProgressTarget()) {
-			SkyGridPlayerManager.awardAchievement(this.getPlayerUUID(), this.getUniqueId());
+			SkyGrid.getPlayerManager().awardAchievement(this.getPlayerUUID(), this.getUniqueId());
 		} else {
 			this.saveEverything();
 		}

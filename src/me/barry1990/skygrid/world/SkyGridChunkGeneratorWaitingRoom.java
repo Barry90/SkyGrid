@@ -6,7 +6,11 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.generator.ChunkGenerator;
 
-
+/**
+ * SkyGridChunkGeneratorWaitingRoom - This class is the chunk generator for the waiting romm
+ * 
+ * @author Barry1990
+ */
 public class SkyGridChunkGeneratorWaitingRoom extends ChunkGenerator {
 	
 	@Override

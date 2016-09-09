@@ -209,8 +209,7 @@ public class SkyGridSQL {
 	/**
 	 * Adds a player to the player-table
 	 * 
-	 * @param p
-	 *            The Player
+	 * @param p The Player
 	 */
 	public void addPlayer(Player p) {
 
@@ -230,8 +229,7 @@ public class SkyGridSQL {
 	/**
 	 * Returns a SELECT query to get the PRIMARY KEY value of the player in the player-table by a given playername
 	 * 
-	 * @param p
-	 *            The Player
+	 * @param p The Player
 	 * @return SELECT query to get the PRIMARY KEY value of the player. Use for INNER SELECT.
 	 * @throws SQLException
 	 */
@@ -243,8 +241,7 @@ public class SkyGridSQL {
 	/**
 	 * Returns a SELECT query to get the PRIMARY KEY value of the player in the player-table by a given playername
 	 * 
-	 * @param name
-	 *            The name of the player
+	 * @param playername The name of the player
 	 * @return SELECT query to get the PRIMARY KEY value of the player. Use for INNER SELECT.
 	 * @throws SQLException
 	 */
@@ -256,8 +253,7 @@ public class SkyGridSQL {
 	/**
 	 * Returns the pid of a player
 	 * 
-	 * @param playername
-	 *            The name of the player.
+	 * @param playername The name of the player.
 	 * @return The pid of the player or 0 if the player does not exists in the player-table
 	 * @throws SQLException
 	 */
@@ -279,12 +275,9 @@ public class SkyGridSQL {
 	/**
 	 * Adds a home
 	 * 
-	 * @param p
-	 *            The player the home belongs to.
-	 * @param loc
-	 *            The location of the new home.
-	 * @param homename
-	 *            The name of the home.
+	 * @param p The player the home belongs to.
+	 * @param loc The location of the new home.
+	 * @param homename The name of the home.
 	 */
 	public void addHome(Player p, Location loc, String homename) {
 
@@ -324,10 +317,8 @@ public class SkyGridSQL {
 	/**
 	 * Gets the location of a home for a player
 	 * 
-	 * @param p
-	 *            The player.
-	 * @param homename
-	 *            The players home name.
+	 * @param p The player.
+	 * @param homename The players home name.
 	 * @return The location of the home or null if no home was found.
 	 */
 	public Location getHome(Player p, String homename) {
@@ -361,8 +352,7 @@ public class SkyGridSQL {
 	/**
 	 * Count the homes of a player
 	 * 
-	 * @param p
-	 *            The player.
+	 * @param p The player.
 	 * @return The number of homes of the player.
 	 */
 	public int getHomesCount(Player p) {
@@ -382,10 +372,8 @@ public class SkyGridSQL {
 	/**
 	 * Deletes a home of a player and all invites to that home.
 	 * 
-	 * @param p
-	 *            The Player.
-	 * @param name
-	 *            The name of the home.
+	 * @param p The Player.
+	 * @param homename The name of the home.
 	 */
 	public void deleteHome(Player p, String homename) {
 
@@ -415,8 +403,7 @@ public class SkyGridSQL {
 	/**
 	 * Sends a list of all homes of a player
 	 * 
-	 * @param p
-	 *            The player.
+	 * @param p The player.
 	 */
 	public void getHomesList(Player p) {
 
@@ -451,10 +438,8 @@ public class SkyGridSQL {
 	/**
 	 * Checks if a specific home exists.
 	 * 
-	 * @param p
-	 *            The player the home belongs to.
-	 * @param name
-	 *            The name of that home.
+	 * @param p The player the home belongs to.
+	 * @param homename The name of that home.
 	 * @return true if the home exists.
 	 * @throws SQLException
 	 */
@@ -466,10 +451,8 @@ public class SkyGridSQL {
 	/**
 	 * Checks if a specific home exists.
 	 * 
-	 * @param p
-	 *            The name of the player the home belongs to.
-	 * @param name
-	 *            The name of that home.
+	 * @param playername The name of the player the home belongs to.
+	 * @param homename The name of that home.
 	 * @return true if the home exists.
 	 * @throws SQLException
 	 */
@@ -481,10 +464,8 @@ public class SkyGridSQL {
 	/**
 	 * Checks if a specific home exists
 	 * 
-	 * @param pid_query
-	 *            INNER SELECT query to get a player pid
-	 * @param homename
-	 *            The name of the home
+	 * @param pid_query INNER SELECT query to get a player pid
+	 * @param homename The name of the home
 	 * @return true if the home exists.
 	 * @throws SQLException
 	 */
@@ -502,10 +483,8 @@ public class SkyGridSQL {
 	/**
 	 * Gets a ResultSet which contains a row of the homelist
 	 * 
-	 * @param pid_query
-	 *            INNER SELECT query to get a player pid
-	 * @param homename
-	 *            The name of the home
+	 * @param pid_query INNER SELECT query to get a player pid
+	 * @param homename The name of the home
 	 * @return a ResultSet
 	 * @throws SQLException
 	 */
@@ -517,10 +496,8 @@ public class SkyGridSQL {
 	/**
 	 * Returns a SELECT query to get the PRIMARY KEY value of the home in the homes-table by a given player and homename
 	 * 
-	 * @param p
-	 *            The player the home belongs to.
-	 * @param homename
-	 *            The name of the home
+	 * @param p The player the home belongs to.
+	 * @param homename The name of the home
 	 * @return SELECT query to get the PRIMARY KEY value of the home. Use for INNER SELECT.
 	 * @throws SQLException
 	 */
@@ -532,10 +509,8 @@ public class SkyGridSQL {
 	/**
 	 * Returns a SELECT query to get the PRIMARY KEY value of the home in the homes-table by a given playername and homename
 	 * 
-	 * @param playername
-	 *            The name of the player the home belongs to.
-	 * @param homename
-	 *            The name of the home
+	 * @param playername The name of the player the home belongs to.
+	 * @param homename The name of the home
 	 * @return SELECT query to get the PRIMARY KEY value of the home. Use for INNER SELECT.
 	 * @throws SQLException
 	 */
@@ -551,12 +526,9 @@ public class SkyGridSQL {
 	/**
 	 * Adds an invite for a home
 	 * 
-	 * @param p
-	 *            The player the home belongs to.
-	 * @param playername
-	 *            The name of the player that is invited
-	 * @param homename
-	 *            The name of the home
+	 * @param p The player the home belongs to.
+	 * @param playername The name of the player that is invited
+	 * @param homename The name of the home
 	 */
 	public void addInvite(Player p, String playername, String homename) {
 
@@ -604,12 +576,9 @@ public class SkyGridSQL {
 	/**
 	 * Will return a Location for another players home if the player was invited to that home
 	 * 
-	 * @param p
-	 *            The player that wants to teleport to the home
-	 * @param playername
-	 *            The name of the player the home belongs to
-	 * @param homename
-	 *            The name of the home
+	 * @param p The player that wants to teleport to the home
+	 * @param playername The name of the player the home belongs to
+	 * @param homename The name of the home
 	 * @return The Location if the player (p) was invited to the home, otherwiese it will return null;
 	 */
 	public Location getInvitedHome(Player p, String playername, String homename) {
@@ -647,12 +616,9 @@ public class SkyGridSQL {
 	/**
 	 * Checks if a player is invited to a specific home
 	 * 
-	 * @param p
-	 *            The player to test
-	 * @param homename
-	 *            The homename
-	 * @param playername
-	 *            The name of the player the home belongs to
+	 * @param p The player to test
+	 * @param homename The homename
+	 * @param playername The name of the player the home belongs to
 	 * @return true if the player was invited
 	 * @throws SQLException
 	 */

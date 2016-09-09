@@ -7,7 +7,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-
+/**
+ * SkyGridDeleteHomeCommand - This class handles the deletehome command
+ * 
+ * @author Barry1990
+ */
 public class SkyGridDeleteHomeCommand implements CommandExecutor {
 
 	@Override
@@ -16,13 +20,13 @@ public class SkyGridDeleteHomeCommand implements CommandExecutor {
 		if (sender instanceof Player) {
 			final Player p = (Player) sender;
 			switch (args.length) {
-				//no argument - delete default home "home"
-				case 0 : {
+			// no argument - delete default home "home"
+				case 0: {
 					SkyGridSQL.sharedInstance().deleteHome(p, "home");
 					return true;
 				}
-				//one argument - delete home
-				case 1 : {
+				// one argument - delete home
+				case 1: {
 					SkyGridSQL.sharedInstance().deleteHome(p, args[0]);
 					return true;
 				}

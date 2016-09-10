@@ -46,19 +46,19 @@ public final class SkyGridLevel_Manager implements Listener {
 	private ISkyGridLevelInterface	level;
 	private String					PATH	= "data.dat";
 
+	// ////////////////////////////////////////////////////
+	// LOAD INFOS
+	// ////////////////////////////////////////////////////
+
 	/**
-	 * Creates a new instance of SkyGridLevel_Manager
+	 * Initializes the levelmanager
 	 */
-	public SkyGridLevel_Manager() {
+	public void init() {
 
 		SkyGrid.registerEvent(this);
 		this.loadLevelInfos();
 		this.loadLevel(this.id);
 	}
-
-	// ////////////////////////////////////////////////////
-	// LOAD INFOS
-	// ////////////////////////////////////////////////////
 
 	/**
 	 * load level information from file
@@ -217,8 +217,11 @@ public final class SkyGridLevel_Manager implements Listener {
 		BarrysLogger.info(this, "Disposing...");
 		if (this.chunkGenerator != null)
 			this.chunkGenerator.dispose();
-		this.level.onDisabled();
-		this.level = null;
+
+		if (this.level != null) {
+			this.level.onDisabled();
+			this.level = null;
+		}
 	}
 
 	// ////////////////////////////////////////////////////

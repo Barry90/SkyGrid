@@ -54,6 +54,7 @@ public final class SkyGrid extends JavaPlugin {
 		SkyGrid.sharedInstance = this;
 		this.playermanager = new SkyGridPlayerManager();
 		this.levelmanager = new SkyGridLevel_Manager();
+		this.levelmanager.init();
 		this.waitingRoomGenerator = new SkyGridChunkGeneratorWaitingRoom();
 
 		SkyGridSQL.sharedInstance();
